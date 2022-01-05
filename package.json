@@ -1,5 +1,5 @@
 {
-    "version": "0.1.1",
+    "version": "0.1.3",
     "license": "MIT",
     "main": "dist/index.js",
     "typings": "dist/index.d.ts",
@@ -14,7 +14,6 @@
         "build:node": "tsdx build",
         "test": "tsdx test",
         "lint": "tsdx lint",
-        "prepare": "tsdx build",
         "size": "size-limit",
         "analyze": "size-limit --why",
         "build:cjs": "tsc && webpack &&  cp -r src/styles.css ./dist && cp -r dist/maxtap_public.js examples/classic_web",
