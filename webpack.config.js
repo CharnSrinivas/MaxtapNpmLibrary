@@ -5,7 +5,7 @@ module.exports = {
   output: {
     // path: path.resolve(__dirname, "react-test/public/dist"), // * react-text
     path: path.resolve(__dirname, "js_dist"),
-    filename: "maxtap_min.js",
+    filename: "maxtap.js",
     library: "Maxtap",
     libraryTarget: "umd",
     umdNamedDefine: true
@@ -24,7 +24,7 @@ module.exports = {
       },
     ],
   },
-  watch: true,
+  watch: false,
   mode: "production",
   optimization: {
     minimize: true,

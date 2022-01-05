@@ -1,7 +1,5 @@
 import { DataAttribute, GoogleAnalyticsCode, MaxTapComponentElementId, MaxTapMainContainerId } from './config.js';
 import { queryData } from './Utils/utils.js';
-import 'babel-polyfill';
-import 'idempotent-babel-polyfill';
 /* 
 *   A Brief about how MAXTAP Ad  🔌plugin🔌 works
 ?🛑 ** Note **: Here in variables,function names..etc component refers to ad, we need to make it because of ad-blockers.
@@ -74,47 +72,57 @@ export class Component {
         head_tag?.appendChild(ga_script);
     }
 
-    init = async () => {
+    init = () => {
 
-        this.component_data = await queryData(this.content_id);
+        this.video = document.querySelector(`[${DataAttribute}]`) as HTMLVideoElement;
+        if (!this.video) {
+            console.error("Cannot find video element,Please check data attribute. It should be " + DataAttribute + `
+            Example:
+            <video src="some_source" ${DataAttribute} > </video>
+            `);
+            return;
+        }
+        queryData(this.content_id).then(data => {
+            this.component_data = data
 
-        if (!this.component_data) { return; }
-        this.setRequiredComponentData();
+            if (!this.component_data) { return; }
+            this.setRequiredComponentData();
 
-        await this.initializeComponent();
-        const maxtap_component = document.getElementById(MaxTapComponentElementId);
+            this.initializeComponent();
+            const maxtap_component = document.getElementById(MaxTapComponentElementId);
 
-        maxtap_component?.addEventListener('click', () => {
+            maxtap_component?.addEventListener('click', () => {
+            })
+
+            //* Checking for every second if video time is equal to ad start time.
+
+            this.interval_id = setInterval(() => {
+
+                if (!this.video) {
+                    console.error("Cannot find video element with id ");
+                    return;
+                }
+
+                if (!this.image_loaded && ((this.component_start_time - this.video!.currentTime) <= 15)) {
+                    console.log("Loding");
+                    this.prefetchImage();
+                }
+
+                if (this.canComponentDisplay(this.video!.currentTime)) {
+                    this.displayComponent();
+                    return;
+                }
+                if (this.canCloseComponent(this.video!.currentTime)) {
+                    this.current_component_index++;
+                    this.removeCurrentComponent();
+
+                }
+
+
+                //* Updating the current ad data to next ad data.;
+
+            }, 500);
         })
-
-        //* Checking for every second if video time is equal to ad start time.
-
-        this.interval_id = setInterval(() => {
-
-            if (!this.video) {
-                console.error("Cannot find video element with id ");
-                return;
-            }
-
-            if (!this.image_loaded && ((this.component_start_time - this.video!.currentTime) <= 15)) {
-                console.log("Loding");
-                this.prefetchImage();
-            }
-
-            if (this.canComponentDisplay(this.video!.currentTime)) {
-                this.displayComponent();
-                return;
-            }
-            if (this.canCloseComponent(this.video!.currentTime)) {
-                this.current_component_index++;
-                this.removeCurrentComponent();
-
-            }
-
-
-            //* Updating the current ad data to next ad data.;
-
-        }, 500);
     }
 
 
@@ -122,8 +130,7 @@ export class Component {
     private initializeComponent = () => {
         //*  Getting data from firestore using http request. And changing state of component.
 
-
-        this.video = document.querySelector(`[${DataAttribute}]`) as HTMLVideoElement;
+        if (!this.video) { return; }
         this.video.style.width = "100%";
         this.video.style.height = "100%";
 
@@ -147,11 +154,6 @@ export class Component {
         this.parentElement?.appendChild(main_container);
 
         //!<------------------>  Re-initializing the video to get latest reference after manipulating dom elements.<----------------------->
-
-        if (!this.video) {
-            console.error("Cannot find video element with id ");
-
-        }
 
         this.video = document.querySelector(`[${DataAttribute}]`) as HTMLVideoElement;
     }

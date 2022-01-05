@@ -1,12 +1,15 @@
 import React, { useEffect } from 'react';
-import * as Maxtap from './dist/index';
+import * as Maxtap from './dist';
 import './App.css';
 
 function App() {
+
     useEffect(() => {
-        new Maxtap.Component('spiderman-4').init()
-        
+
+        new Maxtap.Component('spiderman-4').init();
+         
     }, [])
+
     return (
         <div className="App">
             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias, quaerat officia quibusdam temporibus consequatur,

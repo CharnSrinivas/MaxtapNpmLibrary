@@ -10,15 +10,15 @@
         "node": ">=10"
     },
     "scripts": {
-        "start:tsdx": "tsdx watch",
-        "build:tsdx": "tsdx build",
+        "start:node": "tsdx watch",
+        "build:node": "tsdx build",
         "test": "tsdx test",
         "lint": "tsdx lint",
         "prepare": "tsdx build",
         "size": "size-limit",
         "analyze": "size-limit --why",
-        "build:cjs": "webpack",
-        "react-test":"cd examples/reactjs && npm start"
+        "build:cjs": "tsc && webpack && cp -r js_dist/maxtap.js examples/classic_web",
+        "react-test": "cd examples/reactjs && npm start"
     },
     "husky": {
         "hooks": {
@@ -59,9 +59,8 @@
     "dependencies": {
         "@babel/core": "^7.16.7",
         "@babel/preset-env": "^7.16.7",
+        "@babel/runtime": "^7.16.7",
         "babel-loader": "^8.2.3",
-        "babel-polyfill": "^6.26.0",
-        "idempotent-babel-polyfill": "^7.4.4",
         "regenerator-runtime": "^0.13.9",
         "webpack": "^5.65.0",
         "webpack-cli": "^4.9.1"
