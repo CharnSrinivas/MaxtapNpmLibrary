@@ -1,25 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script data-maxtap-script async src="https://unpkg.com/maxtap_public@0.1.3/dist/maxtap_pubilc.js"></script>
-    <title>Document</title>
+    <head>
+        <script data-maxtap-script async src="https://unpkg.com/maxtap_plugin@latest/dist/maxtap_public.js"></script>
+        <script>
+            document.querySelector('[data-maxtap-script]').addEventListener('load', () => {
+                new Maxtap.Component('spiderman-4').init()
+            })
+        </script>
+    </head>
+    <body>
+        <video preload="auto" data-displaymaxtap controls src="https://www.learningcontainer.com/wp-content/uploads/2020/05/sample-mp4-file.mp4"></video>
+    </body>
 </head>
-
-<body>
-
-    <script>
-
-        document.querySelector('[data-maxtap-script]').addEventListener('load', () => {
-            new Maxtap.Component('spiderman-4').init()
-        })
-
-    </script>
-    
-    <video preload="auto" data-displaymaxtap controls src="sample_video.mp4"></video>
-</body>
-
-</html>

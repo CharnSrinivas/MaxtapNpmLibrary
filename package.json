@@ -30,7 +30,7 @@
         "singleQuote": true,
         "trailingComma": "es5"
     },
-    "name": "maxtap_public",
+    "name": "maxtap_plugin",
     "author": "MAXTAP",
     "module": "dist/maxtap_node_module.esm.js",
     "size-limit": [
