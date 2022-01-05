@@ -3,7 +3,7 @@
 ```javascript
       <script data-maxtap-script async src="https://unpkg.com/maxtap_public@0.1.3/dist/maxtap_public.js"></script>
              document.querySelector('[data-maxtap-script]').addEventListener('load', () => {
-            new Maxtap.Component('spiderman-4').init()
+            new Maxtap.Component('content-id').init()
         })
 ```
 ### React js (Or) NextJs
