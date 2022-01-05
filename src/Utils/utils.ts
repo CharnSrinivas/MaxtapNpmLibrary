@@ -1,3 +1,4 @@
+import { DataUrl } from "../config";
 
 export const queryData = (file_name: string):Promise<[]> => {
 
@@ -5,7 +6,7 @@ export const queryData = (file_name: string):Promise<[]> => {
         if (!file_name.includes('.json')) {
             file_name += '.json';
         }
-        fetch(`https://storage.googleapis.com/maxtap-adserver-dev.appspot.com/${file_name}`
+        fetch(`${DataUrl}/${file_name}`
             , {
                 method: "GET",
                 headers: {

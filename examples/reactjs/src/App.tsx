@@ -18,7 +18,7 @@ function App() {
 
             <div>
                 <div className="react-player trailer-react-player">
-                <video preload="auto" data-maxtap_ad controls src="sample_video.mp4"></video>
+                <video preload="auto" data-displaymaxtap controls src="sample_video.mp4"></video>
                 </div>
             </div>
         </div>

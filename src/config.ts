@@ -1,4 +1,6 @@
-export const MaxTapComponentElementId = 'maxtap-component';
+export const MaxTapComponentElementId = 'componentmaxtap';
 export const GoogleAnalyticsCode  ='G-05P2385Q2K';
-export const MaxTapMainContainerId = 'maxtap-container';
-export const DataAttribute = 'data-maxtap_ad'
+export const MaxTapMainContainerId = 'containermaxtap';
+export const DataAttribute = 'data-displaymaxtap';
+export const DataUrl ="https://storage.googleapis.com/maxtap-adserver-dev.appspot.com"
+export const CssCdn = 'https://unpkg.com/maxtap_ads_js@latest/dist/maxtap_styles.css';

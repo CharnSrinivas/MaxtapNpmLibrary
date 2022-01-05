@@ -1,4 +1,4 @@
-import { DataAttribute, GoogleAnalyticsCode, MaxTapComponentElementId, MaxTapMainContainerId } from './config.js';
+import { CssCdn, DataAttribute, GoogleAnalyticsCode, MaxTapComponentElementId, MaxTapMainContainerId } from './config.js';
 import { queryData } from './Utils/utils.js';
 /* 
 *   A Brief about how MAXTAP Ad  🔌plugin🔌 works
@@ -52,7 +52,7 @@ export class Component {
         this.parentElement = null;
         this.image_loaded = false;
         const css_file = document.createElement('link');
-        css_file.href = "https://unpkg.com/maxtap_ads_js@latest/dist/maxtap_styles.css";
+        css_file.href = CssCdn;
         css_file.rel = 'stylesheet';
 
         const ga_script = document.createElement('script');
@@ -78,8 +78,8 @@ export class Component {
         if (!this.video) {
             console.error("Cannot find video element,Please check data attribute. It should be " + DataAttribute + `
             Example:
-            <video src="some_source" ${DataAttribute} > </video>
-            `);
+            <video src="https://some_source" ${DataAttribute} > </video> `);
+
             return;
         }
         queryData(this.content_id).then(data => {
@@ -137,19 +137,19 @@ export class Component {
 
         this.parentElement = this.video.parentElement;
 
-        const ad_ele = document.createElement('div');
+        const main_component = document.createElement('div');
         const main_container = document.createElement('div') as HTMLDivElement;
 
         main_container.className = 'maxtap_container';
         main_container.id = MaxTapMainContainerId;
 
-        ad_ele.style.display = 'none';
-        ad_ele.addEventListener('click', this.onComponentClick);
-        ad_ele.id = MaxTapComponentElementId;
-        ad_ele.className = 'maxtap_component_wrapper';
+        main_component.style.display = 'none';
+        main_component.addEventListener('click', this.onComponentClick);
+        main_component.id = MaxTapComponentElementId;
+        main_component.className = 'maxtap_component_wrapper';
 
         main_container.appendChild(this.video);
-        main_container.appendChild(ad_ele);
+        main_container.appendChild(main_component);
 
         this.parentElement?.appendChild(main_container);
 
@@ -185,7 +185,7 @@ export class Component {
     }
 
     private removeCurrentComponent() {
-        const ad_ele = document.getElementById(MaxTapComponentElementId);
+        const main_container = document.getElementById(MaxTapComponentElementId);
         if (this.current_component_index >= this.component_data!.length) {
             console.log("clear interval");
             clearInterval(this.interval_id);
@@ -193,9 +193,9 @@ export class Component {
         else {
             this.setRequiredComponentData(); // * Updating next ad data to class variables.
         }
-        if (!ad_ele) { return; }
-        ad_ele.style.display = "none";
-        ad_ele.innerHTML = '';
+        if (!main_container) { return; }
+        main_container.style.display = "none";
+        main_container.innerHTML = '';
         this.image_loaded = false;
         this.is_component_showing = false;
     }
@@ -204,12 +204,11 @@ export class Component {
 
         //* Displaying ad by just changing css display:none -> display:flex
 
-        const ad_ele = document.getElementById(MaxTapComponentElementId);
-        if (!ad_ele) { return; }
-        ad_ele.style.display = 'flex';
-        // ReactGa.set({ 'contend_id': this.props.content_id });
-        // ReactGa.event({ action: "AD_VIEW", category: "AD" });
-        ad_ele.innerHTML = `
+        const main_component = document.getElementById(MaxTapComponentElementId);
+        if (!main_component) { return; }
+        main_component.style.display = 'flex';
+      
+        main_component.innerHTML = `
         <div class="maxtap_main" >
             <p>${this.product_details}</p>
             <div class="maxtap_img_wrapper">
@@ -217,7 +216,7 @@ export class Component {
             </div>
         </div>
         `
-        window.gtag('event', 'ad_watch', {
+        window.gtag('event', 'watch', {
             'event_category': 'impression',
             'event_action': 'watch',
             "content_id": this.content_id,
@@ -228,7 +227,7 @@ export class Component {
 
     private onComponentClick = () => {
 
-        window.gtag('event', 'ad_click', {
+        window.gtag('event', 'click', {
             'event_category': 'action',
             'event_action': 'click',
             "content_id": this.content_id,

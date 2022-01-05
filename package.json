@@ -17,7 +17,7 @@
         "prepare": "tsdx build",
         "size": "size-limit",
         "analyze": "size-limit --why",
-        "build:cjs": "tsc && webpack && cp -r js_dist/maxtap.js examples/classic_web",
+        "build:cjs": "tsc && webpack &&  cp -r src/styles.css ./dist && cp -r dist/maxtap_public.js examples/classic_web",
         "react-test": "cd examples/reactjs && npm start"
     },
     "husky": {
@@ -31,8 +31,8 @@
         "singleQuote": true,
         "trailingComma": "es5"
     },
-    "name": "maxtap_ads",
-    "author": "CHARAN SRINIVAS",
+    "name": "maxtap_public",
+    "author": "MAXTAP",
     "module": "dist/maxtap_node_module.esm.js",
     "size-limit": [
         {
@@ -54,7 +54,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/CharnSrinivas/Maxtap_Ads.git"
+        "url": "https://gitlab.com/maxtap/javascript-plugin"
     },
     "dependencies": {
         "@babel/core": "^7.16.7",
