@@ -1,7 +1,7 @@
 # Maxtap plugin usage
 ### JavaScript
 ```javascript
-      <script data-maxtap-script async src="https://unpkg.com/maxtap_public@0.1.3/dist/maxtap_pubilc.js"></script>
+      <script data-maxtap-script async src="https://unpkg.com/maxtap_public@0.1.3/dist/maxtap_public.js"></script>
              document.querySelector('[data-maxtap-script]').addEventListener('load', () => {
             new Maxtap.Component('spiderman-4').init()
         })
