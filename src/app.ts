@@ -1,5 +1,6 @@
 import { CssCdn, DataAttribute, GoogleAnalyticsCode, MaxTapComponentElementId, MaxTapMainContainerId } from './config.js';
 import { queryData } from './Utils/utils.js';
+
 /* 
 *   A Brief about how MAXTAP Ad  🔌plugin🔌 works
 ?🛑 ** Note **: Here in variables,function names..etc component refers to ad, we need to make it because of ad-blockers.
@@ -27,9 +28,11 @@ import { queryData } from './Utils/utils.js';
 *
  */
 
+
 declare global {
     interface Window { Maxtap: any; gtag: any; dataLayer: any[] }
 }
+
 
 export class Component {
 
@@ -117,7 +120,6 @@ export class Component {
                     this.removeCurrentComponent();
 
                 }
-
 
                 //* Updating the current ad data to next ad data.;
 
