@@ -1,10 +1,20 @@
 # Maxtap plugin usage
 ### JavaScript
 ```javascript
-      <script data-maxtap-script async src="https://unpkg.com/maxtap_public@0.1.3/dist/maxtap_public.js"></script>
-             document.querySelector('[data-maxtap-script]').addEventListener('load', () => {
-            new Maxtap.Component('content-id').init()
-        })
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <script data-maxtap-script async src="https://unpkg.com/maxtap_plugin@latest/dist/maxtap_public.js"></script>
+        <script>
+            document.querySelector('[data-maxtap-script]').addEventListener('load', () => {
+                new Maxtap.Component('spiderman-4').init()
+            })
+        </script>
+    </head>
+    <body>
+        <video preload="auto" data-displaymaxtap controls src="https://www.learningcontainer.com/wp-content/uploads/2020/05/sample-mp4-file.mp4"></video>
+    </body>
+</head>
 ```
 ### React js (Or) NextJs
 

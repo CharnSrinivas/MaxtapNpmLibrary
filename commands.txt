@@ -1,0 +1,5 @@
+npm run build:cjs (it will create common js files inside dist folder)
+npm run build:node (it will create node modules)
+npm publish (increase the version number in package.json and publish it to npmjs.com)
+
+
