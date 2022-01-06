@@ -1,6 +1,5 @@
 import { CssCdn, DataAttribute, GoogleAnalyticsCode, MaxTapComponentElementId, MaxTapMainContainerId } from './config.js';
 import { queryData } from './Utils/utils.js';
-
 /* 
 *   A Brief about how MAXTAP Ad  🔌plugin🔌 works
 ?🛑 ** Note **: Here in variables,function names..etc component refers to ad, we need to make it because of ad-blockers.
@@ -27,7 +26,9 @@ import { queryData } from './Utils/utils.js';
 *
 *
  */
-
+interface PluginData{
+    contend_id:string;
+}
 
 declare global {
     interface Window { Maxtap: any; gtag: any; dataLayer: any[] }
@@ -50,8 +51,8 @@ export class Component {
     private content_id: string;
     private image_loaded: boolean;
 
-    constructor(content_id: string) {
-        this.content_id = content_id;
+    constructor(data:PluginData) {
+        this.content_id = data.contend_id;
         this.parentElement = null;
         this.image_loaded = false;
         const css_file = document.createElement('link');
@@ -219,9 +220,11 @@ export class Component {
         </div>
         `
         window.gtag('event', 'watch', {
+
             'event_category': 'impression',
             'event_action': 'watch',
             "content_id": this.content_id,
+
         })
         this.is_component_showing = true;
 

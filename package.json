@@ -10,13 +10,15 @@
         "node": ">=10"
     },
     "scripts": {
+        "build":"npm run build:node && npm run build:cjs",
         "start:node": "tsdx watch",
         "build:node": "tsdx build",
+        "update_npm_version":"./update_version.sh",
         "test": "tsdx test",
         "lint": "tsdx lint",
         "size": "size-limit",
         "analyze": "size-limit --why",
-        "build:cjs": "tsc && webpack &&  cp -r src/styles.css ./dist && cp -r dist/maxtap_public.js examples/classic_web",
+        "build:cjs": "tsc && webpack &&  cp -r src/styles.css ./dist && cp -r dist/maxtap_public.js examples/classic_web && npm run update_npm_version",
         "react-test": "cd examples/reactjs && npm start"
     },
     "husky": {

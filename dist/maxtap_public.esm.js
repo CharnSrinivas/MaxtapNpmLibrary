@@ -3,7 +3,7 @@ var GoogleAnalyticsCode = 'G-05P2385Q2K';
 var MaxTapMainContainerId = 'containermaxtap';
 var DataAttribute = 'data-displaymaxtap';
 var DataUrl = "https://storage.googleapis.com/maxtap-adserver-dev.appspot.com";
-var CssCdn = 'https://unpkg.com/maxtap_ads_js@latest/dist/maxtap_styles.css';
+var CssCdn = 'https://unpkg.com/maxtap_public@0.1.3/dist/styles.css';
 
 var queryData = function queryData(file_name) {
   return new Promise(function (res, rej) {
