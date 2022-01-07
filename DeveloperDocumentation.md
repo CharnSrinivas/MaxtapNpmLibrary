@@ -12,15 +12,25 @@
 'dist' folder will be generated in root-directory 
 
 <<---------- Testing project -------->>
+    
     ------ Classic web
+
            cd <proj_dir>
            cd examples/classic_web
+           run some server to host index.html
+    
     ------ ReactJs
+
            cd <proj_dir>
            cd examples/reactjs
            npm install
+           npm start
+    
     ------ NextJs
+
            cd <proj_dir>
            cd examples/nextjs
+           npm install 
+           npm run dev
 
         
