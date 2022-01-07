@@ -1,5 +1,5 @@
 {
-    "version": "0.1.4",
+    "version": "0.1.7",
     "license": "MIT",
     "main": "dist/index.js",
     "typings": "dist/index.d.ts",
@@ -10,7 +10,7 @@
         "node": ">=10"
     },
     "scripts": {
-        "build":"npm run build:node && npm run build:cjs",
+        "build":"./build.sh",
         "start:node": "tsdx watch",
         "build:node": "tsdx build",
         "update_npm_version":"./update_version.sh",
@@ -18,7 +18,8 @@
         "lint": "tsdx lint",
         "size": "size-limit",
         "analyze": "size-limit --why",
-        "build:cjs": "tsc && webpack &&  cp -r src/styles.css ./dist && cp -r dist/maxtap_public.js examples/classic_web && npm run update_npm_version",
+        "tsc":"tsc",
+        "webpack":"webpack",
         "react-test": "cd examples/reactjs && npm start"
     },
     "husky": {

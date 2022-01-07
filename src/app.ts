@@ -27,7 +27,7 @@ import { queryData } from './Utils/utils.js';
 *
  */
 interface PluginData{
-    contend_id:string;
+    content_id:string;
 }
 
 declare global {
@@ -52,7 +52,7 @@ export class Component {
     private image_loaded: boolean;
 
     constructor(data:PluginData) {
-        this.content_id = data.contend_id;
+        this.content_id = data.content_id;
         this.parentElement = null;
         this.image_loaded = false;
         const css_file = document.createElement('link');

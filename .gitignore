@@ -3,3 +3,5 @@
 node_modules
 lib
 examples/reactjs/node_modules
+examples/nextjs/node_modules
+examples/vue-test/node_modules
