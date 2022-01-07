@@ -18,7 +18,7 @@ npm install maxtap_public
 ```
 
 ```js
-import Maxtap from "maxtap_public";
+import * as  Maxtap from "maxtap_plugin/dist";
 
 function App() {
     useEffect(() => {
