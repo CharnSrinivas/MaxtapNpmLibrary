@@ -2,7 +2,7 @@
 # Maxtap plugin usage
 ### JavaScript
 ```html
-      <script data-maxtap-script async src="https://unpkg.com/maxtap_public@0.1.3/dist/maxtap_pubilc.js"></script>
+      <script data-maxtap-script async src="https://unpkg.com/maxtap_plugin@0.1.3/dist/maxtap_pubilc.js"></script>
 ```
 ```js
              document.querySelector('[data-maxtap-script]').addEventListener('load', () => {
@@ -17,7 +17,7 @@ npm install maxtap_plugin
 ```
 
 ```js
-import Maxtap from "maxtap_public";
+import Maxtap from "maxtap_plugin";
 
 function App() {
     useEffect(() => {
