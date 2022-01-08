@@ -3,7 +3,7 @@ var GoogleAnalyticsCode = 'G-05P2385Q2K';
 var MaxTapMainContainerId = 'containermaxtap';
 var DataAttribute = 'data-displaymaxtap';
 var DataUrl = "https://storage.googleapis.com/maxtap-adserver-dev.appspot.com";
-var CssCdn = 'https://unpkg.com/maxtap_plugin@0.1.7/dist/styles.css';
+var CssCdn = 'https://unpkg.com/maxtap_plugin@0.1.10/dist/styles.css';
 
 var queryData = function queryData(file_name) {
   return new Promise(function (res, rej) {
@@ -190,7 +190,7 @@ var Component = /*#__PURE__*/function () {
       window.open(_this.redirect_url, "_blank");
     };
 
-    this.content_id = data.contend_id;
+    this.content_id = data.content_id;
     this.parentElement = null;
     this.image_loaded = false;
     var css_file = document.createElement('link');

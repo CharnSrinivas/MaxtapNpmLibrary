@@ -1,5 +1,5 @@
 interface PluginData {
-    contend_id: string;
+    content_id: string;
 }
 declare global {
     interface Window {
