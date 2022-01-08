@@ -6,7 +6,7 @@
 ```
 ```js
              document.querySelector('[data-maxtap-script]').addEventListener('load', () => {
-            new Maxtap.Component('spiderman-4').init()
+            new Maxtap.Component({content_id:'content-id'}).init()
         })
 ```
 
@@ -21,7 +21,7 @@ import Maxtap from "maxtap_plugin";
 
 function App() {
     useEffect(() => {
-        const my_ad = new Maxtap.Component('content-id');
+        const my_ad = new Maxtap.Component({content_id:'content-id'});
         my_ad.init();
     }, [])
 
