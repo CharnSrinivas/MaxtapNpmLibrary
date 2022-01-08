@@ -2,7 +2,7 @@
 # Maxtap plugin usage
 ### JavaScript
 ```html
-      <script data-maxtap-script async src="https://unpkg.com/maxtap_plugin@0.1.3/dist/maxtap_pubilc.js"></script>
+      <script data-maxtap-script async src="https://unpkg.com/maxtap_plugin@latest/dist/maxtap_plugin.js"></script>
 ```
 ```js
              document.querySelector('[data-maxtap-script]').addEventListener('load', () => {
