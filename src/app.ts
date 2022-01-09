@@ -98,7 +98,6 @@ export class Component {
                         return;
                     }
                     if (!this.is_image_loaded && ((this.component_start_time - this.video!.currentTime) <= 15)) {
-                        console.log("Loding");
                         this.prefetchImage();
                     }
                     if (this.canComponentDisplay(this.video!.currentTime)) {
@@ -171,7 +170,6 @@ export class Component {
     private removeCurrentComponent() {
         const main_container = document.getElementById(MaxTapComponentElementId);
         if (this.current_component_index >= this.component_data!.length) {
-            console.log("clear interval");
             clearInterval(this.interval_id);
         }
         else {

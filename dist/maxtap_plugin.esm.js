@@ -1,40 +1,46 @@
+import { v4 } from 'uuid';
+
 var MaxTapComponentElementId = 'componentmaxtap';
 var GoogleAnalyticsCode = 'G-05P2385Q2K';
 var MaxTapMainContainerId = 'containermaxtap';
 var DataAttribute = 'data-displaymaxtap';
 var DataUrl = "https://storage.googleapis.com/maxtap-adserver-dev.appspot.com";
-var CssCdn = 'https://unpkg.com/maxtap_plugin@0.1.10/dist/styles.css';
+var CssCdn = 'https://unpkg.com/maxtap_plugin@0.1.12/dist/styles.css';
 
-var queryData = function queryData(file_name) {
+var fetchAdData = function fetchAdData(file_name) {
   return new Promise(function (res, rej) {
-    if (!file_name.includes('.json')) {
-      file_name += '.json';
-    }
-
-    fetch(DataUrl + "/" + file_name, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json"
+    try {
+      if (!file_name.includes('.json')) {
+        file_name += '.json';
       }
-    }).then(function (fetch_res) {
-      fetch_res.json().then(function (json_data) {
-        json_data.sort(function (a, b) {
-          if (parseInt(a['start']) < parseInt(b['start'])) {
-            return -1;
-          }
 
-          if (parseInt(a['start']) > parseInt(b['start'])) {
-            return 1;
-          }
+      fetch(DataUrl + "/" + file_name + "?rd_id=" + v4(), {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json"
+        }
+      }).then(function (fetch_res) {
+        fetch_res.json().then(function (json_data) {
+          json_data.sort(function (a, b) {
+            if (parseInt(a['start_time']) < parseInt(b['start_time'])) {
+              return -1;
+            }
 
-          return 0;
+            if (parseInt(a['start_time']) > parseInt(b['start_time'])) {
+              return 1;
+            }
+
+            return 0;
+          });
+          res(json_data);
         });
-        res(json_data);
+      })["catch"](function (err) {
+        rej(err);
       });
-    })["catch"](function (err) {
+    } catch (err) {
       rej(err);
-    });
+    }
   });
 };
 
@@ -55,46 +61,50 @@ var Component = /*#__PURE__*/function () {
         return;
       }
 
-      queryData(_this.content_id).then(function (data) {
-        _this.component_data = data;
+      try {
+        fetchAdData(_this.content_id).then(function (data) {
+          _this.component_data = data;
 
-        if (!_this.component_data) {
-          return;
-        }
-
-        _this.setRequiredComponentData();
-
-        _this.initializeComponent();
-
-        var maxtap_component = document.getElementById(MaxTapComponentElementId);
-        maxtap_component == null ? void 0 : maxtap_component.addEventListener('click', function () {}); //* Checking for every second if video time is equal to ad start time.
-
-        _this.interval_id = setInterval(function () {
-          if (!_this.video) {
-            console.error("Cannot find video element with id ");
+          if (!_this.component_data) {
             return;
           }
 
-          if (!_this.image_loaded && _this.component_start_time - _this.video.currentTime <= 15) {
-            console.log("Loding");
+          _this.setRequiredComponentData();
 
-            _this.prefetchImage();
-          }
+          _this.initializeComponent();
 
-          if (_this.canComponentDisplay(_this.video.currentTime)) {
-            _this.displayComponent();
+          var maxtap_component = document.getElementById(MaxTapComponentElementId);
+          maxtap_component == null ? void 0 : maxtap_component.addEventListener('click', function () {}); //* Checking for every second if video time is equal to ad start time.
 
-            return;
-          }
+          _this.interval_id = setInterval(function () {
+            if (!_this.video) {
+              console.error("Cannot find video element with id ");
+              return;
+            }
 
-          if (_this.canCloseComponent(_this.video.currentTime)) {
-            _this.current_component_index++;
+            if (!_this.is_image_loaded && _this.component_start_time - _this.video.currentTime <= 15) {
+              _this.prefetchImage();
+            }
 
-            _this.removeCurrentComponent();
-          } //* Updating the current ad data to next ad data.;
+            if (_this.canComponentDisplay(_this.video.currentTime)) {
+              _this.displayComponent();
 
-        }, 500);
-      });
+              return;
+            }
+
+            if (_this.canCloseComponent(_this.video.currentTime)) {
+              _this.current_component_index++;
+
+              _this.removeCurrentComponent();
+            } //* Updating the current ad data to next ad data.;
+
+          }, 500);
+        })["catch"](function (err) {
+          console.error(err);
+        });
+      } catch (err) {
+        console.error(err);
+      }
     };
 
     this.initializeComponent = function () {
@@ -128,9 +138,9 @@ var Component = /*#__PURE__*/function () {
         return;
       }
 
-      _this.image_loaded = true;
+      _this.is_image_loaded = true;
       var img = new Image();
-      img.src = _this.component_data[_this.current_component_index]['img_url'];
+      img.src = _this.component_data[_this.current_component_index]['image_url'];
     };
 
     this.canComponentDisplay = function (currentTime) {
@@ -192,15 +202,15 @@ var Component = /*#__PURE__*/function () {
 
     this.content_id = data.content_id;
     this.parentElement = null;
-    this.image_loaded = false;
-    var css_file = document.createElement('link');
-    css_file.href = CssCdn;
-    css_file.rel = 'stylesheet';
-    var ga_script = document.createElement('script');
-    ga_script.src = "https://www.googletagmanager.com/gtag/js?id=" + GoogleAnalyticsCode;
-    ga_script.async = true;
-    ga_script.id = GoogleAnalyticsCode;
-    ga_script.addEventListener('load', function () {
+    this.is_image_loaded = false;
+    var css_link_element = document.createElement('link');
+    css_link_element.href = CssCdn;
+    css_link_element.rel = 'stylesheet';
+    var ga_script_element = document.createElement('script');
+    ga_script_element.src = "https://www.googletagmanager.com/gtag/js?id=" + GoogleAnalyticsCode;
+    ga_script_element.async = true;
+    ga_script_element.id = GoogleAnalyticsCode;
+    ga_script_element.addEventListener('load', function () {
       window.dataLayer = window.dataLayer || [];
 
       window.gtag = function () {
@@ -211,8 +221,8 @@ var Component = /*#__PURE__*/function () {
       window.gtag('config', GoogleAnalyticsCode);
     });
     var head_tag = document.querySelector('head');
-    head_tag == null ? void 0 : head_tag.appendChild(css_file);
-    head_tag == null ? void 0 : head_tag.appendChild(ga_script);
+    head_tag == null ? void 0 : head_tag.appendChild(css_link_element);
+    head_tag == null ? void 0 : head_tag.appendChild(ga_script_element);
   }
 
   var _proto = Component.prototype;
@@ -221,7 +231,6 @@ var Component = /*#__PURE__*/function () {
     var main_container = document.getElementById(MaxTapComponentElementId);
 
     if (this.current_component_index >= this.component_data.length) {
-      console.log("clear interval");
       clearInterval(this.interval_id);
     } else {
       this.setRequiredComponentData(); // * Updating next ad data to class variables.
@@ -233,7 +242,7 @@ var Component = /*#__PURE__*/function () {
 
     main_container.style.display = "none";
     main_container.innerHTML = '';
-    this.image_loaded = false;
+    this.is_image_loaded = false;
     this.is_component_showing = false;
   };
 
@@ -241,11 +250,11 @@ var Component = /*#__PURE__*/function () {
     //* Setting ad to class variable and as well to react state.
     if (!this.component_data) return;
     var data = this.component_data;
-    this.component_start_time = parseInt(data[this.current_component_index]['start']);
-    this.image_url = data[this.current_component_index]['img_url'];
-    this.redirect_url = data[this.current_component_index]['ad_url'];
-    this.product_details = data[this.current_component_index]['product_details'];
-    this.component_end_time = parseInt(data[this.current_component_index]['end']);
+    this.component_start_time = parseInt(data[this.current_component_index]['start_time']);
+    this.image_url = data[this.current_component_index]['image_link'];
+    this.redirect_url = data[this.current_component_index]['redirect_link'];
+    this.product_details = data[this.current_component_index]['caption_regional_language'];
+    this.component_end_time = parseInt(data[this.current_component_index]['end_time']);
   };
 
   return Component;

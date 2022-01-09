@@ -21,7 +21,7 @@ export declare class Component {
     private interval_id;
     private is_component_showing;
     private content_id;
-    private image_loaded;
+    private is_image_loaded;
     constructor(data: PluginData);
     init: () => void;
     private initializeComponent;

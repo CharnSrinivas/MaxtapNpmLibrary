@@ -1,1 +1,1 @@
-export declare const queryData: (file_name: string) => Promise<[]>;
+export declare const fetchAdData: (file_name: string) => Promise<[]>;

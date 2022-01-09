@@ -7,7 +7,7 @@ export const fetchAdData = (file_name: string): Promise<[]> => {
             if (!file_name.includes('.json')) {
                 file_name += '.json';
             }
-            fetch(`${DataUrl}/${file_name}?rd_id${uuid()}`
+            fetch(`${DataUrl}/${file_name}?rd_id=${uuid()}`
                 , {
                     method: "GET",
                     headers: {
