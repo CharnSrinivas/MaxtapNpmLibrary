@@ -41,6 +41,9 @@ function App() {
 export default App;
 ```
 
+Initiate the ad inside the component where the desired <video/> tag will be. 
+
+
 ### VueJs
 
 ```sh

@@ -10,16 +10,16 @@
         "node": ">=10"
     },
     "scripts": {
-        "build":"./build.sh",
+        "build": "./build.sh",
         "start:node": "tsdx watch",
         "build:node": "tsdx build",
-        "update_npm_version":"./update_version.sh",
+        "update_npm_version": "./update_version.sh",
         "test": "tsdx test",
         "lint": "tsdx lint",
         "size": "size-limit",
         "analyze": "size-limit --why",
-        "tsc":"tsc",
-        "webpack":"webpack",
+        "tsc": "tsc",
+        "webpack": "webpack",
         "react-test": "cd examples/reactjs && npm start"
     },
     "husky": {
@@ -52,19 +52,21 @@
         "size-limit": "^7.0.5",
         "tsdx": "^0.14.1",
         "tslib": "^2.3.1",
-        "typescript": "^3.9.10"
+        "typescript": "^3.9.10",
+        "webpack-cli": "^4.9.1",
+        "webpack": "^5.65.0",
+        "regenerator-runtime": "^0.13.9",
+        "@babel/core": "^7.16.7",
+        "@babel/preset-env": "^7.16.7",
+        "@babel/runtime": "^7.16.7",
+        "babel-loader": "^8.2.3"
     },
     "repository": {
         "type": "git",
         "url": "https://gitlab.com/maxtap/javascript-plugin"
     },
     "dependencies": {
-        "@babel/core": "^7.16.7",
-        "@babel/preset-env": "^7.16.7",
-        "@babel/runtime": "^7.16.7",
-        "babel-loader": "^8.2.3",
-        "regenerator-runtime": "^0.13.9",
-        "webpack": "^5.65.0",
-        "webpack-cli": "^4.9.1"
+        "@types/uuid": "^8.3.4",
+        "uuid": "^8.3.2"
     }
 }

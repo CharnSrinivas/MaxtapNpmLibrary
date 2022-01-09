@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
-import * as Maxtap from 'maxtap_plugin/dist';
+import * as Maxtap from 'maxtap_plugin';
 import './App.css';
 
 function App() {
 
     useEffect(() => {
-        new Maxtap.Component({contend_id:"spiderman-4"}).init();
+        new Maxtap.Component({content_id:"spiderman-4"}).init();
          
     }, [])
 
@@ -15,8 +15,8 @@ function App() {
                 <br />
                 quisquam magni quam expedita ipsa laboriosam dicta assumenda officiis eum ducimus sint aspernatur aliquid culpa exercitationem?</p>
 
-            <div>
-                <div className="react-player trailer-react-player">
+            <div id='parent'>
+                <div >
                 <video preload="auto" data-displaymaxtap controls src="sample_video.mp4"></video>
                 </div>
             </div>
