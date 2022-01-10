@@ -2,14 +2,12 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-var uuid = require('uuid');
-
 var MaxTapComponentElementId = 'componentmaxtap';
 var GoogleAnalyticsCode = 'G-05P2385Q2K';
 var MaxTapMainContainerId = 'containermaxtap';
 var DataAttribute = 'data-displaymaxtap';
 var DataUrl = "https://storage.googleapis.com/maxtap-adserver-dev.appspot.com";
-var CssCdn = 'https://unpkg.com/maxtap_plugin@0.1.12/dist/styles.css';
+var CssCdn = 'https://unpkg.com/maxtap_plugin@0.1.14/dist/styles.css';
 
 var fetchAdData = function fetchAdData(file_name) {
   return new Promise(function (res, rej) {
@@ -18,7 +16,7 @@ var fetchAdData = function fetchAdData(file_name) {
         file_name += '.json';
       }
 
-      fetch(DataUrl + "/" + file_name + "?rd_id=" + uuid.v4(), {
+      fetch(DataUrl + "/" + file_name, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

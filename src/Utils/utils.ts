@@ -1,5 +1,4 @@
 import { DataUrl } from "../config";
-import { v4 as uuid } from 'uuid'
 export const fetchAdData = (file_name: string): Promise<[]> => {
 
     return new Promise((res, rej) => {
@@ -7,7 +6,7 @@ export const fetchAdData = (file_name: string): Promise<[]> => {
             if (!file_name.includes('.json')) {
                 file_name += '.json';
             }
-            fetch(`${DataUrl}/${file_name}?rd_id=${uuid()}`
+            fetch(`${DataUrl}/${file_name}`
                 , {
                     method: "GET",
                     headers: {

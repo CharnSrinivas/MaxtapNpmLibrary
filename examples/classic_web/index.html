@@ -16,13 +16,17 @@
         document.querySelector('[data-maxtap-script]').addEventListener('load', () => {
             new Maxtap.Component('spiderman-4').init()
         })
-
+        fetch("https://storage.googleapis.com/maxtap-adserver-dev.appspot.com/spiderman-4.json?rd_id=d67ffd5f-b859-44fe-bc86-9114e922beeb").then(res => {
+            res.json().then(data => {
+                console.log(data);
+            }).catch(err => { console.error(err) })
+        }).catch(err => { console.error(err) })
     </script>
 
-   <div class="client-wrapper">
-       <video preload="auto" data-displaymaxtap controls src="sample_video.mp4"></video>
+    <div class="client-wrapper">
+        <video preload="auto" data-displaymaxtap controls src="sample_video.mp4"></video>
     </div>
-   </div> 
+    </div>
 
 </body>
 
