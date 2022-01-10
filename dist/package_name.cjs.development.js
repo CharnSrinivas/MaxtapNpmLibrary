@@ -7,7 +7,7 @@ var GoogleAnalyticsCode = 'G-05P2385Q2K';
 var MaxTapMainContainerId = 'containermaxtap';
 var DataAttribute = 'data-displaymaxtap';
 var DataUrl = "https://storage.googleapis.com/maxtap-adserver-dev.appspot.com";
-var CssCdn = 'https://unpkg.com/maxtap_plugin@0.1.14/dist/styles.css';
+var CssCdn = 'https://unpkg.com/maxtap_plugin_dev@0.1.16/dist/styles.css';
 
 var fetchAdData = function fetchAdData(file_name) {
   return new Promise(function (res, rej) {
@@ -50,28 +50,23 @@ var Component = /*#__PURE__*/function () {
   function Component(data) {
     var _this = this;
 
-    this.component_start_time = -1;
-    this.component_end_time = -1;
     this.current_component_index = 0;
-    this.is_component_showing = false;
 
     this.init = function () {
       _this.video = document.querySelector("[" + DataAttribute + "]");
 
       if (!_this.video) {
-        console.error("Cannot find video element,Please check data attribute. It should be " + DataAttribute + ("\n            Example:\n            <video src=\"https://some_source\" " + DataAttribute + " > </video> "));
+        console.error("Cannot find video element,Please check data attribute. It should be " + DataAttribute + ("\n            Example: <video src=\"https://some_source\" " + DataAttribute + " > </video> \n\n            [OR]\n\n            Try to initialize the maxtap_ad component after window load.\n            "));
         return;
       }
 
       try {
         fetchAdData(_this.content_id).then(function (data) {
-          _this.component_data = data;
+          _this.components_data = data;
 
-          if (!_this.component_data) {
+          if (!_this.components_data) {
             return;
           }
-
-          _this.setRequiredComponentData();
 
           _this.initializeComponent();
 
@@ -79,33 +74,43 @@ var Component = /*#__PURE__*/function () {
           maxtap_component == null ? void 0 : maxtap_component.addEventListener('click', function () {}); //* Checking for every second if video time is equal to ad start time.
 
           _this.interval_id = setInterval(function () {
-            if (!_this.video) {
-              console.error("Cannot find video element with id ");
-              return;
-            }
-
-            if (!_this.is_image_loaded && _this.component_start_time - _this.video.currentTime <= 15) {
-              _this.prefetchImage();
-            }
-
-            if (_this.canComponentDisplay(_this.video.currentTime)) {
-              _this.displayComponent();
-
-              return;
-            }
-
-            if (_this.canCloseComponent(_this.video.currentTime)) {
-              _this.current_component_index++;
-
-              _this.removeCurrentComponent();
-            } //* Updating the current ad data to next ad data.;
-
-          }, 500);
+            _this.updateComponent();
+          }, 1000);
         })["catch"](function (err) {
           console.error(err);
         });
       } catch (err) {
         console.error(err);
+      }
+    };
+
+    this.updateComponent = function () {
+      if (!_this.video || !_this.components_data) {
+        console.error("Cannot find video element with id ");
+        return;
+      }
+
+      var video_current_time = _this.video.currentTime;
+
+      _this.components_data.forEach(function (component, component_index) {
+        if (video_current_time >= component.start_time && video_current_time <= component.end_time) {
+          _this.current_component_index = component_index;
+        }
+      });
+
+      if (!_this.components_data[_this.current_component_index].is_image_loaded && _this.components_data[_this.current_component_index].start_time - _this.video.currentTime <= 15) {
+        _this.prefetchImage();
+      }
+
+      if (_this.canComponentDisplay(_this.video.currentTime)) {
+        _this.displayComponent();
+      }
+
+      if (_this.canCloseComponent(_this.video.currentTime)) {
+        console.log(_this.current_component_index);
+        _this.current_component_index++;
+
+        _this.removeCurrentComponent();
       }
     };
 
@@ -136,33 +141,39 @@ var Component = /*#__PURE__*/function () {
     };
 
     this.prefetchImage = function () {
-      if (!_this.component_data) {
+      if (!_this.components_data) {
         return;
       }
 
-      _this.is_image_loaded = true;
+      _this.components_data[_this.current_component_index].is_image_loaded = true;
       var img = new Image();
-      img.src = _this.component_data[_this.current_component_index]['image_url'];
+      img.src = _this.components_data[_this.current_component_index]['image_link'];
     };
 
     this.canComponentDisplay = function (currentTime) {
-      if (_this.component_start_time < 0) {
+      if (!_this.components_data) {
+        return false;
+      }
+
+      if (_this.components_data[_this.current_component_index].start_time < 0) {
         return false;
       } //* Checking video time and also if video is already shown.
 
 
-      if (currentTime >= _this.component_start_time && !_this.is_component_showing) {
+      if (currentTime >= _this.components_data[_this.current_component_index].start_time) {
         return true;
       }
       return false;
     };
 
     this.canCloseComponent = function (currentTime) {
-      if (_this.component_start_time < 0) {
+      if (!_this.components_data) return true;
+
+      if (_this.components_data[_this.current_component_index].start_time < 0) {
         return false;
       }
 
-      if (currentTime >= _this.component_end_time && _this.is_component_showing) {
+      if (currentTime >= _this.components_data[_this.current_component_index].end_time) {
         return true;
       }
 
@@ -178,13 +189,12 @@ var Component = /*#__PURE__*/function () {
       }
 
       main_component.style.display = 'flex';
-      main_component.innerHTML = "\n        <div class=\"maxtap_main\" >\n            <p>" + _this.product_details + "</p>\n            <div class=\"maxtap_img_wrapper\">\n                <img src=\"" + _this.image_url + "\"/>\n            </div>\n        </div>\n        ";
+      main_component.innerHTML = "\n        <div class=\"maxtap_main\" >\n            <p>" + _this.components_data[_this.current_component_index].caption_regional_language + "</p>\n            <div class=\"maxtap_img_wrapper\">\n                <img src=\"" + _this.components_data[_this.current_component_index].image_link + "\"/>\n            </div>\n        </div>\n        ";
       window.gtag('event', 'watch', {
         'event_category': 'impression',
         'event_action': 'watch',
         "content_id": _this.content_id
       });
-      _this.is_component_showing = true;
     };
 
     this.onComponentClick = function () {
@@ -195,16 +205,16 @@ var Component = /*#__PURE__*/function () {
         "click_time": Math.floor(_this.video.currentTime)
       });
 
-      if (!_this.redirect_url) {
+      if (!_this.components_data || _this.components_data[_this.current_component_index].image_link) {
         return;
       }
 
-      window.open(_this.redirect_url, "_blank");
+      window.open(_this.components_data[_this.current_component_index].redirect_link, "_blank");
     };
 
+    console.log("Hit");
     this.content_id = data.content_id;
     this.parentElement = null;
-    this.is_image_loaded = false;
     var css_link_element = document.createElement('link');
     css_link_element.href = CssCdn;
     css_link_element.rel = 'stylesheet';
@@ -232,10 +242,8 @@ var Component = /*#__PURE__*/function () {
   _proto.removeCurrentComponent = function removeCurrentComponent() {
     var main_container = document.getElementById(MaxTapComponentElementId);
 
-    if (this.current_component_index >= this.component_data.length) {
+    if (this.current_component_index >= this.components_data.length) {
       clearInterval(this.interval_id);
-    } else {
-      this.setRequiredComponentData(); // * Updating next ad data to class variables.
     }
 
     if (!main_container) {
@@ -244,23 +252,10 @@ var Component = /*#__PURE__*/function () {
 
     main_container.style.display = "none";
     main_container.innerHTML = '';
-    this.is_image_loaded = false;
-    this.is_component_showing = false;
-  };
-
-  _proto.setRequiredComponentData = function setRequiredComponentData() {
-    //* Setting ad to class variable and as well to react state.
-    if (!this.component_data) return;
-    var data = this.component_data;
-    this.component_start_time = parseInt(data[this.current_component_index]['start_time']);
-    this.image_url = data[this.current_component_index]['image_link'];
-    this.redirect_url = data[this.current_component_index]['redirect_link'];
-    this.product_details = data[this.current_component_index]['caption_regional_language'];
-    this.component_end_time = parseInt(data[this.current_component_index]['end_time']);
   };
 
   return Component;
 }();
 
 exports.Component = Component;
-//# sourceMappingURL=maxtap_plugin.cjs.development.js.map
+//# sourceMappingURL=package_name.cjs.development.js.map

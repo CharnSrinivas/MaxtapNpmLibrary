@@ -26,6 +26,7 @@ export const fetchAdData = (file_name: string): Promise<[]> => {
                             }
                             return 0;
                         })
+                        
                         res(json_data);
                     })
                 }).catch(err => {
