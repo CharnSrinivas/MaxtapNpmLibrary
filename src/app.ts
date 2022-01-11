@@ -1,5 +1,5 @@
-import { CssCdn, DataAttribute, GoogleAnalyticsCode, MaxTapComponentElementId, MaxTapMainContainerId } from './config.js';
-import { fetchAdData } from './Utils/utils.js';
+import { CssCdn, DataAttribute, GoogleAnalyticsCode, MaxTapComponentElementId } from './config.js';
+import { fetchAdData, getCurrentComponentIndex, getVideoElement } from './Utils/utils.js';
 /* 
 *   A Brief about how MAXTAP Ad  🔌plugin🔌 works
 ?🛑 ** Note **: Here in variables,function names..etc component refers to ad, we need to make it because of ad-blockers.
@@ -30,16 +30,16 @@ interface PluginProps {
     content_id: string;
 }
 
-interface ComponentData {
+export interface ComponentData {
     is_image_loaded: boolean;
     start_time: number;
     end_time: number;
     image_link: string;
     redirect_link: string;
     caption_regional_language: string;
-    client_name:string;
-    content_name:string;
-    duration:number;
+    client_name: string;
+    content_name: string;
+    duration: number;
 }
 
 declare global {
@@ -53,7 +53,6 @@ export class Component {
     private parentElement: HTMLElement | null;
     private current_component_index = 0;
     private components_data?: ComponentData[];
-    private interval_id: any;
     private content_id: string;
 
     constructor(data: PluginProps) {
@@ -71,15 +70,19 @@ export class Component {
             window.gtag = function () { window.dataLayer.push(arguments); }
             window.gtag('js', new Date());
             window.gtag('config', GoogleAnalyticsCode)
-
         })
         const head_tag = document.querySelector('head');
         head_tag?.appendChild(css_link_element);
         head_tag?.appendChild(ga_script_element);
+        console.log('update-2');
     }
 
+
+
     public init = () => {
-        this.video = document.querySelector(`[${DataAttribute}]`) as HTMLVideoElement;
+
+        this.video = getVideoElement();
+
         if (!this.video) {
             console.error("Cannot find video element,Please check data attribute. It should be " + DataAttribute + `
             Example: <video src="https://some_source" ${DataAttribute} > </video> 
@@ -94,16 +97,18 @@ export class Component {
                 if (!this.components_data) { return; }
                 this.initializeComponent();
                 const maxtap_component = document.getElementById(MaxTapComponentElementId);
-                maxtap_component?.addEventListener('click', () => {
+                maxtap_component!.addEventListener('click', () => {
+                    this.onComponentClick();
                 })
                 //* Checking for every second if video time is equal to ad start time.
-                this.interval_id = setInterval(() => {
+                setInterval(() => {
                     this.updateComponent();
-                }, 1000);
+                }, 500);
             })
                 .catch(err => {
                     console.error(err)
                 })
+
         } catch (err) {
             console.error(err);
 
@@ -111,16 +116,19 @@ export class Component {
     }
 
     private updateComponent = () => {
-        if (!this.video ||!this.components_data) {
+
+        if (!this.video || !this.components_data) {
             console.error("Cannot find video element with id ");
             return;
         }
-        const video_current_time = this.video.currentTime;
-        this.components_data.forEach((component,component_index )=> {
-            if(video_current_time>=component.start_time && video_current_time<=component.end_time){
-                this.current_component_index = component_index;
-            }
-        });
+
+        const current_index = getCurrentComponentIndex(this.components_data, this.video.currentTime);
+
+        if (current_index >= 0) {
+            this.current_component_index = current_index;
+        } else {
+            this.removeCurrentComponent();
+        }
         if (!this.components_data[this.current_component_index].is_image_loaded && ((this.components_data[this.current_component_index].start_time - this.video!.currentTime) <= 15)) {
             this.prefetchImage();
         }
@@ -134,24 +142,22 @@ export class Component {
     }
 
     private initializeComponent = () => {
+
         //*  Getting data from firestore using http request. And changing state of component.
         if (!this.video) { return; }
         this.video.style.width = "100%";
         this.video.style.height = "100%";
         this.parentElement = this.video.parentElement;
+        if(!this.parentElement){return}
+        this.parentElement.style.position='relative';
         const main_component = document.createElement('div');
-        const main_container = document.createElement('div') as HTMLDivElement;
-        main_container.className = 'maxtap_container';
-        main_container.id = MaxTapMainContainerId;
         main_component.style.display = 'none';
-        main_component.addEventListener('click', this.onComponentClick);
         main_component.id = MaxTapComponentElementId;
         main_component.className = 'maxtap_component_wrapper';
-        main_container.appendChild(this.video);
-        main_container.appendChild(main_component);
-        this.parentElement?.appendChild(main_container);
+        this.parentElement?.appendChild(main_component);
         //!<------------------>  Re-initializing the video to get latest reference after manipulating dom elements.<----------------------->
-        this.video = document.querySelector(`[${DataAttribute}]`) as HTMLVideoElement;
+        this.video = getVideoElement();
+
     }
 
     private prefetchImage = () => {
@@ -162,19 +168,19 @@ export class Component {
     }
 
     private canComponentDisplay = (currentTime: number): boolean => {
-        if(!this.components_data){ return false;}
+        if (!this.components_data) { return false; }
         if (this.components_data[this.current_component_index].start_time < 0) { return false; }
         //* Checking video time and also if video is already shown.
-        if ((currentTime >= this.components_data[this.current_component_index].start_time) ) {
+        if ((currentTime >= this.components_data[this.current_component_index].start_time)) {
             return true;
         };
         return false;
     }
 
     private canCloseComponent = (currentTime: number): boolean => {
-        if(!this.components_data)return true;
+        if (!this.components_data) return true;
         if (this.components_data[this.current_component_index].start_time < 0) { return false; }
-        if ((currentTime >= this.components_data[this.current_component_index].end_time) ) {
+        if ((currentTime >= this.components_data[this.current_component_index].end_time)) {
             return true;
         }
         return false;
@@ -182,27 +188,31 @@ export class Component {
 
     private removeCurrentComponent() {
         const main_container = document.getElementById(MaxTapComponentElementId);
-        if (this.current_component_index >= this.components_data!.length) {
-            clearInterval(this.interval_id);
-        }
         if (!main_container) { return; }
-        main_container.style.display = "none";
-        main_container.innerHTML = '';
+        if (main_container.style.display !== 'none') {
+            main_container.style.display = "none";
+            main_container.innerHTML = '';
+        }
     }
 
     private displayComponent = () => {
-        //* Displaying ad by just changing css display:none -> display:flex
         const main_component = document.getElementById(MaxTapComponentElementId);
         if (!main_component) { return; }
-        main_component.style.display = 'flex';
-        main_component.innerHTML = `
+        const component_html =
+            `
         <div class="maxtap_main" >
-            <p>${this.components_data![this.current_component_index].caption_regional_language}</p>
-            <div class="maxtap_img_wrapper">
-                <img src="${this.components_data![this.current_component_index].image_link}"/>
-            </div>
+        <p>${this.components_data![this.current_component_index].caption_regional_language}</p>
+        <div class="maxtap_img_wrapper">
+        <img src="${this.components_data![this.current_component_index].image_link}"/>
+        </div>
         </div>
         `
+        if (main_component.style.display === 'none') {
+            main_component.style.display = 'flex';
+            main_component.innerHTML = component_html;
+        };
+        // resizeComponentImgAccordingToVideo(this.video!);
+
         window.gtag('event', 'watch', {
             'event_category': 'impression',
             'event_action': 'watch',
@@ -218,7 +228,7 @@ export class Component {
             "content_id": this.content_id,
             "click_time": Math.floor(this.video!.currentTime)
         })
-        if (!this.components_data || this.components_data[this.current_component_index].image_link) { return; }
+        if (!this.components_data) { return; }
         window.open(this.components_data![this.current_component_index].redirect_link, "_blank");
     }
 

@@ -1,5 +1,5 @@
 {
-    "version": "0.1.16",
+    "version": "0.1.22",
     "license": "MIT",
     "main": "dist/index.js",
     "typings": "dist/index.d.ts",
@@ -33,7 +33,7 @@
         "singleQuote": true,
         "trailingComma": "es5"
     },
-    "name": "package_name",
+    "name": "%PACKAGE_NAME%",
     "author": "MAXTAP",
     "module": "dist/maxtap_node_module.esm.js",
     "size-limit": [
