@@ -21,7 +21,7 @@
 
        4) Now cd<testing_project> to the desired project you wanna test.
 
-       5) Then, npm link maxtap_plugin_dev : It links your dev project files and folders to test project
+       5) Then run npm link maxtap_plugin_dev : It links your dev project files and folders to test project
 
 
        6) import {Component} from 'maxtap_plugin_dev'
@@ -35,7 +35,11 @@
 
            cd <proj_dir>
            cd examples/classic_web
-           run some server to host index.html
+           run some server to host index.html 
+           ------ Recommended to use parcel 
+            1)Run -> npm i -g parcel -> Install parcel to your global node_modules.
+            
+            2)Run -> parcel src/index.html -> It creates dist folder in your project root dir where all your html,js,css,static files are being served.
     
        ------ ReactJs
 
