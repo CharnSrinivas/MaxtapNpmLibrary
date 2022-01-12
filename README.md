@@ -40,6 +40,7 @@ function App() {
 }
 export default App;
 ```
+<<<<<<< HEAD
 
 Initiate the ad inside the component where the desired <video/> tag will be. 
 
@@ -86,4 +87,6 @@ export default {
 </style>
 
 ```
+=======
+>>>>>>> fc45247ca107457699faebe0ad788f78ba00c732
 ### Use **data-displaymaxtap** in video tag.

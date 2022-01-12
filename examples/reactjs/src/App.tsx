@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react';
-import * as Maxtap from 'maxtap_plugin';
+import {Component} from 'maxtap_plugin_dev/dist';
 import './App.css';
 
 function App() {
 
     useEffect(() => {
-        new Maxtap.Component({content_id:"spiderman-4"}).init();
-         
+
+        new Component({content_id:"koode-data-test"}).init()
+
     }, [])
 
     return (

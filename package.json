@@ -1,5 +1,5 @@
 {
-    "version": "0.1.14",
+    "version": "0.1.23",
     "license": "MIT",
     "main": "dist/index.js",
     "typings": "dist/index.d.ts",
@@ -13,14 +13,14 @@
         "build": "./build.sh",
         "start:node": "tsdx watch",
         "build:node": "tsdx build",
-        "update_npm_version": "./update_version.sh",
         "test": "tsdx test",
         "lint": "tsdx lint",
         "size": "size-limit",
         "analyze": "size-limit --why",
         "tsc": "tsc",
         "webpack": "webpack",
-        "react-test": "cd examples/reactjs && npm start"
+        "webpack:w": "webpack -w",
+        "dev": "./dev.sh"
     },
     "husky": {
         "hooks": {
@@ -33,7 +33,7 @@
         "singleQuote": true,
         "trailingComma": "es5"
     },
-    "name": "maxtap_plugin",
+    "name": "%PACKAGE_NAME%",
     "author": "MAXTAP",
     "module": "dist/maxtap_node_module.esm.js",
     "size-limit": [
