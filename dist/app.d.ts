@@ -1,5 +1,16 @@
-interface PluginData {
+interface PluginProps {
     content_id: string;
+}
+export interface ComponentData {
+    is_image_loaded: boolean;
+    start_time: number;
+    end_time: number;
+    image_link: string;
+    redirect_link: string;
+    caption_regional_language: string;
+    client_name: string;
+    content_name: string;
+    duration: number;
 }
 declare global {
     interface Window {
@@ -11,19 +22,12 @@ declare global {
 export declare class Component {
     private video?;
     private parentElement;
-    private component_start_time;
-    private component_end_time;
-    private product_details?;
-    private image_url?;
-    private redirect_url?;
     private current_component_index;
-    private component_data?;
-    private interval_id;
-    private is_component_showing;
+    private components_data?;
     private content_id;
-    private is_image_loaded;
-    constructor(data: PluginData);
+    constructor(data: PluginProps);
     init: () => void;
+    private updateComponent;
     private initializeComponent;
     private prefetchImage;
     private canComponentDisplay;
@@ -31,6 +35,5 @@ export declare class Component {
     private removeCurrentComponent;
     private displayComponent;
     private onComponentClick;
-    private setRequiredComponentData;
 }
 export {};
