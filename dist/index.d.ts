@@ -1,1 +1,2 @@
-export { Component } from './app.js';
+import './styles.css';
+export { Component } from './app';

@@ -1,5 +1,6 @@
-import { CssCdn, DataAttribute, GoogleAnalyticsCode, MaxTapComponentElementId } from './config.js';
-import { fetchAdData, getCurrentComponentIndex, getVideoElement } from './Utils/utils.js';
+import { DataAttribute, GoogleAnalyticsCode, MaxTapComponentElementId } from './config';
+import { fetchAdData, getCurrentComponentIndex, getVideoElement } from './Utils/utils';
+
 /* 
 *   A Brief about how MAXTAP Ad  🔌plugin🔌 works
 ?🛑 ** Note **: Here in variables,function names..etc component refers to ad, we need to make it because of ad-blockers.
@@ -26,6 +27,7 @@ import { fetchAdData, getCurrentComponentIndex, getVideoElement } from './Utils/
 *
 *
  */
+
 interface PluginProps {
     content_id: string;
 }
@@ -58,9 +60,11 @@ export class Component {
     constructor(data: PluginProps) {
         this.content_id = data.content_id;
         this.parentElement = null;
-        const css_link_element = document.createElement('link');
-        css_link_element.href = CssCdn;
-        css_link_element.rel = 'stylesheet';
+    }
+
+
+    public init = () => {
+
         const ga_script_element = document.createElement('script');
         ga_script_element.src = `https://www.googletagmanager.com/gtag/js?id=${GoogleAnalyticsCode}`;
         ga_script_element.async = true;
@@ -72,14 +76,7 @@ export class Component {
             window.gtag('config', GoogleAnalyticsCode)
         })
         const head_tag = document.querySelector('head');
-        head_tag?.appendChild(css_link_element);
         head_tag?.appendChild(ga_script_element);
-        console.log('update-2');
-    }
-
-
-
-    public init = () => {
 
         this.video = getVideoElement();
 
@@ -129,7 +126,7 @@ export class Component {
         } else {
             this.removeCurrentComponent();
         }
-        if (!this.components_data[this.current_component_index].is_image_loaded && ((this.components_data[this.current_component_index].start_time - this.video!.currentTime) <= 15)) {
+        if (!this.components_data[this.current_component_index]['is_image_loaded'] && ((this.components_data[this.current_component_index].start_time - this.video!.currentTime) <= 15)) {
             this.prefetchImage();
         }
         if (this.canComponentDisplay(this.video!.currentTime)) {
@@ -148,8 +145,8 @@ export class Component {
         this.video.style.width = "100%";
         this.video.style.height = "100%";
         this.parentElement = this.video.parentElement;
-        if(!this.parentElement){return}
-        this.parentElement.style.position='relative';
+        if (!this.parentElement) { return }
+        this.parentElement.style.position = 'relative';
         const main_component = document.createElement('div');
         main_component.style.display = 'none';
         main_component.id = MaxTapComponentElementId;

@@ -1,5 +1,5 @@
 {
-    "version": "0.1.23",
+    "version": "0.1.28",
     "license": "MIT",
     "main": "dist/index.js",
     "typings": "dist/index.d.ts",
@@ -33,7 +33,7 @@
         "singleQuote": true,
         "trailingComma": "es5"
     },
-    "name": "%PACKAGE_NAME%",
+    "name": "maxtap_plugin_dev",
     "author": "MAXTAP",
     "module": "dist/maxtap_node_module.esm.js",
     "size-limit": [
@@ -47,19 +47,25 @@
         }
     ],
     "devDependencies": {
-        "@size-limit/preset-small-lib": "^7.0.5",
-        "husky": "^7.0.4",
-        "size-limit": "^7.0.5",
-        "tsdx": "^0.14.1",
-        "tslib": "^2.3.1",
-        "typescript": "^3.9.10",
-        "webpack-cli": "^4.9.1",
-        "webpack": "^5.65.0",
-        "regenerator-runtime": "^0.13.9",
         "@babel/core": "^7.16.7",
         "@babel/preset-env": "^7.16.7",
         "@babel/runtime": "^7.16.7",
-        "babel-loader": "^8.2.3"
+        "@size-limit/preset-small-lib": "^7.0.5",
+        "autoprefixer": "^10.4.2",
+        "babel-loader": "^8.2.3",
+        "css-loader": "^6.5.1",
+        "husky": "^7.0.4",
+        "regenerator-runtime": "^0.13.9",
+        "rollup-plugin-postcss": "^4.0.2",
+        "size-limit": "^7.0.5",
+        "style-loader": "^3.3.1",
+        "ts-loader": "^9.2.6",
+        "tsdx": "^0.14.1",
+        "tslib": "^2.3.1",
+        "typescript": "^3.9.10",
+        "typescript-plugin-css-modules": "^3.4.0",
+        "webpack": "^5.65.0",
+        "webpack-cli": "^4.9.1"
     },
     "repository": {
         "type": "git",
@@ -67,6 +73,7 @@
     },
     "dependencies": {
         "@types/uuid": "^8.3.4",
+        "maxtap_plugin": "^0.1.14",
         "uuid": "^8.3.2"
     }
 }
