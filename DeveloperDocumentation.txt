@@ -15,7 +15,7 @@
      
        1) cd <proj_dir>
 
-       2) npm run dev
+       2) Run: sudo ./dev.sh
 
        3) open another terminal and run 'npm run webpack:w'
 
@@ -36,10 +36,12 @@
            cd <proj_dir>
            cd examples/classic_web
            run some server to host index.html 
+
            ------ Recommended to use parcel 
-            1)Run -> npm i -g parcel -> Install parcel to your global node_modules.
+
+            1) Run -> npm i -g parcel -> Install parcel to your global node_modules.
             
-            2)Run -> parcel src/index.html -> It creates dist folder in your project root dir where all your html,js,css,static files are being served.
+            2) Run -> parcel src/index.html -> It creates dist folder in your project root dir where all your html,js,css,static files are being served.
     
        ------ ReactJs
 
