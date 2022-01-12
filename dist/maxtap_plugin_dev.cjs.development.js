@@ -6,7 +6,7 @@ var MaxTapComponentElementId = 'componentmaxtap';
 var GoogleAnalyticsCode = 'G-05P2385Q2K';
 var DataAttribute = 'data-displaymaxtap';
 var DataUrl = "https://storage.googleapis.com/maxtap-adserver-dev.appspot.com";
-var CssCdn = 'https://unpkg.com/maxtap_plugin_dev@0.1.23/dist/styles.css';
+var CssCdn = 'https://unpkg.com/maxtap_plugin_dev@0.1.27/dist/styles.css';
 
 var fetchAdData = function fetchAdData(file_name) {
   return new Promise(function (res, rej) {
@@ -158,7 +158,12 @@ var Component = /*#__PURE__*/function () {
       main_component.style.display = 'none';
       main_component.id = MaxTapComponentElementId;
       main_component.className = 'maxtap_component_wrapper';
-      (_this$parentElement = _this.parentElement) == null ? void 0 : _this$parentElement.appendChild(main_component); //!<------------------>  Re-initializing the video to get latest reference after manipulating dom elements.<----------------------->
+      (_this$parentElement = _this.parentElement) == null ? void 0 : _this$parentElement.appendChild(main_component);
+
+      for (var i = 0; i < _this.components_data.length; i++) {
+        _this.components_data[i].is_image_loaded = false;
+      } //!<------------------>  Re-initializing the video to get latest reference after manipulating dom elements.<----------------------->
+
 
       _this.video = getVideoElement();
     };

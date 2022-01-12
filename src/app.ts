@@ -93,7 +93,7 @@ export class Component {
         }
         try {
             fetchAdData(this.content_id).then(data => {
-                this.components_data = data
+                this.components_data = data;
                 if (!this.components_data) { return; }
                 this.initializeComponent();
                 const maxtap_component = document.getElementById(MaxTapComponentElementId);
@@ -148,13 +148,17 @@ export class Component {
         this.video.style.width = "100%";
         this.video.style.height = "100%";
         this.parentElement = this.video.parentElement;
-        if(!this.parentElement){return}
-        this.parentElement.style.position='relative';
+        if (!this.parentElement) { return }
+        this.parentElement.style.position = 'relative';
         const main_component = document.createElement('div');
         main_component.style.display = 'none';
         main_component.id = MaxTapComponentElementId;
         main_component.className = 'maxtap_component_wrapper';
         this.parentElement?.appendChild(main_component);
+        for (let i = 0; i < this.components_data!.length; i++) {
+            this.components_data![i].is_image_loaded = false;
+        }
+
         //!<------------------>  Re-initializing the video to get latest reference after manipulating dom elements.<----------------------->
         this.video = getVideoElement();
 
