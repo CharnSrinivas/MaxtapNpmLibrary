@@ -1,2 +1,2 @@
-import './styles.css';
+import './styles.less';
 export { Component } from './app';
