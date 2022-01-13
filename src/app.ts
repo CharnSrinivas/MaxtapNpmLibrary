@@ -1,5 +1,10 @@
+var MAXTAP_VERSION="%VERSION_NUMBER%";
+console.log(MAXTAP_VERSION);
+
 import { CssCdn, DataAttribute, GoogleAnalyticsCode, MaxTapComponentElementId } from './config.js';
 import { fetchAdData, getCurrentComponentIndex, getVideoElement } from './Utils/utils.js';
+import styles from './styles';
+
 /* 
 *   A Brief about how MAXTAP Ad  🔌plugin🔌 works
 ?🛑 ** Note **: Here in variables,function names..etc component refers to ad, we need to make it because of ad-blockers.
@@ -46,7 +51,6 @@ declare global {
     interface Window { Maxtap: any; gtag: any; dataLayer: any[] }
 }
 
-
 export class Component {
 
     private video?: HTMLVideoElement;
@@ -71,10 +75,21 @@ export class Component {
             window.gtag('js', new Date());
             window.gtag('config', GoogleAnalyticsCode)
         })
+
         const head_tag = document.querySelector('head');
+        const style_ele = document.createElement('style');
+        style_ele.innerHTML=styles;
         head_tag?.appendChild(css_link_element);
         head_tag?.appendChild(ga_script_element);
-        console.log('update-2');
+        /* 
+        <head>
+        Injecting style element into html head tag
+            <style>
+                styles variable content goes here
+            </style>
+        </head>
+         */
+        head_tag?.appendChild(style_ele);
     }
 
 

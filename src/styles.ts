@@ -1,3 +1,6 @@
+const styles=
+`
+
 video[data-displaymaxtap]{
     width: 100%;
     height: 100%;
@@ -39,3 +42,6 @@ video[data-displaymaxtap]{
     margin-right: 0.1rem;
     color: white;
 }
+
+`
+export default styles;

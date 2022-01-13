@@ -1,20 +1,31 @@
 #!/bin/bash
+# 1) If we come to dev branch, then change name placeholder Ex(%PACKAGE_NAME%) to maxtap_plugin_dev
+# 2) 
+#
+#
+#
+
 #* Changing package name according to git branch in package.json
+
+pacakge_name_placeholder="%PACKAGE_NAME%";
+
 BRANCH="$(git rev-parse --abbrev-ref HEAD)"
+
 if [[ "$BRANCH" == "dev" ]];
     # * If brach is dev -> name="maxtap_plugin_dev"
     then
-    echo -e "\n Changing packagege name to maxtap_plugin_dev"
-        sed -i "s/%PACKAGE_NAME%/maxtap_plugin_dev/g" ./package.json
+        echo -e "\n Changing package name to maxtap_plugin_dev"
+        sed -i "s/$pacakge_name_placeholder/maxtap_plugin_dev/g" ./package.json
+
 elif [["$BRANCH" ==  "main"]]; 
     #* if bracn is main -> name="maxtap_plugin"
     then
-        sed -i "s/%PACKAGE_NAME%/maxtap_plugin/g" ./package.json
+        sed -i "s/$pacakge_name_placeholder/maxtap_plugin/g" ./package.json
 fi
 
 # * -----------------------------------------
 
-#* Building package 
+#* Building package
 
 npm run build:node
 npm run tsc
@@ -32,13 +43,13 @@ echo -e "\n \n Current npm Version -> $PACKAGE_VERSION"
 
 if [[ "$BRANCH" == "dev" ]];
     then
-        sed -i "s/%PACKAGE_NAME%/maxtap_plugin_dev/g" ./dist/*.js ./dist/*.map ./dist/*.ts
-        sed -i "s/maxtap_plugin_dev/%PACKAGE_NAME%/g" ./package.json
+        sed -i "s/$pacakge_name_placeholder/maxtap_plugin_dev/g" ./dist/*.js ./dist/*.map ./dist/*.ts
+        sed -i "s/maxtap_plugin_dev/$pacakge_name_placeholder/g" ./package.json
 
 elif [["$BRANCH" ==  "main"]]; 
     then    
-        sed -i "s/%PACKAGE_NAME%/maxtap_plugin/g" ./dist/*.js ./dist/*.map ./dist/*.ts
-        sed -i "s/maxtap_plugin/%PACKAGE_NAME%/g" ./package.json
+        sed -i "s/$pacakge_name_placeholder/maxtap_plugin/g" ./dist/*.js ./dist/*.map ./dist/*.ts
+        sed -i "s/maxtap_plugin/$pacakge_name_placeholder/g" ./package.json
 
 fi
 

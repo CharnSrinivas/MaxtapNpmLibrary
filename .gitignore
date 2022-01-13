@@ -1,7 +1,7 @@
 *.log
 .DS_Store
 node_modules
-lib
+# lib
 examples/reactjs/node_modules
 examples/nextjs/node_modules
 examples/vue-test/node_modules

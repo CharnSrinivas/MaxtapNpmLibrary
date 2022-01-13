@@ -1,7 +1,7 @@
 const path = require("path")
 
 module.exports = {
-  entry: ["regenerator-runtime/runtime.js", path.resolve(__dirname, "lib/index.js")],
+  entry: ["regenerator-runtime/runtime.js", path.resolve(__dirname, "src/index.ts")],
   output: {
     path: path.resolve(__dirname, "dist"),
     filename: "plugin.js",
@@ -10,16 +10,35 @@ module.exports = {
     umdNamedDefine: true
   },
   resolve: {
-    extensions: ['.ts', '.tsx', '.js']
+    extensions: ['.ts', '.tsx', '.js', '.css']
   },
 
+  //👋 👋 👋
+  
   module: {
     rules: [
       {
-        test: /\.tsx?$/,
+        test: /\.ts/,
         exclude: /node_modules/,
-        use: "babel-loader",
-
+        use: ['babel-loader', 'ts-loader']
+      },
+      {
+        test: /\.(less|scss|css)$/,
+        exclude: /node_modules/,
+        use: [
+          'babel-loader',
+          'style-loader',
+          {
+            loader: "css-loader",
+            options: {
+              modules: {
+                localIdentName: "[hash:base64]", // default
+                auto: true // default
+              },
+              sourceMap: true
+            }
+          },
+        ]
       },
     ],
   },
