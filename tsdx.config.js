@@ -1,6 +1,7 @@
 const postcss = require('rollup-plugin-postcss');
 const autoprefixer = require('autoprefixer');
 const cssnano = require('cssnano');
+const replace = require('rollup-plugin-replace');
 module.exports = {
   rollup(config, options) {
     config.plugins.push(
@@ -13,9 +14,15 @@ module.exports = {
         ],
         inject: true,
         // only write out CSS for the first bundle (avoids pointless extra files):
-        extract: !!options.writeMeta,
       })
     );
+    config.plugins.push(
+      replace({
+        exclude: 'node_modules/**',
+        ENV: JSON.stringify('production'),
+      })
+    );
+    
     return config;
   },
 };

@@ -31,7 +31,7 @@ styleInject(css_248z);
 var MaxTapComponentElementId = 'componentmaxtap';
 var GoogleAnalyticsCode = 'G-05P2385Q2K';
 var DataAttribute = 'data-displaymaxtap';
-var DataUrl = "https://storage.googleapis.com/maxtap-adserver-dev.appspot.com"; // export const CssCdn = 'https://unpkg.com/maxtap_plugin_dev@latest/dist/styles.css';
+var DataUrl = "https://storage.googleapis.com/maxtap-adserver-dev.appspot.com";
 
 var fetchAdData = function fetchAdData(file_name) {
   return new Promise(function (res, rej) {
@@ -301,6 +301,9 @@ var Component = /*#__PURE__*/function () {
 
   return Component;
 }();
+
+var MAXTAP_VERSION = 'maxtap_version(0.1.29)';
+console.log(MAXTAP_VERSION);
 
 export { Component };
 //# sourceMappingURL=maxtap_plugin_dev.esm.js.map

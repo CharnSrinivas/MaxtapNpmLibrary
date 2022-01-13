@@ -2,10 +2,40 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
+function styleInject(css, ref) {
+  if ( ref === void 0 ) ref = {};
+  var insertAt = ref.insertAt;
+
+  if (!css || typeof document === 'undefined') { return; }
+
+  var head = document.head || document.getElementsByTagName('head')[0];
+  var style = document.createElement('style');
+  style.type = 'text/css';
+
+  if (insertAt === 'top') {
+    if (head.firstChild) {
+      head.insertBefore(style, head.firstChild);
+    } else {
+      head.appendChild(style);
+    }
+  } else {
+    head.appendChild(style);
+  }
+
+  if (style.styleSheet) {
+    style.styleSheet.cssText = css;
+  } else {
+    style.appendChild(document.createTextNode(css));
+  }
+}
+
+var css_248z = "video[data-displaymaxtap]{height:100%;width:100%}.maxtap_component_wrapper{align-self:flex-end;bottom:75px;display:flex;position:absolute;right:0}.maxtap_main{align-items:center;background-color:rgba(0,0,0,.2);cursor:pointer;display:flex;flex-direction:row;height:-webkit-fit-content;height:-moz-fit-content;height:fit-content;justify-content:space-between;z-index:10}.maxtap_img_wrapper{align-items:center;display:flex;justify-content:center;margin-left:.6rem;padding:.3vw;width:6vw}.maxtap_img_wrapper>img{width:100%}.maxtap_main>p{color:#fff;font-family:ubuntu,Roboto,sans-serif,Arial,Helvetica;font-size:calc(1vw + .1rem);font-weight:500;margin-left:.2rem;margin-right:.1rem;padding-left:.4rem}";
+styleInject(css_248z);
+
 var MaxTapComponentElementId = 'componentmaxtap';
 var GoogleAnalyticsCode = 'G-05P2385Q2K';
 var DataAttribute = 'data-displaymaxtap';
-var DataUrl = "https://storage.googleapis.com/maxtap-adserver-dev.appspot.com"; // export const CssCdn = 'https://unpkg.com/maxtap_plugin_dev@latest/dist/styles.css';
+var DataUrl = "https://storage.googleapis.com/maxtap-adserver-dev.appspot.com";
 
 var fetchAdData = function fetchAdData(file_name) {
   return new Promise(function (res, rej) {
@@ -275,6 +305,9 @@ var Component = /*#__PURE__*/function () {
 
   return Component;
 }();
+
+var MAXTAP_VERSION = 'maxtap_version(0.1.29)';
+console.log(MAXTAP_VERSION);
 
 exports.Component = Component;
 //# sourceMappingURL=maxtap_plugin_dev.cjs.development.js.map
