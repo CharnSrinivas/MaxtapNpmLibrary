@@ -2,12 +2,21 @@
 # Maxtap plugin usage
 ### JavaScript
 ```html
-      <script data-maxtap-script async src="https://unpkg.com/maxtap_plugin@latest/dist/maxtap_plugin.js"></script>
-```
-```js
-             document.querySelector('[data-maxtap-script]').addEventListener('load', () => {
-            new Maxtap.Component({content_id:'content-id'}).init()
-        })
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <script data-maxtap-script async src="https://unpkg.com/maxtap_plugin@latest/dist/plugin.js"></script>
+        <script>
+            document.querySelector('[data-maxtap-script]').addEventListener('load', () => {
+                new Maxtap.Component('spiderman-4').init()
+            })
+        </script>
+    </head>
+    <body>
+        <video preload="auto" data-displaymaxtap controls src="https://www.learningcontainer.com/wp-content/uploads/2020/05/sample-mp4-file.mp4"></video>
+    </body>
+</head>
+
 ```
 
 ### React js (Or) NextJs
@@ -39,51 +48,6 @@ function App() {
     );
 }
 export default App;
-```
-
-Initiate the ad inside the component where the desired <video/> tag will be. 
-
-
-### VueJs
-
-```sh
-npm install maxtap_plugin
-```
-
-```js
-<template>
-  <div id="app">
-    <img src="./assets/logo.png">
-    <HelloWorld/>
-  </div>
-</template>
-
-<script>
-import HelloWorld from './components/HelloWorld'
-
-import * as Maxtap from 'maxtap_plugin';
-const maxtap_ad = new Maxtap.Component({content_id:'content-id'});
-window.addEventListener('load',()=>{maxtap_ad.init()})
-
-export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
-</script>
-
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-
-</style>
 
 ```
 ### Use **data-displaymaxtap** in video tag.

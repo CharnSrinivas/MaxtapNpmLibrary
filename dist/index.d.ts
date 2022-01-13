@@ -1,1 +1,2 @@
-export { Component } from './app.js';
+import './styles.less';
+export { Component } from './app';

@@ -14,7 +14,71 @@
 </head>
 
 <body>
-  <div id="root"></div>
+  <div id="root">
+
+    <div class="my_container">
+      <video-js data-displaymaxtap id="myPlayerID" data-account="1752604059001" data-player="Sk5m8XYoG"
+        data-embed="default" data-application-id class="video-js" controls src="sample_video.mp4"></video-js>
+      <!-- <video data-displaymaxtap="" src="sample_video.mp4" controls></video> -->
+      <!-- Element added to specify the location of the playlist -->
+    </div>
+    <!-- <div class="vjs-playlist"></div> -->
+
+    <script src="https://players.brightcove.net/1752604059001/Sk5m8XYoG_default/index.min.js"></script>
+
+    <script>
+      videojs.getPlayer('myPlayerID').ready(function () {
+        var myPlayer = this,
+          queryObject = {};
+
+        // +++ Define the search parameters +++
+        // For search, you must use a search-enabled policy key
+        queryObject.policyKey = "BCpkADawqM1eifBpAkEr4aJrH9i950qErQCg8FvHXBCigF0JjC-zZyhN4T1XGGGBbB0hojevaABtp54BTvT9Er0KplSpC6tqm8YgyCtIzGl5sc77i23GLWYdpLdtF7Aei45EuLqlUznlkiXU";
+        queryObject.q = '*';
+        queryObject.sort = "-plays_total";
+        queryObject.limit = 10;
+
+        // +++ Get the video objects +++
+        myPlayer.catalog.getSearch(queryObject, function (errorObj, videosReturned) {
+          // console.log('videosReturned',videosReturned);
+          // console.log('errorObj',errorObj);
+          // +++ Load the playlist +++
+          myPlayer.playlist(videosReturned);
+        });
+
+      });
+
+    </script>
+    <script src="app.js"></script>
+    <style>
+      /* * The body style is just for the
+ * background color of the codepen.
+ * Do not include in your code.
+ */
+      body {
+        background-color: #111;
+        color: #fff;
+        display: flex;
+        justify-content: center;
+      }
+
+      /*
+ * Styles essential to the sample
+ * are below
+ */
+      /* override player styles */
+      .video-js {
+        width: 60vw;
+        height: 60vh !important;
+      }
+
+      .my_container {
+        width: 60vw;
+        height: 100%;
+      }
+    </style>
+</body>
+</div>
 
 </body>
 <script>
