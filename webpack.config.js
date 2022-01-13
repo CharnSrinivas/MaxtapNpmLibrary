@@ -6,27 +6,23 @@ module.exports = {
     path: path.resolve(__dirname, "dist"),
     filename: "plugin.js",
     library: "Maxtap",
-    libraryTarget: "umd",
+    libraryTarget: "var",
     umdNamedDefine: true
   },
   resolve: {
-    extensions: ['.ts', '.tsx', '.js', '.css']
+    extensions: ['.ts', '.ts', '.js', '.css']
   },
-
-  //👋 👋 👋
-  
   module: {
     rules: [
       {
-        test: /\.ts/,
+        test: /\.ts$/,
         exclude: /node_modules/,
-        use: ['babel-loader', 'ts-loader']
+        use: ["babel-loader", "ts-loader"],
       },
       {
-        test: /\.(less|scss|css)$/,
+        test: /\.css$/,
         exclude: /node_modules/,
         use: [
-          'babel-loader',
           'style-loader',
           {
             loader: "css-loader",
@@ -39,7 +35,7 @@ module.exports = {
             }
           },
         ]
-      },
+      }
     ],
   },
   watch: false,

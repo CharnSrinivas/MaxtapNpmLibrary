@@ -1,8 +1,41 @@
+function styleInject(css, ref) {
+  if ( ref === void 0 ) ref = {};
+  var insertAt = ref.insertAt;
+
+  if (!css || typeof document === 'undefined') { return; }
+
+  var head = document.head || document.getElementsByTagName('head')[0];
+  var style = document.createElement('style');
+  style.type = 'text/css';
+
+  if (insertAt === 'top') {
+    if (head.firstChild) {
+      head.insertBefore(style, head.firstChild);
+    } else {
+      head.appendChild(style);
+    }
+  } else {
+    head.appendChild(style);
+  }
+
+  if (style.styleSheet) {
+    style.styleSheet.cssText = css;
+  } else {
+    style.appendChild(document.createTextNode(css));
+  }
+}
+
+var css_248z = "video[data-displaymaxtap]{height:100%;width:100%}.maxtap_component_wrapper{align-self:flex-end;bottom:75px;display:flex;position:absolute;right:0}.maxtap_main{align-items:center;background-color:rgba(0,0,0,.2);cursor:pointer;display:flex;flex-direction:row;height:-webkit-fit-content;height:-moz-fit-content;height:fit-content;justify-content:space-between;z-index:10}.maxtap_img_wrapper{align-items:center;display:flex;justify-content:center;margin-left:.6rem;padding:.3vw;width:6vw}.maxtap_img_wrapper>img{width:100%}.maxtap_main>p{color:#fff;font-family:ubuntu,Roboto,sans-serif,Arial,Helvetica;font-size:calc(1vw + .1rem);font-weight:500;margin-left:.2rem;margin-right:.1rem;padding-left:.4rem}";
+styleInject(css_248z);
+
 var MaxTapComponentElementId = 'componentmaxtap';
 var GoogleAnalyticsCode = 'G-05P2385Q2K';
 var DataAttribute = 'data-displaymaxtap';
 var DataUrl = "https://storage.googleapis.com/maxtap-adserver-dev.appspot.com";
+<<<<<<< HEAD
 var CssCdn = 'https://unpkg.com/maxtap_plugin_dev@0.1.27/dist/styles.css';
+=======
+>>>>>>> dev
 
 var fetchAdData = function fetchAdData(file_name) {
   return new Promise(function (res, rej) {
@@ -50,7 +83,7 @@ var getVideoElement = function getVideoElement() {
   }
 
   console.error("Cannot find video element,Please check data attribute. It should be " + DataAttribute + ("\n                   Example: <video src=\"https://some_source\" " + DataAttribute + " > </video> \n                            [OR]\n                   Try to initialize the maxtap_ad component after window load."));
-  return;
+  return undefined;
 };
 var getCurrentComponentIndex = function getCurrentComponentIndex(components_data, video_current_time) {
   for (var i = 0; i < components_data.length; i++) {
@@ -71,6 +104,22 @@ var Component = /*#__PURE__*/function () {
     this.current_component_index = 0;
 
     this.init = function () {
+      var ga_script_element = document.createElement('script');
+      ga_script_element.src = "https://www.googletagmanager.com/gtag/js?id=" + GoogleAnalyticsCode;
+      ga_script_element.async = true;
+      ga_script_element.id = GoogleAnalyticsCode;
+      ga_script_element.addEventListener('load', function () {
+        window.dataLayer = window.dataLayer || [];
+
+        window.gtag = function () {
+          window.dataLayer.push(arguments);
+        };
+
+        window.gtag('js', new Date());
+        window.gtag('config', GoogleAnalyticsCode);
+      });
+      var head_tag = document.querySelector('head');
+      head_tag == null ? void 0 : head_tag.appendChild(ga_script_element);
       _this.video = getVideoElement();
 
       if (!_this.video) {
@@ -118,7 +167,7 @@ var Component = /*#__PURE__*/function () {
         _this.removeCurrentComponent();
       }
 
-      if (!_this.components_data[_this.current_component_index].is_image_loaded && _this.components_data[_this.current_component_index].start_time - _this.video.currentTime <= 15) {
+      if (!_this.components_data[_this.current_component_index]['is_image_loaded'] && _this.components_data[_this.current_component_index].start_time - _this.video.currentTime <= 15) {
         _this.prefetchImage();
       }
 
@@ -242,27 +291,6 @@ var Component = /*#__PURE__*/function () {
 
     this.content_id = data.content_id;
     this.parentElement = null;
-    var css_link_element = document.createElement('link');
-    css_link_element.href = CssCdn;
-    css_link_element.rel = 'stylesheet';
-    var ga_script_element = document.createElement('script');
-    ga_script_element.src = "https://www.googletagmanager.com/gtag/js?id=" + GoogleAnalyticsCode;
-    ga_script_element.async = true;
-    ga_script_element.id = GoogleAnalyticsCode;
-    ga_script_element.addEventListener('load', function () {
-      window.dataLayer = window.dataLayer || [];
-
-      window.gtag = function () {
-        window.dataLayer.push(arguments);
-      };
-
-      window.gtag('js', new Date());
-      window.gtag('config', GoogleAnalyticsCode);
-    });
-    var head_tag = document.querySelector('head');
-    head_tag == null ? void 0 : head_tag.appendChild(css_link_element);
-    head_tag == null ? void 0 : head_tag.appendChild(ga_script_element);
-    console.log('update-2');
   }
 
   var _proto = Component.prototype;
@@ -282,6 +310,9 @@ var Component = /*#__PURE__*/function () {
 
   return Component;
 }();
+
+var MAXTAP_VERSION = 'maxtap_version(0.1.29)';
+console.log(MAXTAP_VERSION);
 
 export { Component };
 //# sourceMappingURL=maxtap_plugin_dev.esm.js.map
