@@ -57,3 +57,6 @@
            npm run dev
 
        ---- 🧪 Happy Testing 🧪----       
+
+NOTES:
+1) npm run webpack --> this command will generate plugin.js file which is plain javascript file used in running vanilla javascript projects

@@ -10,7 +10,7 @@ module.exports = {
     umdNamedDefine: true
   },
   resolve: {
-    extensions: ['.ts', '.ts', '.js', '.css']
+    extensions: ['.ts', '.js', '.css']
   },
   module: {
     rules: [
@@ -35,7 +35,16 @@ module.exports = {
             }
           },
         ]
-      }
+      },
+      {
+        test: /\.less$/i,
+        use: [
+          // compiles Less to CSS
+          "style-loader",
+          "css-loader",
+          "less-loader",
+        ],
+      },
     ],
   },
   watch: false,

@@ -55,6 +55,8 @@
         "babel-loader": "^8.2.3",
         "css-loader": "^6.5.1",
         "husky": "^7.0.4",
+        "less": "^4.1.2",
+        "less-loader": "^10.2.0",
         "regenerator-runtime": "^0.13.9",
         "rollup-plugin-postcss": "^4.0.2",
         "size-limit": "^7.0.5",
