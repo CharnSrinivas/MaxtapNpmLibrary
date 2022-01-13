@@ -1,4 +1,5 @@
-import { DataUrl } from "../config";
+import { DataUrl, DataAttribute } from "../config";
+import { ComponentData } from "../app";
 export const fetchAdData = (file_name: string): Promise<[]> => {
 
     return new Promise((res, rej) => {
@@ -26,6 +27,7 @@ export const fetchAdData = (file_name: string): Promise<[]> => {
                             }
                             return 0;
                         })
+
                         res(json_data);
                     })
                 }).catch(err => {
@@ -36,4 +38,37 @@ export const fetchAdData = (file_name: string): Promise<[]> => {
         }
     })
 
+}
+
+export const getVideoElement = (): HTMLVideoElement | undefined => {
+
+    const elements = document.querySelectorAll(`[${DataAttribute}]`);
+    for (let i = 0; i < elements.length; i++) {
+        if (elements[i].tagName === 'VIDEO') {
+            return elements[i] as HTMLVideoElement;
+        }
+
+    }
+    console.error("Cannot find video element,Please check data attribute. It should be " + DataAttribute + `
+                   Example: <video src="https://some_source" ${DataAttribute} > </video> 
+                            [OR]
+                   Try to initialize the maxtap_ad component after window load.`);
+    return undefined;
+}
+
+export const resizeComponentImgAccordingToVideo = (video: HTMLVideoElement) => {
+    const img_wrapper = document.querySelector('.maxtap_img_wrapper') as HTMLDivElement;
+    const per = (video.getBoundingClientRect().width * (8 / 100));
+    if (per <= 125 && per >= 80 && img_wrapper) {
+        img_wrapper.style.width = per + "px";
+    }
+}
+export const getCurrentComponentIndex = (components_data:ComponentData[],video_current_time:number) :number=> {
+    for (let i = 0; i < components_data.length; i++) {
+        const component = components_data[i];   
+        if (video_current_time >= component.start_time && video_current_time <= component.end_time) {
+            return i;
+        }
+    }
+    return -1;
 }
