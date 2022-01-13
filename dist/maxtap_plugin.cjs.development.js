@@ -29,17 +29,11 @@ function styleInject(css, ref) {
   }
 }
 
-<<<<<<< HEAD:dist/maxtap_plugin.cjs.development.js
 var css_248z = "video[data-displaymaxtap]{height:100%;width:100%}.maxtap_component_wrapper{align-self:flex-end;bottom:75px;display:flex;position:absolute;right:0}.maxtap_main{align-items:center;background-color:rgba(0,0,0,.2);cursor:pointer;display:flex;flex-direction:row;height:-webkit-fit-content;height:-moz-fit-content;height:fit-content;justify-content:space-between;z-index:10}.maxtap_main>p{color:#fff;font-family:ubuntu,Roboto,sans-serif,Arial,Helvetica;font-size:calc(1vw + .1rem);font-weight:500;margin-left:.2rem;margin-right:.1rem;padding-left:.4rem}.maxtap_img_wrapper{align-items:center;display:flex;justify-content:center;margin-left:.6rem;padding:.3vw;width:6vw}.maxtap_img_wrapper>img{width:100%}";
 styleInject(css_248z);
 
-var LIB_VERSION = "0.1.29";
+var LIB_VERSION = "0.1.15";
 
-=======
-var css_248z = "video[data-displaymaxtap]{height:100%;width:100%}.maxtap_component_wrapper{align-self:flex-end;bottom:75px;display:flex;position:absolute;right:0}.maxtap_main{align-items:center;background-color:rgba(0,0,0,.2);cursor:pointer;display:flex;flex-direction:row;height:-webkit-fit-content;height:-moz-fit-content;height:fit-content;justify-content:space-between;z-index:10}.maxtap_img_wrapper{align-items:center;display:flex;justify-content:center;margin-left:.6rem;padding:.3vw;width:6vw}.maxtap_img_wrapper>img{width:100%}.maxtap_main>p{color:#fff;font-family:ubuntu,Roboto,sans-serif,Arial,Helvetica;font-size:calc(1vw + .1rem);font-weight:500;margin-left:.2rem;margin-right:.1rem;padding-left:.4rem}";
-styleInject(css_248z);
-
->>>>>>> charan:dist/maxtap_plugin_dev.cjs.development.js
 var MaxTapComponentElementId = 'componentmaxtap';
 var GoogleAnalyticsCode = 'G-05P2385Q2K';
 var DataAttribute = 'data-displaymaxtap';
@@ -110,12 +104,8 @@ var Component = function Component(data) {
 
   this.current_component_index = 0;
 
-<<<<<<< HEAD:dist/maxtap_plugin.cjs.development.js
-    this.init = function () {
-=======
   this.init = function () {
     try {
->>>>>>> charan:dist/maxtap_plugin_dev.cjs.development.js
       var ga_script_element = document.createElement('script');
       ga_script_element.src = "https://www.googletagmanager.com/gtag/js?id=" + GoogleAnalyticsCode;
       ga_script_element.async = true;
@@ -178,17 +168,9 @@ var Component = function Component(data) {
       _this.removeCurrentComponent();
     }
 
-<<<<<<< HEAD:dist/maxtap_plugin.cjs.development.js
-      if (_this.components_data[_this.current_component_index] !== undefined) {
-        if (!_this.components_data[_this.current_component_index]['is_image_loaded'] && _this.components_data[_this.current_component_index].start_time - _this.video.currentTime <= 15) {
-          _this.prefetchImage();
-        }
-      }
-=======
     if (!_this.components_data[_this.current_component_index]['is_image_loaded'] && _this.components_data[_this.current_component_index].start_time - _this.video.currentTime <= 15) {
       _this.prefetchImage();
     }
->>>>>>> charan:dist/maxtap_plugin_dev.cjs.development.js
 
     if (_this.canCloseComponent(_this.video.currentTime)) {
       _this.removeCurrentComponent();
@@ -217,26 +199,12 @@ var Component = function Component(data) {
       return;
     }
 
-<<<<<<< HEAD:dist/maxtap_plugin.cjs.development.js
-      _this.parentElement.style.position = 'relative';
-      var main_component = document.createElement('div');
-      main_component.style.display = 'none';
-      main_component.id = MaxTapComponentElementId;
-      main_component.className = 'maxtap_component_wrapper';
-      (_this$parentElement = _this.parentElement) == null ? void 0 : _this$parentElement.appendChild(main_component);
-
-      for (var i = 0; i < _this.components_data.length; i++) {
-        _this.components_data[i].is_image_loaded = false;
-      } //! Re-initializing the video to get latest reference after manipulating dom elements.
-
-=======
     _this.parentElement.style.position = 'relative';
     var main_component = document.createElement('div');
     main_component.style.display = 'none';
     main_component.id = MaxTapComponentElementId;
     main_component.className = 'maxtap_component_wrapper';
     (_this$parentElement = _this.parentElement) == null ? void 0 : _this$parentElement.appendChild(main_component);
->>>>>>> charan:dist/maxtap_plugin_dev.cjs.development.js
 
     for (var i = 0; i < _this.components_data.length; i++) {
       _this.components_data[i]['times_viewed'] = 0;
@@ -336,27 +304,6 @@ var Component = function Component(data) {
         return;
       }
 
-<<<<<<< HEAD:dist/maxtap_plugin.cjs.development.js
-      window.open(_this.components_data[_this.current_component_index].redirect_link, "_blank");
-    };
-
-    this.content_id = data.content_id;
-    this.parentElement = null;
-  }
-
-  var _proto = Component.prototype;
-
-  _proto.removeCurrentComponent = function removeCurrentComponent() {
-    var main_container = document.getElementById(MaxTapComponentElementId);
-
-    if (!main_container) {
-      return;
-    }
-
-    if (main_container.style.display !== 'none') {
-      main_container.style.display = "none";
-      main_container.innerHTML = '';
-=======
       _this.components_data[_this.current_component_index]['times_clicked']++;
       var current_component_data = _this.components_data[_this.current_component_index];
       var ga_click_data = {
@@ -370,16 +317,12 @@ var Component = function Component(data) {
       window.open(_this.components_data[_this.current_component_index].redirect_link, "_blank");
     } catch (err) {
       console.error(err);
->>>>>>> charan:dist/maxtap_plugin_dev.cjs.development.js
     }
   };
 
   this.content_id = data.content_id;
   this.parentElement = null;
 };
-
-var MAXTAP_VERSION = 'maxtap_version(%MAXTAP_VERSION%)';
-console.log(MAXTAP_VERSION);
 
 console.log("maxtap_plugin@" + LIB_VERSION);
 
