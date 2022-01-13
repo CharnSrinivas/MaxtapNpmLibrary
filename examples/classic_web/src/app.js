@@ -9,9 +9,7 @@ import { Component } from 'maxtap_plugin_dev'
 //     new Maxtap.Component({ content_id: "koode_test_data" }).init();
 // })
 // document.querySelector('head').appendChild(maxtap_script)
-setTimeout(()=>{
 
-},3000)
 window.addEventListener('load', () => {
     new Component({ content_id: "test_data" }).init();
 })

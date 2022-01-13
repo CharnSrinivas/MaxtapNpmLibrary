@@ -11,6 +11,8 @@ export interface ComponentData {
     client_name: string;
     content_name: string;
     duration: number;
+    times_viewed: number;
+    times_clicked: number;
 }
 declare global {
     interface Window {
