@@ -93,13 +93,13 @@ var getCurrentComponentIndex = function getCurrentComponentIndex(components_data
   return -1;
 };
 
-var Component = /*#__PURE__*/function () {
-  function Component(data) {
-    var _this = this;
+var Component = function Component(data) {
+  var _this = this;
 
-    this.current_component_index = 0;
+  this.current_component_index = 0;
 
-    this.init = function () {
+  this.init = function () {
+    try {
       var ga_script_element = document.createElement('script');
       ga_script_element.src = "https://www.googletagmanager.com/gtag/js?id=" + GoogleAnalyticsCode;
       ga_script_element.async = true;
@@ -123,170 +123,134 @@ var Component = /*#__PURE__*/function () {
         return;
       }
 
-      try {
-        fetchAdData(_this.content_id).then(function (data) {
-          _this.components_data = data;
+      fetchAdData(_this.content_id).then(function (data) {
+        _this.components_data = data;
 
-          if (!_this.components_data) {
-            return;
-          }
+        if (!_this.components_data) {
+          return;
+        }
 
-          _this.initializeComponent();
+        _this.initializeComponent();
 
-          var maxtap_component = document.getElementById(MaxTapComponentElementId);
-          maxtap_component.addEventListener('click', function () {
-            _this.onComponentClick();
-          }); //* Checking for every second if video time is equal to ad start time.
+        var maxtap_component = document.getElementById(MaxTapComponentElementId);
+        maxtap_component.addEventListener('click', function () {
+          _this.onComponentClick();
+        }); //* Checking for every second if video time is equal to ad start time.
 
-          setInterval(function () {
-            _this.updateComponent();
-          }, 500);
-        })["catch"](function (err) {
-          console.error(err);
-        });
-      } catch (err) {
+        setInterval(function () {
+          _this.updateComponent();
+        }, 500);
+      })["catch"](function (err) {
         console.error(err);
-      }
-    };
-
-    this.updateComponent = function () {
-      if (!_this.video || !_this.components_data) {
-        console.error("Cannot find video element with id ");
-        return;
-      }
-
-      var current_index = getCurrentComponentIndex(_this.components_data, _this.video.currentTime);
-
-      if (current_index >= 0) {
-        _this.current_component_index = current_index;
-      } else {
-        _this.removeCurrentComponent();
-      }
-
-      if (!_this.components_data[_this.current_component_index]['is_image_loaded'] && _this.components_data[_this.current_component_index].start_time - _this.video.currentTime <= 15) {
-        _this.prefetchImage();
-      }
-
-      if (_this.canComponentDisplay(_this.video.currentTime)) {
-        _this.displayComponent();
-      }
-
-      if (_this.canCloseComponent(_this.video.currentTime)) {
-        _this.current_component_index++;
-
-        _this.removeCurrentComponent();
-      }
-    };
-
-    this.initializeComponent = function () {
-      var _this$parentElement;
-
-      //*  Getting data from firestore using http request. And changing state of component.
-      if (!_this.video) {
-        return;
-      }
-
-      _this.video.style.width = "100%";
-      _this.video.style.height = "100%";
-      _this.parentElement = _this.video.parentElement;
-
-      if (!_this.parentElement) {
-        return;
-      }
-
-      _this.parentElement.style.position = 'relative';
-      var main_component = document.createElement('div');
-      main_component.style.display = 'none';
-      main_component.id = MaxTapComponentElementId;
-      main_component.className = 'maxtap_component_wrapper';
-      (_this$parentElement = _this.parentElement) == null ? void 0 : _this$parentElement.appendChild(main_component); //!<------------------>  Re-initializing the video to get latest reference after manipulating dom elements.<----------------------->
-
-      _this.video = getVideoElement();
-    };
-
-    this.prefetchImage = function () {
-      if (!_this.components_data) {
-        return;
-      }
-
-      _this.components_data[_this.current_component_index].is_image_loaded = true;
-      var img = new Image();
-      img.src = _this.components_data[_this.current_component_index]['image_link'];
-    };
-
-    this.canComponentDisplay = function (currentTime) {
-      if (!_this.components_data) {
-        return false;
-      }
-
-      if (_this.components_data[_this.current_component_index].start_time < 0) {
-        return false;
-      } //* Checking video time and also if video is already shown.
-
-
-      if (currentTime >= _this.components_data[_this.current_component_index].start_time) {
-        return true;
-      }
-      return false;
-    };
-
-    this.canCloseComponent = function (currentTime) {
-      if (!_this.components_data) return true;
-
-      if (_this.components_data[_this.current_component_index].start_time < 0) {
-        return false;
-      }
-
-      if (currentTime >= _this.components_data[_this.current_component_index].end_time) {
-        return true;
-      }
-
-      return false;
-    };
-
-    this.displayComponent = function () {
-      var main_component = document.getElementById(MaxTapComponentElementId);
-
-      if (!main_component) {
-        return;
-      }
-
-      var component_html = "\n        <div class=\"maxtap_main\" >\n        <p>" + _this.components_data[_this.current_component_index].caption_regional_language + "</p>\n        <div class=\"maxtap_img_wrapper\">\n        <img src=\"" + _this.components_data[_this.current_component_index].image_link + "\"/>\n        </div>\n        </div>\n        ";
-
-      if (main_component.style.display === 'none') {
-        main_component.style.display = 'flex';
-        main_component.innerHTML = component_html;
-      }
-
-      window.gtag('event', 'watch', {
-        'event_category': 'impression',
-        'event_action': 'watch',
-        "content_id": _this.content_id
       });
-    };
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
-    this.onComponentClick = function () {
-      window.gtag('event', 'click', {
-        'event_category': 'action',
-        'event_action': 'click',
-        "content_id": _this.content_id,
-        "click_time": Math.floor(_this.video.currentTime)
-      });
+  this.updateComponent = function () {
+    if (!_this.video || !_this.components_data) {
+      console.error("Cannot find video element with id ");
+      return;
+    }
 
-      if (!_this.components_data) {
-        return;
-      }
+    var current_index = getCurrentComponentIndex(_this.components_data, _this.video.currentTime);
 
-      window.open(_this.components_data[_this.current_component_index].redirect_link, "_blank");
-    };
+    if (current_index >= 0) {
+      _this.current_component_index = current_index;
+    } else {
+      _this.removeCurrentComponent();
+    }
 
-    this.content_id = data.content_id;
-    this.parentElement = null;
-  }
+    if (!_this.components_data[_this.current_component_index]['is_image_loaded'] && _this.components_data[_this.current_component_index].start_time - _this.video.currentTime <= 15) {
+      _this.prefetchImage();
+    }
 
-  var _proto = Component.prototype;
+    if (_this.canCloseComponent(_this.video.currentTime)) {
+      _this.removeCurrentComponent();
 
-  _proto.removeCurrentComponent = function removeCurrentComponent() {
+      return;
+    }
+
+    if (_this.canComponentDisplay(_this.video.currentTime)) {
+      _this.displayComponent();
+    }
+  };
+
+  this.initializeComponent = function () {
+    var _this$parentElement;
+
+    //*  Getting data from firestore using http request. And changing state of component.
+    if (!_this.video) {
+      return;
+    }
+
+    _this.video.style.width = "100%";
+    _this.video.style.height = "100%";
+    _this.parentElement = _this.video.parentElement;
+
+    if (!_this.parentElement) {
+      return;
+    }
+
+    _this.parentElement.style.position = 'relative';
+    var main_component = document.createElement('div');
+    main_component.style.display = 'none';
+    main_component.id = MaxTapComponentElementId;
+    main_component.className = 'maxtap_component_wrapper';
+    (_this$parentElement = _this.parentElement) == null ? void 0 : _this$parentElement.appendChild(main_component);
+
+    for (var i = 0; i < _this.components_data.length; i++) {
+      _this.components_data[i]['times_viewed'] = 0;
+      _this.components_data[i]['times_clicked'] = 0;
+      _this.components_data[i]['is_image_loaded'] = false;
+    } //!<------------------>  Re-initializing the video to get latest reference after manipulating dom elements.<----------------------->
+
+
+    _this.video = getVideoElement();
+  };
+
+  this.prefetchImage = function () {
+    if (!_this.components_data) {
+      return;
+    }
+
+    _this.components_data[_this.current_component_index].is_image_loaded = true;
+    var img = new Image();
+    img.src = _this.components_data[_this.current_component_index]['image_link'];
+  };
+
+  this.canComponentDisplay = function (currentTime) {
+    if (!_this.components_data) {
+      return false;
+    }
+
+    if (_this.components_data[_this.current_component_index].start_time < 0) {
+      return false;
+    } //* Checking video time and also if video is already shown.
+
+
+    if (currentTime < _this.components_data[_this.current_component_index]['end_time'] && currentTime > _this.components_data[_this.current_component_index]['start_time']) {
+      return true;
+    }
+    return false;
+  };
+
+  this.canCloseComponent = function (currentTime) {
+    if (!_this.components_data) return true;
+
+    if (_this.components_data[_this.current_component_index].start_time < 0) {
+      return false;
+    }
+
+    if (currentTime > _this.components_data[_this.current_component_index]['end_time'] || currentTime < _this.components_data[_this.current_component_index]['start_time']) {
+      return true;
+    }
+
+    return false;
+  };
+
+  this.removeCurrentComponent = function () {
     var main_container = document.getElementById(MaxTapComponentElementId);
 
     if (!main_container) {
@@ -299,10 +263,62 @@ var Component = /*#__PURE__*/function () {
     }
   };
 
-  return Component;
-}();
+  this.displayComponent = function () {
+    var main_component = document.getElementById(MaxTapComponentElementId);
 
-var MAXTAP_VERSION = 'maxtap_version(0.1.29)';
+    if (!main_component) {
+      return;
+    }
+
+    var component_html = "\n        <div class=\"maxtap_main\" >\n        <p>" + _this.components_data[_this.current_component_index].caption_regional_language + "</p>\n        <div class=\"maxtap_img_wrapper\">\n        <img src=\"" + _this.components_data[_this.current_component_index].image_link + "\"/>\n        </div>\n        </div>\n        ";
+
+    if (main_component.style.display === 'none') {
+      main_component.style.display = 'flex';
+      main_component.innerHTML = component_html;
+      _this.components_data[_this.current_component_index]['times_viewed']++; // * Incrementing no of times ad is viewed.
+
+      var current_component_data = _this.components_data[_this.current_component_index];
+      var ga_impression_data = {
+        'event_category': 'impression',
+        'event_action': 'watch',
+        'content_id': current_component_data['content_id'],
+        'content_name': current_component_data['content_name'] || "",
+        'product_type': current_component_data['article_type'] || "",
+        'product_category': current_component_data['category'] || "",
+        'product_subcategory': current_component_data['subcategory'] || "",
+        'times_viewed': current_component_data['times_viewed'] || 0
+      };
+      window.gtag('event', 'impression', ga_impression_data);
+    }
+  };
+
+  this.onComponentClick = function () {
+    try {
+      if (!_this.components_data) {
+        return;
+      }
+
+      _this.components_data[_this.current_component_index]['times_clicked']++;
+      var current_component_data = _this.components_data[_this.current_component_index];
+      var ga_click_data = {
+        'event_category': 'action',
+        'event_action': 'click',
+        "content_id": current_component_data['content_id'] || _this.content_id,
+        "time_to_click": Math.floor(_this.video.currentTime - _this.components_data[_this.current_component_index]['start_time']),
+        "times_clicked": current_component_data['times_clicked']
+      };
+      window.gtag('event', 'click', ga_click_data);
+      window.open(_this.components_data[_this.current_component_index].redirect_link, "_blank");
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  this.content_id = data.content_id;
+  this.parentElement = null;
+};
+
+var MAXTAP_VERSION = 'maxtap_version(%MAXTAP_VERSION%)';
 console.log(MAXTAP_VERSION);
 
 export { Component };

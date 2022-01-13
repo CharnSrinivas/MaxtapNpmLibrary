@@ -1,4 +1,6 @@
 {
+    "name": "maxtap_plugin_dev",
+    "author": "MAXTAP",
     "version": "0.1.29",
     "license": "MIT",
     "main": "dist/index.js",
@@ -33,8 +35,6 @@
         "singleQuote": true,
         "trailingComma": "es5"
     },
-    "name": "%PACKAGE_NAME%",
-    "author": "MAXTAP",
     "module": "dist/maxtap_node_module.esm.js",
     "size-limit": [
         {
