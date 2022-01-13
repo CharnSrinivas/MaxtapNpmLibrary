@@ -1,14 +1,15 @@
 #!/bin/bash
 
+PACKAGE_NAME_PLACEHOLDER="%PACKAGE_NAME%"
 BRANCH="$(git rev-parse --abbrev-ref HEAD)"
 
 if [[ "$BRANCH" == "dev" ]];
     then
-        sed -i "s/%PACKAGE_NAME%/maxtap_plugin_dev/g" ./package.json
+        sed -i "s/$PACKAGE_NAME_PLACEHOLDER/maxtap_plugin_dev/g" ./package.json
 
 elif [[ "$BRANCH" ==  "main" ]]; 
     then    
-        sed -i "s/%PACKAGE_NAME%/maxtap_plugin/g" ./package.json
+        sed -i "s/$PACKAGE_NAME_PLACEHOLDER/maxtap_plugin/g" ./package.json
 fi
 
 sudo npm link

@@ -39,54 +39,6 @@ function App() {
     );
 }
 export default App;
-```
-<<<<<<< HEAD
-
-Initiate the ad inside the component where the desired <video/> tag will be. 
-
-
-### VueJs
-
-```sh
-npm install maxtap_plugin
-```
-
-```js
-<template>
-  <div id="app">
-    <img src="./assets/logo.png">
-    <HelloWorld/>
-  </div>
-</template>
-
-<script>
-import HelloWorld from './components/HelloWorld'
-
-import * as Maxtap from 'maxtap_plugin';
-const maxtap_ad = new Maxtap.Component({content_id:'content-id'});
-window.addEventListener('load',()=>{maxtap_ad.init()})
-
-export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
-</script>
-
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-
-</style>
 
 ```
-=======
->>>>>>> fc45247ca107457699faebe0ad788f78ba00c732
 ### Use **data-displaymaxtap** in video tag.

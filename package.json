@@ -1,5 +1,5 @@
 {
-    "version": "0.1.28",
+    "version": "0.1.29",
     "license": "MIT",
     "main": "dist/index.js",
     "typings": "dist/index.d.ts",
@@ -33,7 +33,7 @@
         "singleQuote": true,
         "trailingComma": "es5"
     },
-    "name": "maxtap_plugin_dev",
+    "name": "%PACKAGE_NAME%",
     "author": "MAXTAP",
     "module": "dist/maxtap_node_module.esm.js",
     "size-limit": [
@@ -74,6 +74,7 @@
     "dependencies": {
         "@types/uuid": "^8.3.4",
         "maxtap_plugin": "^0.1.14",
+        "rollup-plugin-replace": "^2.2.0",
         "uuid": "^8.3.2"
     }
 }
