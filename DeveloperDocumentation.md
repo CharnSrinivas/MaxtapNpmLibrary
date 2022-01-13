@@ -60,3 +60,20 @@
 
 NOTES:
 1) npm run webpack --> this command will generate plugin.js file which is plain javascript file used in running vanilla javascript projects
+2) npm run build:node -> 
+
+
+
+Things to Do:
+
+Steps for packaging and distribution:
+1) npm run build -> it will create dist folder with plugin.js file and node modules
+2) npm pack -> create a tar ball for our plugin. Now do testing with this zip file.
+3) publish it on npmjs
+4) using the cdn link from unpkg test the vanilla implementation in tampermonkey etc.
+
+Testing:
+1) Test vanila javascript implementation (in examples/classic web)
+2) Test in Cholalabs Next js project
+3) Test in React boiler plate project
+4) Test in Koode tampermonkey

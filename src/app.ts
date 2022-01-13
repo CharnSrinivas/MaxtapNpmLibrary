@@ -126,8 +126,10 @@ export class Component {
         } else {
             this.removeCurrentComponent();
         }
-        if (!this.components_data[this.current_component_index]['is_image_loaded'] && ((this.components_data[this.current_component_index].start_time - this.video!.currentTime) <= 15)) {
-            this.prefetchImage();
+        if(this.components_data[this.current_component_index] !== undefined){
+            if (!this.components_data[this.current_component_index]['is_image_loaded'] && ((this.components_data[this.current_component_index].start_time - this.video!.currentTime) <= 15)) {
+                this.prefetchImage();
+            }
         }
         if (this.canComponentDisplay(this.video!.currentTime)) {
             this.displayComponent()
@@ -156,7 +158,7 @@ export class Component {
             this.components_data![i].is_image_loaded = false;
         }
 
-        //!<------------------>  Re-initializing the video to get latest reference after manipulating dom elements.<----------------------->
+        //! Re-initializing the video to get latest reference after manipulating dom elements.
         this.video = getVideoElement();
 
     }

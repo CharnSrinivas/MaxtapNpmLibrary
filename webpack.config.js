@@ -4,7 +4,7 @@ module.exports = {
   entry: ["regenerator-runtime/runtime.js", path.resolve(__dirname, "src/index.ts")],
   output: {
     path: path.resolve(__dirname, "dist"),
-    filename: "plugin.js",
+    filename: "maxtap.min.js",
     library: "Maxtap",
     libraryTarget: "var",
     umdNamedDefine: true

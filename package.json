@@ -12,17 +12,16 @@
         "node": ">=10"
     },
     "scripts": {
-        "build": "./build.sh",
+        "prebuild": "node -p \"'export const LIB_VERSION = ' + JSON.stringify(require('./package.json').version) + ';'\" > src/version.ts",
+        "build": "npm run build:node && npm run webpack",
         "start:node": "tsdx watch",
         "build:node": "tsdx build",
         "test": "tsdx test",
         "lint": "tsdx lint",
         "size": "size-limit",
         "analyze": "size-limit --why",
-        "tsc": "tsc",
         "webpack": "webpack",
-        "webpack:w": "webpack -w",
-        "dev": "./dev.sh"
+        "webpack:w": "webpack -w"
     },
     "husky": {
         "hooks": {
