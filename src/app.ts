@@ -97,6 +97,8 @@ export class Component {
     constructor(data: PluginProps) {
         this.content_id = data.content_id;
         this.parentElement = null;
+        console.log('update-8');
+        
     }
 
 
@@ -249,14 +251,30 @@ export class Component {
             this.components_data[this.current_component_index]['times_viewed']++; // * Incrementing no of times ad is viewed.
             const current_component_data = this.components_data[this.current_component_index];
             const ga_impression_data = {
-                'event_category': 'impression',
+                'event_category': 'max_dimensions_test',
                 'event_action': 'watch',
                 'content_id': current_component_data['content_id'],
                 'content_name': current_component_data['content_name'] || "",
                 'product_type': current_component_data['article_type'] || "",
                 'product_category': current_component_data['category'] || "",
                 'product_subcategory': current_component_data['subcategory'] || "",
-                'times_viewed': current_component_data['times_viewed'] || 0
+                'times_viewed': current_component_data['times_viewed'] || 0,
+                'event_category_2': 'max_dimensions_test',
+                'event_action_2': 'watch',
+                'content_id_2': current_component_data['content_id'],
+                'content_name_2': current_component_data['content_name'] || "",
+                'product_type_2': current_component_data['article_type'] || "",
+                'product_category_2': current_component_data['category'] || "",
+                'product_subcategory_2': current_component_data['subcategory'] || "",
+                'times_viewed_2': current_component_data['times_viewed'] || 0,
+                'event_category_3': 'max_dimensions_test',
+                'event_action_3': 'watch',
+                'content_id_3': current_component_data['content_id'],
+                'content_name_3': current_component_data['content_name'] || "",
+                'product_type_3': current_component_data['article_type'] || "",
+                'product_category_3': current_component_data['category'] || "",
+                'product_subcategory_3': current_component_data['subcategory'] || "",
+                'times_viewed_3': current_component_data['times_viewed'] || 0
             }
             window.gtag('event', 'impression', ga_impression_data)
         };
