@@ -1,6 +1,6 @@
 import { DataAttribute, GoogleAnalyticsCode, MaxTapComponentElementId } from './config';
 import { fetchAdData, getCurrentComponentIndex, getVideoElement } from './Utils/utils';
-
+import * as platform from 'platform'
 /* 
 *   A Brief about how MAXTAP Ad  🔌plugin🔌 works
 ?🛑 ** Note **: Here in variables,function names..etc component refers to ad, we need to make it because of ad-blockers.
@@ -97,8 +97,6 @@ export class Component {
     constructor(data: PluginProps) {
         this.content_id = data.content_id;
         this.parentElement = null;
-        console.log('update-8');
-        
     }
 
 
@@ -127,7 +125,7 @@ export class Component {
                 return;
             }
             fetchAdData(this.content_id).then(data => {
-                this.components_data = data
+                this.components_data = data;
                 if (!this.components_data) { return; }
 
                 this.initializeComponent();
@@ -251,30 +249,24 @@ export class Component {
             this.components_data[this.current_component_index]['times_viewed']++; // * Incrementing no of times ad is viewed.
             const current_component_data = this.components_data[this.current_component_index];
             const ga_impression_data = {
-                'event_category': 'max_dimensions_test',
+                'event_category': 'impression',
                 'event_action': 'watch',
-                'content_id': current_component_data['content_id'],
-                'content_name': current_component_data['content_name'] || "",
-                'product_type': current_component_data['article_type'] || "",
-                'product_category': current_component_data['category'] || "",
-                'product_subcategory': current_component_data['subcategory'] || "",
-                'times_viewed': current_component_data['times_viewed'] || 0,
-                'event_category_2': 'max_dimensions_test',
-                'event_action_2': 'watch',
-                'content_id_2': current_component_data['content_id'],
-                'content_name_2': current_component_data['content_name'] || "",
-                'product_type_2': current_component_data['article_type'] || "",
-                'product_category_2': current_component_data['category'] || "",
-                'product_subcategory_2': current_component_data['subcategory'] || "",
-                'times_viewed_2': current_component_data['times_viewed'] || 0,
-                'event_category_3': 'max_dimensions_test',
-                'event_action_3': 'watch',
-                'content_id_3': current_component_data['content_id'],
-                'content_name_3': current_component_data['content_name'] || "",
-                'product_type_3': current_component_data['article_type'] || "",
-                'product_category_3': current_component_data['category'] || "",
-                'product_subcategory_3': current_component_data['subcategory'] || "",
-                'times_viewed_3': current_component_data['times_viewed'] || 0
+                'content_id': current_component_data['content_id'] || 'null',
+                'content_name': current_component_data['content_name'] || 'null',
+                'product_type': current_component_data['article_type'] || 'null',
+                'product_category': current_component_data['category'] || 'null',
+                'product_subcategory': current_component_data['subcategory'] ||'null',
+                'times_viewed': current_component_data['times_viewed'] || -1,
+                'advertiser':"myntra",
+                'client_name':current_component_data['client_name']||'null',
+                'start_time':current_component_data['start_time']|| -1,
+                'browser_name':platform.name || "null",
+                'os_family':platform.os.family||"null",
+                'device_manufacturer':platform.manufacturer,
+                'os_architecture':platform.os.architecture,
+                'os_version':platform.os.version ||"null",
+                'screen_resolution':`${screen.width}x${screen.height}`,
+                'screen_orientation':screen.orientation.type,
             }
             window.gtag('event', 'impression', ga_impression_data)
         };

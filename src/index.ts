@@ -1,6 +1,4 @@
-import './styles.css'
-
-const MAXTAP_VERSION = 'maxtap_version(%MAXTAP_VERSION%)'
-console.log(MAXTAP_VERSION);
-
+import './styles.less'
+import { LIB_VERSION } from './version';
+console.log(`maxtap_plugin@${LIB_VERSION}`);
 export {Component} from  './app';
