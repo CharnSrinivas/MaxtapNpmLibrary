@@ -1,7 +1,7 @@
 {
-    "name": "maxtap_plugin_dev",
+    "name": "maxtap_plugin",
     "author": "MAXTAP",
-    "version": "0.1.29",
+    "version": "0.1.30",
     "license": "MIT",
     "main": "dist/index.js",
     "typings": "dist/index.d.ts",
@@ -12,7 +12,7 @@
         "node": ">=10"
     },
     "scripts": {
-        "build": "./build.sh",
+        "build": "npm run build:node && npm run webpack",
         "start:node": "tsdx watch",
         "build:node": "tsdx build",
         "test": "tsdx test",
@@ -21,8 +21,7 @@
         "analyze": "size-limit --why",
         "tsc": "tsc",
         "webpack": "webpack",
-        "webpack:w": "webpack -w",
-        "dev": "./dev.sh"
+        "webpack:w": "webpack -w"
     },
     "husky": {
         "hooks": {
