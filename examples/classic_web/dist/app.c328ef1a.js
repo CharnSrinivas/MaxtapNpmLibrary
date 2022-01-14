@@ -127,7 +127,7 @@ var MaxTapComponentElementId = 'componentmaxtap';
 var GoogleAnalyticsCode = 'G-05P2385Q2K';
 var DataAttribute = 'data-displaymaxtap';
 var DataUrl = "https://storage.googleapis.com/maxtap-adserver-dev.appspot.com";
-var CssCdn = 'https://unpkg.com/maxtap_plugin_dev@latest/dist/styles.css';
+var CssCdn = 'https://unpkg.com/maxtap_plugin_dev@0.1.23/dist/styles.css';
 
 var fetchAdData = function fetchAdData(file_name) {
   return new Promise(function (res, rej) {
@@ -463,7 +463,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "35433" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "45295" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
