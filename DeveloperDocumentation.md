@@ -66,6 +66,7 @@ NOTES:
 
 Things to Do:
 Steps for packaging and distribution:
+0) npm install
 1) npm run build -> it will create dist folder with plugin.js file and node modules
 2) npm pack -> Or use "npm link" strategy given in the "Testing" below. Create a tar ball for our plugin. Now do testing with this zip file.
 3) npm publish -> publish it on npmjs
@@ -79,6 +80,7 @@ Testing:
 
 
 While Testing:
+0) npm remove maxtap_plugin -> in cholalabs folder
 1) npm link -> creates the global linkage to this plugin folder
 2) goto to the cholalabs sample nextjs sample project directory and run:
 npm link maxtap_plugin -> this will connect it with the currently under development plugin above.

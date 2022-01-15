@@ -169,6 +169,56 @@ export class Component {
         }
     }
 
+    createGADict = (current_component_data) =>{
+        const ga_generic_properties = {
+            //content
+            'client_id': current_component_data['client_id'] || 'null',
+            'client_name': current_component_data['client_name'] || 'null',
+            'content_id': current_component_data['content_id'] || 'null',
+            'content_name': current_component_data['content_name'] || 'null',
+            'content_type': current_component_data['content_type'] || 'null',
+            'show_name': current_component_data['show_name'] || 'null',
+            'season': current_component_data['season'] || 'null',
+            'episode_no': current_component_data['episode_no'] || 'null',
+            'content_duration': current_component_data['duration'] || 'null',
+            'content_language': current_component_data['content_language'] || 'null',
+        
+            //advertiser
+            'advertiser': "myntra" || 'null',
+        
+            //ad
+            'ad_id': current_component_data['ad_id'] || 'null',
+            'caption_regional_language': current_component_data['caption_regional_language'] || 'null',
+            'caption_english': current_component_data['caption'] || 'null',
+            'start_time': current_component_data['start_time'] || 'null',
+            'end_time': current_component_data['end_time'] || 'null',
+            'ad_duration': (current_component_data['end_time'] - current_component_data['start_time']) || 'null',
+        
+            //product
+            'gender': current_component_data['gender'] || 'null',
+            'product_details': current_component_data['product_details'] || 'null',
+            'product_article_type': current_component_data['article_type'] || 'null',
+            'product_category': current_component_data['category'] || 'null',
+            'product_subcategory': current_component_data['subcategory'] || 'null',
+            'product_link': current_component_data['product_link'] || 'null',
+            'product_image_link': current_component_data['image_link'] || 'null',
+            'redirect_link': current_component_data['redirect_link'] || 'null',
+        
+            //user
+            'ad_viewed_count': current_component_data['times_viewed'] || -1,
+        
+            // device
+            'browser_name': platform.name || 'null',
+            'os_family': platform.os.family || 'null',
+            'device_manufacturer': platform.manufacturer,
+            'os_architecture': platform.os.architecture,
+            'os_version': platform.os.version || 'null',
+            'screen_resolution': `${screen.width}x${screen.height}`,
+            'screen_orientation': screen.orientation.type,
+            'full_screen': document.fullscreenEnabled
+        }
+        return ga_generic_properties;
+    }
     private displayComponent = () => {
 
         const main_component = document.getElementById(MaxTapComponentElementId);
@@ -179,27 +229,8 @@ export class Component {
             main_component.innerHTML = component_html;
             this.components_data[this.current_component_index]['times_viewed']++; // * Incrementing no of times ad is viewed.
             const current_component_data = this.components_data[this.current_component_index];
-            const ga_impression_data = {
-                'event_category': 'impression',
-                'event_action': 'watch',
-                'content_id': current_component_data['content_id'] || 'null',
-                'content_name': current_component_data['content_name'] || 'null',
-                'product_type': current_component_data['article_type'] || 'null',
-                'product_category': current_component_data['category'] || 'null',
-                'product_subcategory': current_component_data['subcategory'] || 'null',
-                'times_viewed': current_component_data['times_viewed'] || -1,
-                'advertiser': "myntra" || "null",
-                'client_name': current_component_data['client_name'] || 'null',
-                'start_time': current_component_data['start_time'] || -1,
-                'browser_name': platform.name || "null",
-                'os_family': platform.os.family || "null",
-                'device_manufacturer': platform.manufacturer,
-                'os_architecture': platform.os.architecture,
-                'os_version': platform.os.version || "null",
-                'screen_resolution': `${screen.width}x${screen.height}`,
-                'screen_orientation': screen.orientation.type,
-                'full_screen': document.fullscreenEnabled
-            }
+            var ga_impression_data = this.createGADict(current_component_data);
+            ga_impression_data['event_category'] = 'impression';
             window.gtag('event', 'impression', ga_impression_data);
         };
         // resizeComponentImgAccordingToVideo(this.video!);
@@ -207,18 +238,14 @@ export class Component {
 
     private onComponentClick = () => {
         try {
-
             if (!this.components_data) { return; }
             this.components_data[this.current_component_index]['times_clicked']++;
             const current_component_data = this.components_data[this.current_component_index];
-            const ga_click_data = {
-                'event_category': 'action',
-                'event_action': 'click',
-                "content_id": current_component_data['content_id'] || this.content_id,
-                "time_to_click": Math.floor(this.video.currentTime - this.components_data[this.current_component_index]['start_time']),
-                "times_clicked": current_component_data['times_clicked']
-            }
-            window.gtag('event', 'click', ga_click_data)
+            var ga_click_data = this.createGADict(current_component_data);
+            ga_click_data['event_category'] = 'click';
+            ga_click_data['time_to_click'] = Math.floor(this.video.currentTime - this.components_data[this.current_component_index]['start_time']);
+            ga_click_data['times_clicked'] = current_component_data['times_clicked'];
+            window.gtag('event', 'click', ga_click_data);
             window.open(this.components_data![this.current_component_index].redirect_link, "_blank");
         }
         catch (err) {

@@ -20,6 +20,7 @@ module.exports = {
       replace({
         exclude: 'node_modules/**',
         ENV: JSON.stringify('production'),
+        preventAssignment: true,
       })
     );
     
