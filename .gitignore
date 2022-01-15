@@ -6,3 +6,4 @@ dist
 examples/reactjs/node_modules
 examples/nextjs/node_modules
 examples/vue-test/node_modules
+dist
