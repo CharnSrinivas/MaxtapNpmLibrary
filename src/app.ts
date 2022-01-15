@@ -1,69 +1,8 @@
 import { DataAttribute, GoogleAnalyticsCode, MaxTapComponentElementId } from './config';
 import { fetchAdData, getCurrentComponentIndex, getVideoElement } from './Utils/utils';
-
-/* 
-*   A Brief about how MAXTAP Ad  🔌plugin🔌 works
-?🛑 ** Note **: Here in variables,function names..etc component refers to ad, we need to make it because of ad-blockers.
-*  
-*                       ------- * Steps * ---------
-*     => Find video element by data attribute set to the video element 📹.
-*
-*     => Once we make sure that video element is available,
-*       Create a main container 📦 <div class="maxtap_container"></div> element and add the video element into the created container.
-*
-*     => Set the css properties of main container as same as video parent element.
-*
-*     => Now 💉inject maxtap ad📄 component into the main container and next to video element.
-*     
-*     => Then set position,width,font ..etc of ad component to make it look good.
-*
-*     => Then finally add this main element which we created before to video parent element.
-
-*            📦 Our Main container 📦
-*                    |
-*          __________|_____________
-*         |                       |
-*   [client video element📹]       [Our Ad element 📄]
-*
-*
- */
+import * as platform from 'platform'
 
 
-/* 
-gtag('event','impression', {
-* OTT Details
-  "ott":"hotstar",
-  "content_id":"64g263d26ow",    //dimension
-  "content_name":"house_of_cards_s2e6", //dimension
- ?"content_type":"movie"
-
- ! "webseries":"house_of_cards", //dimension
-
-* Ad details
- ! "advertiser":"myntra", //dimension (user scope)
- ! "campaign":"myntra_EORS", //dimension (user scope)
- ! "product":"raymond_shirt", //dimension (event scope)
- ? "product_subcategory":"bottom wear"
-  "product_category":"shirt", //dimension (user scope)
-  !"ad_group":"raymond_blue_shirt", //dimension (event scope)
-  !"ad_unit":"raymond_blue_shirt_hindi", //dimension (event scope)
-
-* Interaction Details
-  "start_time":"534", //metrics (event scope)
-  "user_video_playback":"186", //metrics (event scope) (how many seconds a user has played the current video. It is possible that this number is smaller than start_time, if the user has forwarded the video. Not sure if this value can be derived.)
-  "hover":"yes", //dimension (user scope) (user hovered their mouse on the ad. If it is possible to track)
-
-* User details
-    "ott_user_id":"charan6453" //dimension (event scope) (this id is provided by the OTT. Or we will generate some unique id using cookie.)
-    "session_id":"ow5mtpsma762h58" //dimension (event scope) (this id is provided by GA using session cookie.)
-    "is_registered":"yes" //dimension (user scope) (whether logged in or not)
-    "subscription":"paid" //dimension (user scope) (whether paid or free user)
-
-});
-
-
-1) Check if it possible to track whether a user hovered their mouse on the ad or not.
-*/
 interface PluginProps {
     content_id: string;
 }
@@ -234,15 +173,7 @@ export class Component {
 
         const main_component = document.getElementById(MaxTapComponentElementId);
         if (!main_component) { return; }
-        const component_html =
-            `
-        <div class="maxtap_main" >
-        <p>${this.components_data![this.current_component_index].caption_regional_language}</p>
-        <div class="maxtap_img_wrapper">
-        <img src="${this.components_data![this.current_component_index].image_link}"/>
-        </div>
-        </div>
-        `
+        const component_html = ` <div class="maxtap_main" > <p>${this.components_data![this.current_component_index].caption_regional_language}</p> <div class="maxtap_img_wrapper"> <img src="${this.components_data![this.current_component_index].image_link}"/> </div> </div>`
         if (main_component.style.display === 'none') {
             main_component.style.display = 'flex';
             main_component.innerHTML = component_html;
@@ -251,18 +182,27 @@ export class Component {
             const ga_impression_data = {
                 'event_category': 'impression',
                 'event_action': 'watch',
-                'content_id': current_component_data['content_id'],
-                'content_name': current_component_data['content_name'] || "",
-                'product_type': current_component_data['article_type'] || "",
-                'product_category': current_component_data['category'] || "",
-                'product_subcategory': current_component_data['subcategory'] || "",
-                'times_viewed': current_component_data['times_viewed'] || 0
+                'content_id': current_component_data['content_id'] || 'null',
+                'content_name': current_component_data['content_name'] || 'null',
+                'product_type': current_component_data['article_type'] || 'null',
+                'product_category': current_component_data['category'] || 'null',
+                'product_subcategory': current_component_data['subcategory'] || 'null',
+                'times_viewed': current_component_data['times_viewed'] || -1,
+                'advertiser': "myntra" || "null",
+                'client_name': current_component_data['client_name'] || 'null',
+                'start_time': current_component_data['start_time'] || -1,
+                'browser_name': platform.name || "null",
+                'os_family': platform.os.family || "null",
+                'device_manufacturer': platform.manufacturer,
+                'os_architecture': platform.os.architecture,
+                'os_version': platform.os.version || "null",
+                'screen_resolution': `${screen.width}x${screen.height}`,
+                'screen_orientation': screen.orientation.type,
+                'full_screen': document.fullscreenEnabled
             }
-            window.gtag('event', 'impression', ga_impression_data)
+            window.gtag('event', 'impression', ga_impression_data);
         };
         // resizeComponentImgAccordingToVideo(this.video!);
-
-
     }
 
     private onComponentClick = () => {
