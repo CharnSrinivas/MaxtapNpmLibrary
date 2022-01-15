@@ -2,40 +2,7 @@ import { DataAttribute, GoogleAnalyticsCode, MaxTapComponentElementId } from './
 import { fetchAdData, getCurrentComponentIndex, getVideoElement } from './Utils/utils';
 import * as platform from 'platform'
 
-/* 
-gtag('event','impression', {
-* OTT Details
-  "ott":"hotstar",
-  "content_id":"64g263d26ow",    //dimension
-  "content_name":"house_of_cards_s2e6", //dimension
- ?"content_type":"movie"
 
- ! "webseries":"house_of_cards", //dimension
-
-* Ad details
- ! "advertiser":"myntra", //dimension (user scope)
- ! "campaign":"myntra_EORS", //dimension (user scope)
- ! "product":"raymond_shirt", //dimension (event scope)
- ? "product_subcategory":"bottom wear"
-  "product_category":"shirt", //dimension (user scope)
-  !"ad_group":"raymond_blue_shirt", //dimension (event scope)
-  !"ad_unit":"raymond_blue_shirt_hindi", //dimension (event scope)
-
-* Interaction Details
-  "start_time":"534", //metrics (event scope)
-  "user_video_playback":"186", //metrics (event scope) (how many seconds a user has played the current video. It is possible that this number is smaller than start_time, if the user has forwarded the video. Not sure if this value can be derived.)
-  "hover":"yes", //dimension (user scope) (user hovered their mouse on the ad. If it is possible to track)
-
-* User details
-    "ott_user_id":"charan6453" //dimension (event scope) (this id is provided by the OTT. Or we will generate some unique id using cookie.)
-    "session_id":"ow5mtpsma762h58" //dimension (event scope) (this id is provided by GA using session cookie.)
-    "is_registered":"yes" //dimension (user scope) (whether logged in or not)
-    "subscription":"paid" //dimension (user scope) (whether paid or free user)
-
-});
-
-1) Check if it possible to track whether a user hovered their mouse on the ad or not.
-*/
 interface PluginProps {
     content_id: string;
 }
