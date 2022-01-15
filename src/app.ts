@@ -1,33 +1,6 @@
 import { DataAttribute, GoogleAnalyticsCode, MaxTapComponentElementId } from './config';
 import { fetchAdData, getCurrentComponentIndex, getVideoElement } from './Utils/utils';
 import * as platform from 'platform'
-/* 
-*   A Brief about how MAXTAP Ad  🔌plugin🔌 works
-?🛑 ** Note **: Here in variables,function names..etc component refers to ad, we need to make it because of ad-blockers.
-*  
-*                       ------- * Steps * ---------
-*     => Find video element by data attribute set to the video element 📹.
-*
-*     => Once we make sure that video element is available,
-*       Create a main container 📦 <div class="maxtap_container"></div> element and add the video element into the created container.
-*
-*     => Set the css properties of main container as same as video parent element.
-*
-*     => Now 💉inject maxtap ad📄 component into the main container and next to video element.
-*     
-*     => Then set position,width,font ..etc of ad component to make it look good.
-*
-*     => Then finally add this main element which we created before to video parent element.
-
-*            📦 Our Main container 📦
-*                    |
-*          __________|_____________
-*         |                       |
-*   [client video element📹]       [Our Ad element 📄]
-*
-*
- */
-
 
 /* 
 gtag('event','impression', {
@@ -60,7 +33,6 @@ gtag('event','impression', {
     "subscription":"paid" //dimension (user scope) (whether paid or free user)
 
 });
-
 
 1) Check if it possible to track whether a user hovered their mouse on the ad or not.
 */
@@ -234,15 +206,7 @@ export class Component {
 
         const main_component = document.getElementById(MaxTapComponentElementId);
         if (!main_component) { return; }
-        const component_html =
-            `
-        <div class="maxtap_main" >
-        <p>${this.components_data![this.current_component_index].caption_regional_language}</p>
-        <div class="maxtap_img_wrapper">
-        <img src="${this.components_data![this.current_component_index].image_link}"/>
-        </div>
-        </div>
-        `
+        const component_html = ` <div class="maxtap_main" > <p>${this.components_data![this.current_component_index].caption_regional_language}</p> <div class="maxtap_img_wrapper"> <img src="${this.components_data![this.current_component_index].image_link}"/> </div> </div>`
         if (main_component.style.display === 'none') {
             main_component.style.display = 'flex';
             main_component.innerHTML = component_html;
@@ -255,24 +219,23 @@ export class Component {
                 'content_name': current_component_data['content_name'] || 'null',
                 'product_type': current_component_data['article_type'] || 'null',
                 'product_category': current_component_data['category'] || 'null',
-                'product_subcategory': current_component_data['subcategory'] ||'null',
+                'product_subcategory': current_component_data['subcategory'] || 'null',
                 'times_viewed': current_component_data['times_viewed'] || -1,
-                'advertiser':"myntra",
-                'client_name':current_component_data['client_name']||'null',
-                'start_time':current_component_data['start_time']|| -1,
-                'browser_name':platform.name || "null",
-                'os_family':platform.os.family||"null",
-                'device_manufacturer':platform.manufacturer,
-                'os_architecture':platform.os.architecture,
-                'os_version':platform.os.version ||"null",
-                'screen_resolution':`${screen.width}x${screen.height}`,
-                'screen_orientation':screen.orientation.type,
+                'advertiser': "myntra" || "null",
+                'client_name': current_component_data['client_name'] || 'null',
+                'start_time': current_component_data['start_time'] || -1,
+                'browser_name': platform.name || "null",
+                'os_family': platform.os.family || "null",
+                'device_manufacturer': platform.manufacturer,
+                'os_architecture': platform.os.architecture,
+                'os_version': platform.os.version || "null",
+                'screen_resolution': `${screen.width}x${screen.height}`,
+                'screen_orientation': screen.orientation.type,
+                'full_screen': document.fullscreenEnabled
             }
-            window.gtag('event', 'impression', ga_impression_data)
+            window.gtag('event', 'impression', ga_impression_data);
         };
         // resizeComponentImgAccordingToVideo(this.video!);
-
-
     }
 
     private onComponentClick = () => {
