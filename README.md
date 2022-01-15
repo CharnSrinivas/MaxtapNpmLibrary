@@ -1,14 +1,14 @@
 
 # Maxtap plugin usage
-### JavaScript
+### Plain classic web
 ```html
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <script data-maxtap-script async src="https://unpkg.com/maxtap_plugin@latest/dist/plugin.js"></script>
+        <script data-maxtap-script async src="https://unpkg.com/maxtap_plugin@latest/dist/maxtap.min.js"></script>
         <script>
             document.querySelector('[data-maxtap-script]').addEventListener('load', () => {
-                new Maxtap.Component('spiderman-4').init()
+                new Maxtap.Component({ content_id: 'test_data' }).init();
             })
         </script>
     </head>
@@ -30,7 +30,7 @@ import * as Maxtap from "maxtap_plugin";
 
 function App() {
     useEffect(() => {
-        const my_ad = new Maxtap.Component({content_id:'content-id'});
+        const my_ad = new Maxtap.Component({content_id:"test_data"});
         my_ad.init();
     }, [])
 
@@ -41,7 +41,7 @@ function App() {
                 quisquam magni quam expedita ipsa laboriosam dicta assumenda officiis eum ducimus sint aspernatur aliquid culpa exercitationem?</p>
             <div>
                 <div className="react-player trailer-react-player">
-                <video preload="auto" data-displaymaxtap controls src="sample_video.mp4"></video>
+                <video preload="auto" data-displaymaxtap controls src="https://www.learningcontainer.com/wp-content/uploads/2020/05/sample-mp4-file.mp4"></video>
                 </div>
             </div>
         </div>
