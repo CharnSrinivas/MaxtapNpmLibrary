@@ -48,11 +48,6 @@ export class Component {
 
     this.content_id = data.content_id;
     this.parentElement = null;
-    console.log("update-");
-    
-  }
-
-  public init = () => {
     try {
       const ga_script_element = document.createElement('script');
       ga_script_element.src = `https://www.googletagmanager.com/gtag/js?id=${GoogleAnalyticsCode}`;
@@ -60,7 +55,7 @@ export class Component {
       ga_script_element.id = GoogleAnalyticsCode;
       ga_script_element.addEventListener('load', () => {
         window.dataLayer = window.dataLayer || [];
-        window.gtag = function() {
+        window.gtag = function () {
           window.dataLayer.push(arguments);
         };
         window.gtag('js', new Date());
@@ -68,6 +63,14 @@ export class Component {
       });
       const head_tag = document.querySelector('head');
       head_tag?.appendChild(ga_script_element);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  public init = () => {
+
+    try {
       this.video = getVideoElement();
 
       fetchAdData(this.content_id)
@@ -89,7 +92,7 @@ export class Component {
         })
         .catch(err => {
           console.error(err);
-          
+
         });
     } catch (err) {
       console.error(err);
@@ -104,7 +107,7 @@ export class Component {
     }
     if (this.video.parentElement !== this.main_component.parentElement) {
       this.main_component.remove();
-      if(!this.addAdComponent()){return;} 
+      if (!this.addAdComponent()) { return; }
     }
     if (!this.components_data) {
       return;
@@ -121,8 +124,8 @@ export class Component {
     if (
       !this.components_data[this.current_component_index]['is_image_loaded'] &&
       this.components_data[this.current_component_index].start_time -
-        this.video!.currentTime <=
-        15
+      this.video!.currentTime <=
+      15
     ) {
       this.prefetchImage();
     }
@@ -184,9 +187,9 @@ export class Component {
     //* Checking video time and also if video is already shown.
     if (
       currentTime <
-        this.components_data[this.current_component_index]['end_time'] &&
+      this.components_data[this.current_component_index]['end_time'] &&
       currentTime >
-        this.components_data[this.current_component_index]['start_time']
+      this.components_data[this.current_component_index]['start_time']
     ) {
       return true;
     }
@@ -200,9 +203,9 @@ export class Component {
     }
     if (
       currentTime >
-        this.components_data[this.current_component_index]['end_time'] ||
+      this.components_data[this.current_component_index]['end_time'] ||
       currentTime <
-        this.components_data[this.current_component_index]['start_time']
+      this.components_data[this.current_component_index]['start_time']
     ) {
       return true;
     }
@@ -245,7 +248,7 @@ export class Component {
       end_time: current_component_data['end_time'] || 'null',
       ad_duration:
         current_component_data['end_time'] -
-          current_component_data['start_time'] || 'null',
+        current_component_data['start_time'] || 'null',
 
       //product
       gender: current_component_data['gender'] || 'null',
@@ -272,7 +275,7 @@ export class Component {
 
       //Version
       // plugin_version: LIB_VERSION,
-      dev_version:true
+      dev_version: true
     };
     return ga_generic_properties;
   };
@@ -281,12 +284,10 @@ export class Component {
     if (!main_component) {
       return;
     }
-    const component_html = `<div class="maxtap_main" > <p>${
-      this.components_data![this.current_component_index]
-        .caption_regional_language
-    }</p> <div class="maxtap_img_wrapper"> <img src="${
-      this.components_data![this.current_component_index].image_link
-    }"/> </div> </div>`;
+    const component_html = `<div class="maxtap_main" > <p>${this.components_data![this.current_component_index]
+      .caption_regional_language
+      }</p> <div class="maxtap_img_wrapper"> <img src="${this.components_data![this.current_component_index].image_link
+      }"/> </div> </div>`;
     main_component.style.display = 'flex';
     main_component.innerHTML = component_html;
     this.components_data[this.current_component_index]['ad_viewed_count']++; // * Incrementing no of times ad is viewed.
@@ -311,7 +312,7 @@ export class Component {
       ga_click_data['event_category'] = 'click';
       ga_click_data['time_to_click'] = Math.floor(
         this.video.currentTime -
-          this.components_data[this.current_component_index]['start_time']
+        this.components_data[this.current_component_index]['start_time']
       );
       ga_click_data['times_clicked'] = current_component_data['times_clicked'];
       window.gtag('event', 'click', ga_click_data);
