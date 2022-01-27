@@ -50,12 +50,11 @@ export class Component {
     this.content_id = data.content_id;
     this.parentElement = undefined;
     this.interval_id = undefined;
-    console.log('hi-54');
   }
 
   public init = () => {
     try {
-      
+
       if (typeof (window) === 'undefined')throw new ReferenceError("'window.document' is undefined while initializing Maxtap Ads.")
 
       //* Adding google analytics script tag
