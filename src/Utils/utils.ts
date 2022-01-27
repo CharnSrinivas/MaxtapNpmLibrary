@@ -49,10 +49,6 @@ export const getVideoElement = (): HTMLVideoElement | undefined => {
         }
 
     }
-    console.error("Cannot find video element,Please check data attribute. It should be " + DataAttribute + `
-                   Example: <video src="https://some_source" ${DataAttribute} > </video> 
-                            [OR]
-                   Try to initialize the maxtap_ad component after window load.`);
     return undefined;
 }
 

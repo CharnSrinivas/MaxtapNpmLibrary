@@ -8,7 +8,7 @@ import {
   getVideoElement,
 } from './Utils/utils';
 import * as platform from 'platform';
-// import { LIB_VERSION } from './version';
+import { LIB_VERSION } from './version';
 
 interface PluginProps {
   content_id: string;
@@ -42,57 +42,62 @@ export class Component {
   private current_component_index = 0;
   private components_data?: ComponentData[];
   private content_id: string;
-  private main_component: HTMLDivElement;
+  private main_component?: HTMLDivElement;
+  private interval_id?: NodeJS.Timer;
 
   constructor(data: PluginProps) {
 
     this.content_id = data.content_id;
-    this.parentElement = null;
+    this.parentElement = undefined;
+    this.interval_id = undefined;
+    console.log('hi-54');
+  }
+
+  public init = () => {
     try {
+      
+      if (typeof (window) === 'undefined')throw new ReferenceError("'window.document' is undefined while initializing Maxtap Ads.")
+
+      //* Adding google analytics script tag
       const ga_script_element = document.createElement('script');
       ga_script_element.src = `https://www.googletagmanager.com/gtag/js?id=${GoogleAnalyticsCode}`;
       ga_script_element.async = true;
       ga_script_element.id = GoogleAnalyticsCode;
+
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = function () {
+        window.dataLayer.push(arguments);
+      };
       ga_script_element.addEventListener('load', () => {
-        window.dataLayer = window.dataLayer || [];
-        window.gtag = function () {
-          window.dataLayer.push(arguments);
-        };
         window.gtag('js', new Date());
         window.gtag('config', GoogleAnalyticsCode);
       });
+
       const head_tag = document.querySelector('head');
       head_tag?.appendChild(ga_script_element);
-    } catch (err) {
-      console.error(err);
-    }
-  }
-
-  public init = () => {
-
-    try {
       this.video = getVideoElement();
+
+      //*Fetching ad data
 
       fetchAdData(this.content_id)
         .then(data => {
           this.components_data = data;
           if (!this.components_data) {
+            console.error("Maxtap Ad data is empty!")
             return;
           }
-          this.addAdComponent();
-          //* Checking for every second if video time is equal to ad start time.
+          //* Adding ad component sibling to video element
 
-          setInterval(this.updateComponent, 100);
-          // Initial values
+          this.addAdComponent();
+          this.interval_id = setInterval(this.updateComponent, 100);
+          //* Setting initial values
           for (let i = 0; i < this.components_data.length; i++) {
             this.components_data[i]['ad_viewed_count'] = 0;
             this.components_data[i]['times_clicked'] = 0;
             this.components_data[i]['is_image_loaded'] = false;
           }
-        })
-        .catch(err => {
+        }).catch(err => {
           console.error(err);
-
         });
     } catch (err) {
       console.error(err);
@@ -100,18 +105,28 @@ export class Component {
   };
 
   private updateComponent = () => {
+
     if (!this.video) {
-      // Finding for video element util we get;
+      //* Finding for video element until we get;
       this.video = getVideoElement();
+      return
+    }
+
+    if (!this.main_component) {
+      this.addAdComponent();
       return;
     }
+
+    if (!this.components_data) {
+      return;
+    }
+    //* Checking if ad element is sibling to video element
+
     if (this.video.parentElement !== this.main_component.parentElement) {
       this.main_component.remove();
       if (!this.addAdComponent()) { return; }
     }
-    if (!this.components_data) {
-      return;
-    }
+
 
     const new_component_index = getCurrentComponentIndex(
       this.components_data,
@@ -147,7 +162,7 @@ export class Component {
   };
 
   private addAdComponent = (): boolean => {
-    //*  Getting data from firestore using http request. And changing state of component.
+
     if (!this.video) {
       return false;
     }
@@ -213,16 +228,13 @@ export class Component {
   };
 
   private removeCurrentComponent = (main_component: HTMLDivElement) => {
-    if (!main_component) {
-      return;
-    }
-    {
-      main_component.style.display = 'none';
-      main_component.innerHTML = '';
-    }
+    if (!main_component) return;
+
+    main_component.style.display = 'none';
+    main_component.innerHTML = '';
   };
 
-  createGADict = current_component_data => {
+  private createGADict = current_component_data => {
     const ga_generic_properties = {
       //content
       client_id: current_component_data['client_id'] || 'null',
@@ -274,8 +286,7 @@ export class Component {
       full_screen: document.fullscreenEnabled,
 
       //Version
-      // plugin_version: LIB_VERSION,
-      dev_version: true
+      plugin_version: LIB_VERSION,
     };
     return ga_generic_properties;
   };
@@ -324,4 +335,14 @@ export class Component {
       console.error(err);
     }
   };
+
+  public removeAd(): void {
+    //* Stopping loop
+    clearInterval(this.interval_id);
+    this.video, this.parentElement, this.components_data, this.interval_id, this.main_component = undefined;
+    this.current_component_index = 0;
+    this.removeCurrentComponent(document.getElementById(MaxTapComponentElementId) as (HTMLDivElement));
+    //* Removing element form dom
+    document.getElementById(MaxTapComponentElementId)?.remove();
+  }
 }
