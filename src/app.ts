@@ -58,22 +58,26 @@ export class Component {
       if (typeof (window) === 'undefined')throw new ReferenceError("'window.document' is undefined while initializing Maxtap Ads.")
 
       //* Adding google analytics script tag
-      const ga_script_element = document.createElement('script');
-      ga_script_element.src = `https://www.googletagmanager.com/gtag/js?id=${GoogleAnalyticsCode}`;
-      ga_script_element.async = true;
-      ga_script_element.id = GoogleAnalyticsCode;
 
-      window.dataLayer = window.dataLayer || [];
-      window.gtag = function () {
-        window.dataLayer.push(arguments);
-      };
-      ga_script_element.addEventListener('load', () => {
-        window.gtag('js', new Date());
-        window.gtag('config', GoogleAnalyticsCode);
-      });
+      if(!document.getElementById("ga4-script")){
+        const ga_script_element = document.createElement('script');
+        ga_script_element.src = `https://www.googletagmanager.com/gtag/js?id=${GoogleAnalyticsCode}`;
+        ga_script_element.async = true;
+        ga_script_element.id = "ga4-script";
+  
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () {
+          window.dataLayer.push(arguments);
+        };
+        ga_script_element.addEventListener('load', () => {
+          window.gtag('js', new Date());
+          window.gtag('config', GoogleAnalyticsCode);
+        });
 
-      const head_tag = document.querySelector('head');
-      head_tag?.appendChild(ga_script_element);
+        const head_tag = document.querySelector('head');
+        head_tag?.appendChild(ga_script_element);
+      }
+
       this.video = getVideoElement();
 
       //*Fetching ad data
