@@ -55,16 +55,16 @@ export class Component {
   public init = () => {
     try {
 
-      if (typeof (window) === 'undefined')throw new ReferenceError("'window.document' is undefined while initializing Maxtap Ads.")
+      if (typeof (window) === 'undefined') throw new ReferenceError("'window.document' is undefined while initializing Maxtap Ads.")
 
       //* Adding google analytics script tag
 
-      if(!document.getElementById("ga4-script")){
+      if (!document.getElementById("ga4-script")) {
         const ga_script_element = document.createElement('script');
         ga_script_element.src = `https://www.googletagmanager.com/gtag/js?id=${GoogleAnalyticsCode}`;
         ga_script_element.async = true;
         ga_script_element.id = "ga4-script";
-  
+
         window.dataLayer = window.dataLayer || [];
         window.gtag = function () {
           window.dataLayer.push(arguments);
@@ -89,8 +89,8 @@ export class Component {
             console.error("Maxtap Ad data is empty!")
             return;
           }
-          //* Adding ad component sibling to video element
 
+          //* Adding ad component sibling to video element
           this.addAdComponent();
           this.interval_id = setInterval(this.updateComponent, 100);
           //* Setting initial values
@@ -105,7 +105,7 @@ export class Component {
     } catch (err) {
       console.error(err);
     }
-  };
+  }
 
   private updateComponent = () => {
 
@@ -123,13 +123,13 @@ export class Component {
     if (!this.components_data) {
       return;
     }
+
     //* Checking if ad element is sibling to video element
 
     if (this.video.parentElement !== this.main_component.parentElement) {
       this.main_component.remove();
       if (!this.addAdComponent()) { return; }
     }
-
 
     const new_component_index = getCurrentComponentIndex(
       this.components_data,
@@ -162,7 +162,7 @@ export class Component {
       }
     }
     this.current_component_index = new_component_index;
-  };
+  }
 
   private addAdComponent = (): boolean => {
 
@@ -184,7 +184,7 @@ export class Component {
     this.main_component.addEventListener('click', this.redirectToAd);
 
     return true;
-  };
+  }
 
   private prefetchImage = () => {
     if (!this.components_data) {
@@ -193,7 +193,7 @@ export class Component {
     this.components_data[this.current_component_index].is_image_loaded = true;
     let img = new Image();
     img.src = this.components_data[this.current_component_index]['image_link'];
-  };
+  }
 
   private canComponentDisplay = (currentTime: number): boolean => {
     if (!this.components_data) {
@@ -212,7 +212,7 @@ export class Component {
       return true;
     }
     return false;
-  };
+  }
 
   private canCloseComponent = (currentTime: number): boolean => {
     if (!this.components_data) return true;
@@ -228,14 +228,13 @@ export class Component {
       return true;
     }
     return false;
-  };
-
+  }
   private removeCurrentComponent = (main_component: HTMLDivElement) => {
     if (!main_component) return;
 
     main_component.style.display = 'none';
     main_component.innerHTML = '';
-  };
+  }
 
   private createGADict = current_component_data => {
     const ga_generic_properties = {
@@ -292,7 +291,7 @@ export class Component {
       plugin_version: LIB_VERSION,
     };
     return ga_generic_properties;
-  };
+  }
 
   private displayComponent = (main_component: HTMLDivElement) => {
     if (!main_component) {
@@ -311,7 +310,7 @@ export class Component {
     var ga_impression_data = this.createGADict(current_component_data);
     window.gtag('event', 'impression', ga_impression_data);
     // resizeComponentImgAccordingToVideo(this.video!);
-  };
+  }
 
   private redirectToAd = () => {
     try {
@@ -337,7 +336,7 @@ export class Component {
     } catch (err) {
       console.error(err);
     }
-  };
+  }
 
   public removeAd(): void {
     //* Stopping loop
