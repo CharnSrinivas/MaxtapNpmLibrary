@@ -1,5 +1,10 @@
-export const MaxTapComponentElementId = 'componentmaxtap';
-export const GoogleAnalyticsCode  ='G-05P2385Q2K';
-export const MaxTapMainContainerId = 'containermaxtap';
-export const DataAttribute = 'data-displaymaxtap';
-export const DataUrl ="https://storage.googleapis.com/maxtap-adserver-dev.appspot.com";
+import { Config } from "./types"
+const config: Config = {
+    GoogleAnalyticsCode: 'G-05P2385Q2K',
+    MaxTapComponentElementId: 'componentmaxtap',
+    MaxTapMainContainerId: 'containermaxtap',
+    DataAttribute: 'data-displaymaxtap',
+    PrefetchImageTime: 15,
+    DataUrl: "https://storage.googleapis.com/maxtap-adserver-dev.appspot.com"
+}
+export default config;

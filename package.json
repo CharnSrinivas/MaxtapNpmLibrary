@@ -1,6 +1,6 @@
 {
-    "name": "maxtap_plugin",
-    "version": "0.1.17",
+    "name": "maxtap_plugin_dev",
+    "version": "0.1.32",
     "author": "MAXTAP",
     "license": "MIT",
     "main": "dist/index.js",
