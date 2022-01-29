@@ -62,7 +62,7 @@ export const resizeComponentImgAccordingToVideo = (video: HTMLVideoElement) => {
 export const getCurrentComponentIndex = (components_data: ComponentData[], video_current_time: number): number => {
     for (let i = 0; i < components_data.length; i++) {
         const component = components_data[i];
-        if (video_current_time >= component.start_time && video_current_time <= component.end_time) {
+        if (video_current_time+Config.PrefetchImageTime >= component.start_time && video_current_time <= component.end_time) {
             return i;
         }
     }

@@ -9,9 +9,10 @@ import {
 
 
 export class Component {
+
   private video?: HTMLVideoElement;
   private parentElement: HTMLElement | null;
-  private current_component_index = 0;
+  private current_component_index = -1;
   private components_data?: Array<ComponentData>;
   private content_id: string;
   private main_component?: HTMLDivElement;
@@ -21,8 +22,8 @@ export class Component {
     this.content_id = data.content_id;
     this.parentElement = undefined;
     this.interval_id = undefined;
-    // console.log("hi");
-    
+    console.log("yeah2");
+
   }
 
   public init = () => {
@@ -31,9 +32,11 @@ export class Component {
         throw new ReferenceError(
           "'window.document' is undefined while initializing Maxtap Ads."
         );
+
       //* Adding google analytics script tag
 
       if (!document.getElementById('ga4-script')) {
+
         const ga_script_element = document.createElement('script');
         ga_script_element.src = `https://www.googletagmanager.com/gtag/js?id=${Config.GoogleAnalyticsCode}`;
         ga_script_element.async = true;
@@ -43,6 +46,7 @@ export class Component {
         window.gtag = function () {
           window.dataLayer.push(arguments);
         };
+
         ga_script_element.addEventListener('load', () => {
           window.gtag('js', new Date());
           window.gtag('config', Config.GoogleAnalyticsCode);
@@ -107,25 +111,23 @@ export class Component {
       }
     }
 
-    //* Finding which ad to play at current video time.
+    // //* Checking if image is already cached else Pre-fetching image before 15 sec of ad.    
 
+    //* Finding which ad to play at current video time.
     const new_component_index = getCurrentComponentIndex(
       this.components_data,
       this.video.currentTime
     );
-    //Some sanity check
+
+    //* Displaying no ad.
     if (new_component_index < 0) {
       this.removeCurrentAdElement(this.main_component);
       return;
     }
-    //* Checking if image is already cached else Pre-fetching image before 15 sec of ad.
-    if (
-      !this.components_data[this.current_component_index]['is_image_loaded'] &&
-      this.components_data[this.current_component_index].start_time -
-      this.video!.currentTime <=
-      Config.PrefetchImageTime
-    )
+    this.current_component_index = new_component_index;
+    if (!this.components_data[this.current_component_index]['is_image_loaded']) {
       this.prefetchAdImage();
+    }
 
     if (this.canCloseAd(this.video!.currentTime)) {
       if (this.main_component.style.display !== 'none') {
@@ -141,7 +143,6 @@ export class Component {
         this.displayAd(this.main_component);
       }
     }
-    this.current_component_index = new_component_index;
   };
 
   private addAdElement = (): boolean => {
@@ -173,6 +174,8 @@ export class Component {
     this.components_data[this.current_component_index].is_image_loaded = true;
     let img = new Image();
     img.src = this.components_data[this.current_component_index]['image_link'];
+    console.log("loading ad " + this.current_component_index + "        Image link" + this.components_data[this.current_component_index]['image_link']);
+
   };
 
   private canAdDisplay = (currentTime: number): boolean => {
@@ -209,6 +212,7 @@ export class Component {
     }
     return false;
   };
+
   private removeCurrentAdElement = (main_component: HTMLDivElement) => {
     if (!main_component) return;
     main_component.style.display = 'none';
@@ -241,6 +245,7 @@ export class Component {
       if (!this.components_data) {
         return;
       }
+      this.video.pause();
       this.components_data[this.current_component_index]['times_clicked']++;
       const current_component_data = this.components_data[
         this.current_component_index

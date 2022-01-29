@@ -22,7 +22,7 @@
         "analyze": "size-limit --why",
         "webpack": "webpack",
         "webpack:w": "webpack -w",
-        "cypress:open": "cypress open"
+        "cypress:open": "cd tests && cypress open"
 
     },
     "husky": {
