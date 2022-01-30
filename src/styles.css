@@ -48,7 +48,8 @@ video[data-displaymaxtap] {
 	width: 100%;
 }
 
-@media screen and (max-width: 820px) {
+@media screen and (max-width: 740px) {
+
 	@media(orientation:landscape) {
 		.maxtap_img_wrapper {
 			width: 7vw;
@@ -75,4 +76,5 @@ video[data-displaymaxtap] {
 			bottom: 35px;
 		}
 	}
+
 }

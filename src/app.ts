@@ -28,6 +28,7 @@ export class Component {
 
   public init = () => {
     try {
+
       if (typeof window === 'undefined')
         throw new ReferenceError(
           "'window.document' is undefined while initializing Maxtap Ads."
@@ -111,7 +112,6 @@ export class Component {
       }
     }
 
-    // //* Checking if image is already cached else Pre-fetching image before 15 sec of ad.    
 
     //* Finding which ad to play at current video time.
     const new_component_index = getCurrentComponentIndex(
@@ -125,6 +125,7 @@ export class Component {
       return;
     }
     this.current_component_index = new_component_index;
+     //* Checking if image is already cached else Pre-fetching image before 15 sec of ad.    
     if (!this.components_data[this.current_component_index]['is_image_loaded']) {
       this.prefetchAdImage();
     }
