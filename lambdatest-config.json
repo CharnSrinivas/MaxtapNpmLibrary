@@ -7,9 +7,24 @@
       {
          "browser": "Chrome",
          "platform": "Windows 10",
-         "versions": [
-            "latest"
-         ]
+         "versions": ["85","80","75","60","55","40","30"]
+      },{
+         "browser": "Chrome",
+         "platform": "Windows 8",
+         "versions": ["85","80","75","60","55","40","30"]
+      },
+      {
+         "browser": "Chrome",
+         "platform": "Windows 7",
+         "versions": ["85","80","75","60","55","40","30"]
+      },{
+         "browser": "Chrome",
+         "platform": "macOS Mojave",
+         "versions": ["85","80","75","60","55","40","30"]
+      },{
+         "browser": "Safari",
+         "platform": "macOS Mojave",
+         "versions": ["15","14","13","12","11","9","8","7"]
       }
    ],
    "run_settings": {
@@ -24,7 +39,7 @@
       "reporter_config_file": ""
    },
    "tunnel_settings": {
-      "tunnel": false,
-      "tunnel_name": null
+      "tunnel": true,
+      "tunnel_name": "lt-cypress-tunnel"
    }
 }
