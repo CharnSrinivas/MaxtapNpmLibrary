@@ -3,33 +3,27 @@
 
 2 -> cd <proj_dir>
 
-3 -> npm install
-    
-<<-------   Build project  --------->>
+3 -> npm install     
 
-4 -> npm run build
-
-'dist' folder will be generated in root-directory where all your node transpiled and minified node modules will be.
-
-<<---------- Testing project -------->>
+<<---------- Build project -------->>
      
-       1) cd <proj_dir>
+       💠 cd <proj_dir>
 
-       2) Run: sudo ./dev.sh
+       💠 open another terminal and run 'npm run build'
 
-       3) open another terminal and run 'npm run webpack:w'
+       💠 '/dist' folder will be generated in root-directory where all your node transpiled and minified node modules will be.
 
-       4) Now cd<testing_project> to the desired project you wanna test.
+       💠 Now cd<testing_project> to the desired project you wanna test.
 
-       5) Then run npm link maxtap_plugin_dev : It links your dev project files and folders to test project
+       💠 Then run npm link maxtap_plugin_dev : It links your dev project files and folders to test project
 
 
-       6) import {Component} from 'maxtap_plugin_dev'
+       💠 import {Component} from 'maxtap_plugin_dev'
               window.addEventLister('load',()=>{
                      new Component({content_id:'content_id'}).init()
               })
        
-       7) Now if you update or change your files in proj_dir it reflects in your test project
+       💠 Now if you update or change your files in proj_dir it reflects in your test project
 
        ------ Classic web
 
@@ -39,9 +33,9 @@
 
            ------ Recommended to use parcel 
 
-            1) Run -> npm i -g parcel -> Install parcel to your global node_modules.
+            💠 Run -> npm i -g parcel -> Install parcel to your global node_modules.
             
-            2) Run -> parcel src/index.html -> It creates dist folder in your project root dir where all your html,js,css,static files are being served.
+            💠 Run -> parcel src/index.html -> It creates dist folder in your project root dir where all your html,js,css,static files are being served.
     
        ------ ReactJs
 
@@ -58,14 +52,17 @@
 
        ---- 🧪 Happy Testing 🧪----       
 
+
+
 NOTES:
-1) npm run webpack --> this command will generate plugin.js file which is plain javascript file used in running vanilla javascript projects
-2) npm run build:node -> 
+1) npm run webpack --> this command will generate maxtap.min.js file which is plain javascript file used in running vanilla javascript projects
+2) npm run build:node -> This command will build required node modules in dist folder
 
 
 
 Things to Do:
 Steps for packaging and distribution:
+
 0) npm install
 1) npm run build -> it will create dist folder with plugin.js file and node modules
 2) npm pack -> Or use "npm link" strategy given in the "Testing" below. Create a tar ball for our plugin. Now do testing with this zip file.
@@ -86,3 +83,10 @@ While Testing:
 npm link maxtap_plugin -> this will connect it with the currently under development plugin above.
 3) npm run start:node -> this will start the local server on the plugin directory
 4) npm run dev -> now test the plugin on cholalabs
+
+
+Build Status
+
+[![N|Solid](https://cldup.com/dTxpPi9lDf.thumb.png)](https://nodesource.com/products/nsolid)
+
+       

@@ -1,23 +1,25 @@
-import Config from "../config";
+import Config from "../Config";
 import { ComponentData ,GaGeneric} from "../types";
 import { LIB_VERSION } from '../version';
 import * as platform from 'platform';
 export const fetchAdData = (file_name: string): Promise<[]> => {
-
+    
     return new Promise((res, rej) => {
         try {
+            const data_url:string = Config.DataUrl[Config.DataUrl.length-1] !== '/' ? Config.DataUrl :Config.DataUrl.slice(0,Config.DataUrl.length-2);
+
             if (!file_name.includes('.json')) {
                 file_name += '.json';
             }
-            fetch(`${Config.DataUrl}/${file_name}`
+            fetch(`${data_url}/${file_name}`
                 , {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
                         Accept: "application/json",
                     },
-                }
-            ).then(fetch_res => {
+                })
+                .then(fetch_res => {
                 fetch_res.json().then((json_data: []) => {
                     json_data.sort((a, b) => {
                         if (parseInt(a['start_time']) < parseInt(b['start_time'])) {

@@ -5,6 +5,6 @@ const config: Config = {
     MaxTapMainContainerId: 'containermaxtap',
     DataAttribute: 'data-displaymaxtap',
     PrefetchImageTime: 15,
-    DataUrl: "https://storage.googleapis.com/maxtap-adserver-dev.appspot.com"
+    DataUrl: "https://storage.googleapis.com/maxtap-adserver-dev.appspot.com" //![NOTE]: Don't add '/' at the end of url
 }
 export default config;

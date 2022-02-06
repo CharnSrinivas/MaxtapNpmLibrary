@@ -1,4 +1,4 @@
-import Config from './config';
+import Config from './Config';
 import { ComponentData, PluginProps } from './types';
 
 import {
@@ -22,8 +22,6 @@ export class Component {
     this.content_id = data.content_id;
     this.parentElement = undefined;
     this.interval_id = undefined;
-    console.log("yeah2");
-
   }
 
   public init = () => {
@@ -175,7 +173,6 @@ export class Component {
     this.components_data[this.current_component_index].is_image_loaded = true;
     let img = new Image();
     img.src = this.components_data[this.current_component_index]['image_link'];
-    console.log("loading ad " + this.current_component_index + "        Image link" + this.components_data[this.current_component_index]['image_link']);
 
   };
 
