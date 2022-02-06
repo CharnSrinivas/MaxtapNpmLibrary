@@ -1,5 +1,6 @@
 export default interface ComponentData {
     is_image_loaded: boolean;
+    image_error:boolean;
     start_time: number;
     end_time: number;
     image_link: string;

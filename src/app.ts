@@ -75,6 +75,7 @@ export class Component {
             this.components_data[i]['ad_viewed_count'] = 0;
             this.components_data[i]['times_clicked'] = 0;
             this.components_data[i]['is_image_loaded'] = false;
+            this.components_data[i]['image_error'] = false;
           }
         })
         .catch(err => {
@@ -86,21 +87,19 @@ export class Component {
   };
 
   private updateComponent = () => {
+
     if (!this.video) {
       //* Finding for video element until we get;
       this.video = getVideoElement();
       return;
     }
-
     if (!this.main_component) {
       this.addAdElement();
       return;
     }
-
     if (!this.components_data) {
       return;
     }
-
     //* Checking if ad element is sibling to video element every time
 
     if (this.video.parentElement !== this.main_component.parentElement) {
@@ -110,37 +109,35 @@ export class Component {
       }
     }
 
-
     //* Finding which ad to play at current video time.
     const new_component_index = getCurrentComponentIndex(
       this.components_data,
       this.video.currentTime
     );
 
-    //* Displaying no ad.
+    //* Displaying no ad. (Sanity check)
     if (new_component_index < 0) {
       this.removeCurrentAdElement(this.main_component);
       return;
     }
     this.current_component_index = new_component_index;
-     //* Checking if image is already cached else Pre-fetching image before 15 sec of ad.    
-    if (!this.components_data[this.current_component_index]['is_image_loaded']) {
+    //* Checking if image is already cached else Pre-fetching image before 15 sec of ad.    
+    if (
+      !this.components_data[this.current_component_index]['is_image_loaded']
+      &&
+      !this.components_data[this.current_component_index]['image_error']
+    ) {
       this.prefetchAdImage();
     }
 
-    if (this.canCloseAd(this.video!.currentTime)) {
-      if (this.main_component.style.display !== 'none') {
-        this.removeCurrentAdElement(this.main_component);
-      }
+    if (this.canCloseAd(this.video!.currentTime) && this.main_component.style.display !== 'none') {
+      this.removeCurrentAdElement(this.main_component);
     }
-    if (this.canAdDisplay(this.video!.currentTime)) {
-      if (
-        this.main_component &&
-        (this.main_component.style.display === 'none' ||
-          this.current_component_index !== new_component_index)
-      ) {
-        this.displayAd(this.main_component);
-      }
+    if (this.canAdDisplay(this.video!.currentTime)
+      && this.main_component && this.main_component.style.display === 'none') {
+      console.log('cmg');
+
+      this.displayAd(this.main_component);
     }
   };
 
@@ -170,19 +167,22 @@ export class Component {
     if (!this.components_data) {
       return;
     }
-    this.components_data[this.current_component_index].is_image_loaded = true;
     let img = new Image();
+    this.components_data[this.current_component_index]['is_image_loaded'] = true;
+    img.onerror = () => {
+      this.components_data[this.current_component_index]['image_error'] = true;
+    }
     img.src = this.components_data[this.current_component_index]['image_link'];
-
   };
 
   private canAdDisplay = (currentTime: number): boolean => {
-    if (!this.components_data) {
+
+    const current_component = this.components_data[this.current_component_index];
+
+    if (current_component.start_time < 0 || !this.components_data || !current_component || !current_component.is_image_loaded) {
       return false;
     }
-    if (this.components_data[this.current_component_index].start_time < 0) {
-      return false;
-    }
+
     //* Checking video time and also if video is already shown.
     if (
       currentTime <
@@ -216,8 +216,6 @@ export class Component {
     main_component.style.display = 'none';
     main_component.innerHTML = '';
   };
-
-
 
   private displayAd = (main_component: HTMLDivElement): void => {
     if (!main_component) {
