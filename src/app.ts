@@ -133,8 +133,12 @@ export class Component {
     if (this.canCloseAd(this.video!.currentTime) && this.main_component.style.display !== 'none') {
       this.removeCurrentAdElement(this.main_component);
     }
-    if (this.canAdDisplay(this.video!.currentTime)
-      && this.main_component && this.main_component.style.display === 'none') {
+    if (
+      this.canAdDisplay(this.video!.currentTime)
+      && this.main_component && this.main_component.style.display === 'none'
+      && !this.components_data[this.current_component_index]['image_error']
+      && this.components_data[this.current_component_index]['is_image_loaded']
+    ) {
       console.log('cmg');
 
       this.displayAd(this.main_component);
@@ -274,7 +278,6 @@ export class Component {
       this.interval_id,
       (this.main_component = undefined);
     this.current_component_index = 0;
-
     this.removeCurrentAdElement(
       document.getElementById(Config.MaxTapComponentElementId) as HTMLDivElement
     );

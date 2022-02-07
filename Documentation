@@ -83,10 +83,3 @@ While Testing:
 npm link maxtap_plugin -> this will connect it with the currently under development plugin above.
 3) npm run start:node -> this will start the local server on the plugin directory
 4) npm run dev -> now test the plugin on cholalabs
-
-
-Build Status
-
-[![N|Solid](https://cldup.com/dTxpPi9lDf.thumb.png)](https://nodesource.com/products/nsolid)
-
-       
