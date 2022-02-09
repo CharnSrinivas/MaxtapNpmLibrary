@@ -6,11 +6,14 @@ export const fetchAdData = (file_name: string): Promise<[]> => {
 
     return new Promise((res, rej) => {
         try {
-            const data_url: string = Config.DataUrl[Config.DataUrl.length - 1] !== '/' ? Config.DataUrl : Config.DataUrl.slice(0, Config.DataUrl.length - 2);
+            //* Removing trailing '/' from DataUrl
+            const data_url: string = Config.DataUrl[Config.DataUrl.length - 1] !== '/' ?
+                Config.DataUrl : Config.DataUrl.slice(0, Config.DataUrl.length - 2);
 
             if (!file_name.includes('.json')) {
                 file_name += '.json';
             }
+            //* Fetching ad data
             fetch(`${data_url}/${file_name}`
                 , {
                     method: "GET",
@@ -21,6 +24,7 @@ export const fetchAdData = (file_name: string): Promise<[]> => {
                 })
                 .then(fetch_res => {
                     fetch_res.json().then((json_data: []) => {
+                        //* Sorting according ad data according to start_time 
                         json_data.sort((a, b) => {
                             if (parseInt(a['start_time']) < parseInt(b['start_time'])) {
                                 return -1;
@@ -41,7 +45,7 @@ export const fetchAdData = (file_name: string): Promise<[]> => {
     })
 
 }
-
+//* Finds video element according to the given data attribute ex: data-displaymaxtap
 export const getVideoElement = (): HTMLVideoElement | undefined => {
 
     const elements = document.querySelectorAll(`[${Config.DataAttribute}]`);
@@ -54,6 +58,7 @@ export const getVideoElement = (): HTMLVideoElement | undefined => {
     return undefined;
 }
 
+//* Returns index of ad according to video current and ad start & end times which need to display
 export const getCurrentComponentIndex = (components_data: ComponentData[], video_current_time: number): number => {
     for (let i = 0; i < components_data.length; i++) {
         const component = components_data[i];
@@ -61,24 +66,26 @@ export const getCurrentComponentIndex = (components_data: ComponentData[], video
             return i;
         }
     }
+    //* If no are ads there to play returns -1
     return -1;
 }
-
+//* Resize te ad_image according to video width
 export const resizeComponentImgAccordingToVideo = () => {
     let video = document.querySelector(`[${Config.DataAttribute}]`);
-    let ad_container = document.querySelector(`.${Config.classNames.image_wrapper}`) as HTMLDivElement;
+    let ad_image_wrapper = document.querySelector(`.${Config.classNames.image_wrapper}`) as HTMLDivElement;
 
-    if (document.querySelector("." + Config.classNames.image_wrapper) && window.innerWidth > 740 && video && ad_container) {
+    if (document.querySelector("." + Config.classNames.image_wrapper) && window.innerWidth > 740 && video && ad_image_wrapper) {
         let video_width = video.getBoundingClientRect().width;
         let ad_width = (5 / 100) * video_width;
+        //* Min width of ad_image is 50px. 
         if (ad_width > 50) {
-            ad_container.style.width = ad_width + 'px';
+            ad_image_wrapper.style.width = ad_width + 'px';
         } else {
-            ad_container.style.width = 50 + "px"
+            ad_image_wrapper.style.width = 50 + "px"
         }
     }
 }
-
+//* Returns object which will send to Google Analytics
 export const createGADict = (current_component_data: ComponentData): GaGeneric => {
     return {
         //content

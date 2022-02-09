@@ -17,7 +17,7 @@ function App() {
 
             <div id='parent'>
                 <div >
-                <video preload="auto" data-displaymaxtap controls src="https://storage.googleapis.com/maxtap-adserver-dev.appspot.com/sample-mp4-small.mp4"></video>
+                <video preload="auto" data-displaymaxtap controls src="https://www.learningcontainer.com/wp-content/uploads/2020/05/sample-mp4-file.mp4"></video>
                 </div>
             </div>
         </div>
