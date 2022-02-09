@@ -241,7 +241,6 @@ class MaxtapComponent {
     ];
     const ga_impression_data = createGADict(current_component_data);
     window.gtag('event', 'impression', ga_impression_data);
-    // resizeComponentImgAccordingToVideo(this.video!);
   };
 
   private redirectToAd = (): void => {

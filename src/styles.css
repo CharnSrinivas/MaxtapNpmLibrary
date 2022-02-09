@@ -50,7 +50,7 @@ video[data-displaymaxtap] {
 @media only screen and (max-width: 650px) {
 
 	.maxtap_component_wrapper {
-		bottom: 18% ;
+		bottom: 20% ;
 	}
 
 	@media(orientation:landscape) {

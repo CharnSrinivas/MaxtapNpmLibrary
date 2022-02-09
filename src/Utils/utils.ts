@@ -73,7 +73,6 @@ export const resizeComponentImgAccordingToVideo = () => {
         let ad_width = (5 / 100) * video_width;
         if (ad_width > 50) {
             ad_container.style.width = ad_width + 'px';
-            console.log(ad_width);
         } else {
             ad_container.style.width = 50 + "px"
         }

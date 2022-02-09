@@ -8,6 +8,6 @@ const config: Config = {
         image_wrapper: "maxtap_img_wrapper",
     },
     PrefetchImageTime: 15,
-    DataUrl: "https://storage.googleapis.com/maxtap-adserver-dev.appspot.com"
+    DataUrl: "https://storage.googleapis.com/publicmaxtap-prod.appspot.com/data"
 }
 export default config;
