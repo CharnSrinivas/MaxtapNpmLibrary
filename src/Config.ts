@@ -4,8 +4,10 @@ const config: Config = {
     MaxTapComponentElementId: 'componentmaxtap',
     MaxTapMainContainerId: 'containermaxtap',
     DataAttribute: 'data-displaymaxtap',
+    classNames: {
+        image_wrapper: "maxtap_img_wrapper",
+    },
     PrefetchImageTime: 15,
-    DataUrl:"http://localhost:3000"
-    //   "https://storage.googleapis.com/maxtap-adserver-dev.appspot.com"
+    DataUrl: "https://storage.googleapis.com/maxtap-adserver-dev.appspot.com"
 }
 export default config;

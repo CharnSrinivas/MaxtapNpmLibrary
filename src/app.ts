@@ -4,9 +4,8 @@ import { ComponentData, PluginProps } from './types';
 import {
   fetchAdData,
   getCurrentComponentIndex,
-  getVideoElement, createGADict
+  getVideoElement, createGADict, resizeComponentImgAccordingToVideo
 } from './Utils/utils';
-
 
 export class Component {
 
@@ -69,6 +68,10 @@ export class Component {
 
           //* Adding ad component sibling to video element
           this.addAdElement();
+          resizeComponentImgAccordingToVideo();
+          window.addEventListener('resize',()=>{
+            resizeComponentImgAccordingToVideo();
+          })
           this.interval_id = setInterval(this.updateComponent, 100);
           //* Setting initial values
           for (let i = 0; i < this.components_data.length; i++) {

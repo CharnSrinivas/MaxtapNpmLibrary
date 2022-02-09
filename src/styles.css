@@ -6,9 +6,8 @@ video[data-displaymaxtap] {
 .maxtap_component_wrapper {
 	align-self: flex-end;
 	position: absolute;
-	right: 0px;
-	bottom: 75px;
-	display: flex;
+	right: 00px;
+	bottom: 12%;
 }
 
 .maxtap_main {
@@ -48,33 +47,22 @@ video[data-displaymaxtap] {
 	width: 100%;
 }
 
-@media screen and (max-width: 740px) {
+@media only screen and (max-width: 650px) {
+
+	.maxtap_component_wrapper {
+		bottom: 18% ;
+	}
 
 	@media(orientation:landscape) {
-		.maxtap_img_wrapper {
-			width: 7vw;
-		}
-
 		.maxtap_main>p {
 			font-size: calc(1vw + 0.2rem);
 		}
-
-		.maxtap_component_wrapper {
-			bottom: 45px;
-		}
-
 	}
 
 	@media (orientation: portrait) {
-		.maxtap_img_wrapper {
-			width: 11vw;
-		}
-		.maxtap_main>p{
+
+		.maxtap_main>p {
 			font-size: calc(1vw + 0.3rem);
 		}
-		.maxtap_component_wrapper {
-			bottom: 35px;
-		}
 	}
-
 }

@@ -1,12 +1,12 @@
 import Config from "../Config";
-import { ComponentData ,GaGeneric} from "../types";
+import { ComponentData, GaGeneric } from "../types";
 import { LIB_VERSION } from '../version';
 import * as platform from 'platform';
 export const fetchAdData = (file_name: string): Promise<[]> => {
-    
+
     return new Promise((res, rej) => {
         try {
-            const data_url:string = Config.DataUrl[Config.DataUrl.length-1] !== '/' ? Config.DataUrl :Config.DataUrl.slice(0,Config.DataUrl.length-2);
+            const data_url: string = Config.DataUrl[Config.DataUrl.length - 1] !== '/' ? Config.DataUrl : Config.DataUrl.slice(0, Config.DataUrl.length - 2);
 
             if (!file_name.includes('.json')) {
                 file_name += '.json';
@@ -20,21 +20,21 @@ export const fetchAdData = (file_name: string): Promise<[]> => {
                     },
                 })
                 .then(fetch_res => {
-                fetch_res.json().then((json_data: []) => {
-                    json_data.sort((a, b) => {
-                        if (parseInt(a['start_time']) < parseInt(b['start_time'])) {
-                            return -1;
-                        }
-                        if (parseInt(a['start_time']) > parseInt(b['start_time'])) {
-                            return 1;
-                        }
-                        return 0;
+                    fetch_res.json().then((json_data: []) => {
+                        json_data.sort((a, b) => {
+                            if (parseInt(a['start_time']) < parseInt(b['start_time'])) {
+                                return -1;
+                            }
+                            if (parseInt(a['start_time']) > parseInt(b['start_time'])) {
+                                return 1;
+                            }
+                            return 0;
+                        })
+                        res(json_data);
                     })
-                    res(json_data);
+                }).catch(err => {
+                    rej(err);
                 })
-            }).catch(err => {
-                rej(err);
-            })
         } catch (err) {
             rej(err)
         }
@@ -54,22 +54,32 @@ export const getVideoElement = (): HTMLVideoElement | undefined => {
     return undefined;
 }
 
-export const resizeComponentImgAccordingToVideo = (video: HTMLVideoElement) => {
-    const img_wrapper = document.querySelector('.maxtap_img_wrapper') as HTMLDivElement;
-    const per = (video.getBoundingClientRect().width * (8 / 100));
-    if (per <= 125 && per >= 80 && img_wrapper) {
-        img_wrapper.style.width = per + "px";
-    }
-}
 export const getCurrentComponentIndex = (components_data: ComponentData[], video_current_time: number): number => {
     for (let i = 0; i < components_data.length; i++) {
         const component = components_data[i];
-        if (video_current_time+Config.PrefetchImageTime >= component.start_time && video_current_time <= component.end_time) {
+        if (video_current_time + Config.PrefetchImageTime >= component.start_time && video_current_time <= component.end_time) {
             return i;
         }
     }
     return -1;
 }
+
+export const resizeComponentImgAccordingToVideo = () => {
+    let video = document.querySelector(`[${Config.DataAttribute}]`);
+    let ad_container = document.querySelector(`.${Config.classNames.image_wrapper}`) as HTMLDivElement;
+
+    if (document.querySelector("." + Config.classNames.image_wrapper) && window.innerWidth > 740 && video && ad_container) {
+        let video_width = video.getBoundingClientRect().width;
+        let ad_width = (5 / 100) * video_width;
+        if (ad_width > 50) {
+            ad_container.style.width = ad_width + 'px';
+            console.log(ad_width);
+        } else {
+            ad_container.style.width = 50 + "px"
+        }
+    }
+}
+
 export const createGADict = (current_component_data: ComponentData): GaGeneric => {
     return {
         //content

@@ -5,4 +5,5 @@ export default interface Config {
     DataAttribute: string;
     PrefetchImageTime: number;
     DataUrl: string;
+    classNames:{image_wrapper:string}
 };
