@@ -7,7 +7,7 @@ import {
   getVideoElement, createGADict, resizeComponentImgAccordingToVideo
 } from './Utils/utils';
 
-export class Component {
+class MaxtapComponent {
 
   private video?: HTMLVideoElement;
   private parentElement: HTMLElement | null;
@@ -17,15 +17,15 @@ export class Component {
   private main_component?: HTMLDivElement;
   private interval_id?: NodeJS.Timer;
 
-  constructor(data: PluginProps) {
-    this.content_id = data.content_id;
+  constructor() {
     this.parentElement = undefined;
     this.interval_id = undefined;
   }
-
-  public init = () => {
+  
+  public init = (data: PluginProps) => {
     try {
-
+      
+      this.content_id = data.content_id;
       if (typeof window === 'undefined')
         throw new ReferenceError(
           "'window.document' is undefined while initializing Maxtap Ads."
@@ -288,3 +288,5 @@ export class Component {
     document.getElementById(Config.MaxTapComponentElementId)?.remove();
   }
 }
+
+export default new MaxtapComponent();
