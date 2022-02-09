@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
-import {Component} from 'maxtap_plugin';
+import {MaxtapComponent} from 'maxtap_plugin_dev';
 import './App.css';
 
 function App() {
 
     useEffect(() => {
 
-        new Component({content_id:"koode-data-test"}).init();
+        MaxtapComponent.init({content_id:"test_data"});
     }, [])
 
     return (
@@ -17,7 +17,7 @@ function App() {
 
             <div id='parent'>
                 <div >
-                <video preload="auto" data-displaymaxtap controls src="sample_video.mp4"></video>
+                <video preload="auto" data-displaymaxtap controls src="https://storage.googleapis.com/maxtap-adserver-dev.appspot.com/sample-mp4-small.mp4"></video>
                 </div>
             </div>
         </div>

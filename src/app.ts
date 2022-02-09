@@ -16,15 +16,17 @@ class MaxtapComponent {
   private content_id: string;
   private main_component?: HTMLDivElement;
   private interval_id?: NodeJS.Timer;
-
+  private is_initialized= false;
   constructor() {
     this.parentElement = undefined;
     this.interval_id = undefined;
   }
-  
+
   public init = (data: PluginProps) => {
+    if(this.is_initialized){ console.log("Re-Initializings");
+    ;return;}
     try {
-      
+      this.is_initialized=true;
       this.content_id = data.content_id;
       if (typeof window === 'undefined')
         throw new ReferenceError(
@@ -34,7 +36,6 @@ class MaxtapComponent {
       //* Adding google analytics script tag
 
       if (!document.getElementById('ga4-script')) {
-
         const ga_script_element = document.createElement('script');
         ga_script_element.src = `https://www.googletagmanager.com/gtag/js?id=${Config.GoogleAnalyticsCode}`;
         ga_script_element.async = true;
@@ -69,7 +70,7 @@ class MaxtapComponent {
           //* Adding ad component sibling to video element
           this.addAdElement();
           resizeComponentImgAccordingToVideo();
-          window.addEventListener('resize',()=>{
+          window.addEventListener('resize', () => {
             resizeComponentImgAccordingToVideo();
           })
           this.interval_id = setInterval(this.updateComponent, 100);
@@ -276,10 +277,10 @@ class MaxtapComponent {
 
     //* Resetting class variables
     this.video,
-      this.parentElement,
-      this.components_data,
-      this.interval_id,
-      (this.main_component = undefined);
+    this.parentElement,
+    this.components_data,
+    this.interval_id,
+    this.main_component = undefined
     this.current_component_index = 0;
     this.removeCurrentAdElement(
       document.getElementById(Config.MaxTapComponentElementId) as HTMLDivElement
