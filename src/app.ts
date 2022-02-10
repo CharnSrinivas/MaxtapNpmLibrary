@@ -14,7 +14,7 @@ class MaxtapComponent {
   private current_component_index = -1;
   private components_data?: Array<ComponentData>;
   private content_id: string;
-  private main_component?: HTMLDivElement;//* Actual ad 📦 component where ad_text and ad_image goes
+  private main_component?: HTMLDivElement;//* Actual ad component (container📦) where ad_text and ad_image goes
   private interval_id?: NodeJS.Timer;
   private is_initialized = false;
   constructor() {
@@ -25,10 +25,17 @@ class MaxtapComponent {
   }
 
   public init = (data: PluginProps) => {
-    if (this.is_initialized) { console.log("Re-Initializing"); return; }
+    //* Check if the component is already initialized or ad is already present
+    if (
+      this.is_initialized ||
+      document.getElementById(Config.MaxTapComponentElementId)) {
+      console.log("Re-Initializing"); return;
+    }
     try {
+
       this.is_initialized = true;
       this.content_id = data.content_id;
+
       if (typeof window === 'undefined')
         throw new ReferenceError(
           "'window.document' is undefined while initializing Maxtap Ads. Initialize in lifecyle events"
@@ -75,7 +82,7 @@ class MaxtapComponent {
           window.addEventListener('resize', () => {
             resizeComponentImgAccordingToVideo();
           })
-          
+
           //* Setting initial values
           for (let i = 0; i < this.components_data.length; i++) {
             this.components_data[i]['ad_viewed_count'] = 0;
@@ -101,7 +108,7 @@ class MaxtapComponent {
       this.video = getVideoElement();
       return;
     }
-    
+
     if (!this.main_component) {
       this.addAdElement();
       return;
@@ -109,13 +116,11 @@ class MaxtapComponent {
     if (!this.components_data) {
       return;
     }
-    //* Checking if ad element is 👬 sibling to video element every time
 
+    //* Checking if ad element is 👬 sibling to video element every time
     if (this.video.parentElement !== this.main_component.parentElement) {
       this.main_component.remove();
-      if (!this.addAdElement()) {
-        return;
-      }
+      if (!this.addAdElement()) { return; }
     }
 
     //* Finding which ad to play at current video time.
@@ -154,6 +159,7 @@ class MaxtapComponent {
     }
   };
 
+  //* 💉 Inserting Maxtap ad component inside DOM
   private addAdElement = (): boolean => {
     if (!this.video) {
       return false;
@@ -175,7 +181,7 @@ class MaxtapComponent {
     this.main_component.addEventListener('click', this.redirectToAd);
     return true;
   };
-
+  //* Loading and caching image 🖼️
   private prefetchAdImage = () => {
     if (!this.components_data) {
       return;
@@ -188,6 +194,7 @@ class MaxtapComponent {
     img.src = this.components_data[this.current_component_index]['image_link'];
   };
 
+  //* Checks if ad can show up at given video time
   private canAdDisplay = (currentTime: number): boolean => {
 
     const current_component = this.components_data[this.current_component_index];
@@ -280,6 +287,7 @@ class MaxtapComponent {
     }
   };
 
+  //*❎ Remove ad from DOM, stop updating ad and re-set all class variables
   public removeAd(): void {
 
     //* Stopping loop
@@ -302,5 +310,10 @@ class MaxtapComponent {
   }
 
 }
+/* 
+* Instantiate a MaxtapComponent object and exporting it
+* So that we can import component anywhere we want and the component will be same throughout the whole project
 
+? Saves us from unnecessary initalization of component
+*/
 export default new MaxtapComponent();

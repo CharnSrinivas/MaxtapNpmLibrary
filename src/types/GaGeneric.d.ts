@@ -1,3 +1,4 @@
+//* Default Google Analytics event_data structure for every type of event
 export default interface GaGeneric {
     client_id: string;
     client_name: string;
