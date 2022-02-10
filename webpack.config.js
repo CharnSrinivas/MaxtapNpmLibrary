@@ -44,23 +44,6 @@ module.exports = {
           "css-loader",
           "less-loader",
         ],
-      },
-      {
-        test: /\.css$/,
-        exclude: /node_modules/,
-        use: [
-          'style-loader',
-          {
-            loader: "css-loader",
-            options: {
-              modules: {
-                localIdentName: "[hash:base64]", // default
-                auto: true // default
-              },
-              sourceMap: true
-            }
-          },
-        ]
       }
     ],
   },

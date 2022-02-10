@@ -1,0 +1,68 @@
+video[data-displaymaxtap] {
+	width: 100%;
+	height: 100%;
+}
+
+.maxtap_component_wrapper {
+	align-self: flex-end;
+	position: absolute;
+	right: 00px;
+	bottom: 12%;
+}
+
+.maxtap_main {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	height: fit-content;
+	background-color: hsla(0, 0%, 0%, 0.35);
+	cursor: pointer;
+	border-radius: 2px;
+	z-index: 10;
+}
+
+.maxtap_main>p {
+
+	font-family: ubuntu, "Roboto", sans-serif, Arial, Helvetica, sans-serif;
+	font-weight: bold;
+	font-size: calc(1vw + 0.1rem);
+	padding-left: 0.4rem;
+	margin-left: 0.2rem;
+	margin-right: 0.1rem;
+	color: white;
+
+}
+
+.maxtap_img_wrapper {
+	margin-left: 0.6rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 0.3vw;
+	width: 6vw;
+}
+
+.maxtap_img_wrapper>img {
+	width: 100%;
+}
+
+@media only screen and (max-width: 650px) {
+
+	.maxtap_component_wrapper {
+		bottom: 20% ;
+	}
+
+	@media(orientation:landscape) {
+		.maxtap_main>p {
+			font-size: calc(1vw + 0.2rem);
+		}
+	}
+
+	@media (orientation: portrait) {
+
+		.maxtap_main>p {
+			font-size: calc(1vw + 0.3rem);
+		}
+	}
+}
