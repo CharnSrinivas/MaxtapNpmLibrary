@@ -83,3 +83,19 @@ While Testing:
 npm link maxtap_plugin -> this will connect it with the currently under development plugin above.
 3) npm run start:node -> this will start the local server on the plugin directory
 4) npm run dev -> now test the plugin on cholalabs
+
+
+
+
+--------------------
+javascript-plugin shell:
+1) npm install
+2) npm link
+3) npm run start:node
+
+testing-web-plugin-on-various-players shell:
+1) cd react-js/react-pylr
+2) npm link maxtap_plugin
+3) npm start
+
+
