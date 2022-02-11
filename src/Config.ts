@@ -1,6 +1,6 @@
 import { Config } from "./types"
 const config: Config = {
-    GoogleAnalyticsCode: 'G-05P2385Q2K',
+    GoogleAnalyticsCode: 'G-G5RBRDVPCF',
     MaxTapComponentElementId: 'componentmaxtap',
     MaxTapMainContainerId: 'containermaxtap',
     DataAttribute: 'data-displaymaxtap',
