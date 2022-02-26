@@ -97,29 +97,24 @@ export const createGADict = (current_component_data: ComponentData): GaGeneric =
         show_name: current_component_data['show_name'] || 'null',
         season: current_component_data['season'] || 'null',
         episode_no: current_component_data['episode_no'] || 'null',
-        content_duration: current_component_data['duration'] || 'null',
+        duration: current_component_data['duration'] || 'null',
         content_language: current_component_data['content_language'] || 'null',
 
         //advertiser
         advertiser: current_component_data['advertiser'] || 'null',
 
-        //ad
-        ad_id: current_component_data['ad_id'] || 'null',
         caption_regional_language:
             current_component_data['caption_regional_language'] || 'null',
-        caption_english: current_component_data['caption'] || 'null',
+        caption: current_component_data['caption'] || 'null',
         start_time: current_component_data['start_time'] || 'null',
         end_time: current_component_data['end_time'] || 'null',
-        ad_duration:
-            current_component_data['end_time'] -
-            current_component_data['start_time'] || 'null',
 
         //product
         gender: current_component_data['gender'] || 'null',
         product_details: current_component_data['product_details'] || 'null',
         product_article_type: current_component_data['article_type'] || 'null',
-        product_category: current_component_data['category'] || 'null',
-        product_subcategory: current_component_data['subcategory'] || 'null',
+        category: current_component_data['category'] || 'null',
+        subcategory: current_component_data['subcategory'] || 'null',
         product_link: current_component_data['product_link'] || 'null',
         product_image_link: current_component_data['image_link'] || 'null',
         redirect_link: current_component_data['redirect_link'] || 'null',

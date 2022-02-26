@@ -20,7 +20,7 @@ class MaxtapComponent {
   constructor() {
     this.parentElement = undefined;
     this.interval_id = undefined;
-    console.log("update");
+    console.log("update-5");
 
   }
 
@@ -77,7 +77,6 @@ class MaxtapComponent {
           //* Adding ad component sibling to video element
           this.addAdElement();
 
-          resizeComponentImgAccordingToVideo();
           //* Resizing the ad_image when window resizes
           window.addEventListener('resize', () => {
             resizeComponentImgAccordingToVideo();
@@ -179,6 +178,7 @@ class MaxtapComponent {
     this.main_component.className = 'maxtap_component_wrapper';
     this.parentElement?.appendChild(this.main_component);
     this.main_component.addEventListener('click', this.redirectToAd);
+    resizeComponentImgAccordingToVideo();
     return true;
   };
   //* Loading and caching image 🖼️

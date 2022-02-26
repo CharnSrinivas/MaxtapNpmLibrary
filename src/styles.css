@@ -28,8 +28,8 @@ video[data-displaymaxtap] {
 	font-weight: bold;
 	font-size: calc(1vw + 0.1rem);
 	padding-left: 0.4rem;
-	margin-left: 0.2rem;
-	margin-right: 0.1rem;
+	/* margin-right: 0.1rem; */
+	margin: 0 0.1rem 0 0;
 	color: white;
 
 }
@@ -50,7 +50,7 @@ video[data-displaymaxtap] {
 @media only screen and (max-width: 650px) {
 
 	.maxtap_component_wrapper {
-		bottom: 20% ;
+		bottom: 20%;
 	}
 
 	@media(orientation:landscape) {
